@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Rapors;
 use App\Filament\Resources\Rapors\Pages\CreateRapor;
 use App\Filament\Resources\Rapors\Pages\EditRapor;
 use App\Filament\Resources\Rapors\Pages\ListRapors;
+use App\Filament\Resources\Rapors\Pages\ViewRapor;
 use App\Filament\Resources\Rapors\Schemas\RaporForm;
 use App\Filament\Resources\Rapors\Tables\RaporsTable;
 use App\Models\Rapor;
@@ -43,9 +44,10 @@ class RaporResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListRapors::route('/'),
+            'index'  => ListRapors::route('/'),
             'create' => CreateRapor::route('/create'),
-            'edit' => EditRapor::route('/{record}/edit'),
+            'view'   => ViewRapor::route('/{record}'),
+            'edit'   => EditRapor::route('/{record}/edit'),
         ];
     }
 }

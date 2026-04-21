@@ -5,6 +5,7 @@ namespace App\Filament\Resources\KalenderAkademiks\Tables;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -15,21 +16,21 @@ class KalenderAkademiksTable
         return $table
             ->columns([
                 TextColumn::make('judul')
+                    ->label('Judul Kegiatan')
                     ->searchable(),
                 TextColumn::make('tanggal_mulai')
+                    ->label('Tanggal Mulai')
                     ->date()
                     ->sortable(),
                 TextColumn::make('tanggal_selesai')
+                    ->label('Tanggal Selesai')
                     ->date()
                     ->sortable(),
-                TextColumn::make('tahun_ajaran_id')
-                    ->numeric()
-                    ->sortable(),
+                TextColumn::make('tahunAjaran.nama')
+                    ->label('Tahun Ajaran')
+                    ->searchable(),
                 TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
+                    ->label('Dibuat')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -38,6 +39,7 @@ class KalenderAkademiksTable
                 //
             ])
             ->recordActions([
+                ViewAction::make(),
                 EditAction::make(),
             ])
             ->toolbarActions([

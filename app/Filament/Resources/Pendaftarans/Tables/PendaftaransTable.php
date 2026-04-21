@@ -1,44 +1,38 @@
 <?php
 
-namespace App\Filament\Resources\Beritas\Tables;
+namespace App\Filament\Resources\Pendaftarans\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
-class BeritasTable
+class PendaftaransTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
                 TextColumn::make('judul')
-                    ->label('Judul')
+                    ->label('Judul Pendaftaran')
                     ->searchable(),
-                TextColumn::make('kategori')
-                    ->label('Kategori')
+                TextColumn::make('link_pendaftaran')
+                    ->label('Link URL')
+                    ->url(fn ($record) => $record->link_pendaftaran)
+                    ->openUrlInNewTab()
+                    ->color('primary')
                     ->searchable(),
-                TextColumn::make('status')
-                    ->label('Status')
-                    ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        'publish' => 'success',
-                        'draft'   => 'warning',
-                        default   => 'gray',
-                    }),
-                TextColumn::make('user.name')
-                    ->label('Pembuat')
-                    ->sortable()
-                    ->searchable(),
-                TextColumn::make('published_at')
-                    ->label('Tanggal Publish')
-                    ->dateTime()
-                    ->sortable(),
+                IconColumn::make('is_active')
+                    ->label('Status Aktif')
+                    ->boolean(),
                 TextColumn::make('created_at')
-                    ->label('Dibuat')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

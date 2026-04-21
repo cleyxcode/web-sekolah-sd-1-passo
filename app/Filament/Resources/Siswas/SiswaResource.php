@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Siswas;
 use App\Filament\Resources\Siswas\Pages\CreateSiswa;
 use App\Filament\Resources\Siswas\Pages\EditSiswa;
 use App\Filament\Resources\Siswas\Pages\ListSiswas;
+use App\Filament\Resources\Siswas\Pages\ViewSiswa;
 use App\Filament\Resources\Siswas\Schemas\SiswaForm;
 use App\Filament\Resources\Siswas\Tables\SiswasTable;
 use App\Models\Siswa;
@@ -35,17 +36,16 @@ class SiswaResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => ListSiswas::route('/'),
+            'index'  => ListSiswas::route('/'),
             'create' => CreateSiswa::route('/create'),
-            'edit' => EditSiswa::route('/{record}/edit'),
+            'view'   => ViewSiswa::route('/{record}'),
+            'edit'   => EditSiswa::route('/{record}/edit'),
         ];
     }
 }

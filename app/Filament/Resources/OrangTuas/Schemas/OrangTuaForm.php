@@ -12,8 +12,11 @@ class OrangTuaForm
     {
         return $schema
             ->components([
-                TextInput::make('user_id')
-                    ->numeric(),
+                \Filament\Forms\Components\Select::make('user_id')
+                    ->relationship('user', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->label('Akun Pengguna (Opsional)'),
                 TextInput::make('nama')
                     ->required(),
                 TextInput::make('no_telepon')

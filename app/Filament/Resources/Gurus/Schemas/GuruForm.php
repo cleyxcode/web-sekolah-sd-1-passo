@@ -14,8 +14,11 @@ class GuruForm
     {
         return $schema
             ->components([
-                TextInput::make('user_id')
-                    ->numeric(),
+                \Filament\Forms\Components\Select::make('user_id')
+                    ->relationship('user', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->label('Akun Pengguna (Opsional)'),
                 TextInput::make('nip'),
                 TextInput::make('nama')
                     ->required(),

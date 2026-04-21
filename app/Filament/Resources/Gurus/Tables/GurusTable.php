@@ -14,9 +14,10 @@ class GurusTable
     {
         return $table
             ->columns([
-                TextColumn::make('user_id')
-                    ->numeric()
-                    ->sortable(),
+                TextColumn::make('user.name')
+                    ->label('Akun Pengguna')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('nip')
                     ->searchable(),
                 TextColumn::make('nama')

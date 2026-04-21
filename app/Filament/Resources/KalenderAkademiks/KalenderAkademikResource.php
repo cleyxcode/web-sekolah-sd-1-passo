@@ -5,6 +5,7 @@ namespace App\Filament\Resources\KalenderAkademiks;
 use App\Filament\Resources\KalenderAkademiks\Pages\CreateKalenderAkademik;
 use App\Filament\Resources\KalenderAkademiks\Pages\EditKalenderAkademik;
 use App\Filament\Resources\KalenderAkademiks\Pages\ListKalenderAkademiks;
+use App\Filament\Resources\KalenderAkademiks\Pages\ViewKalenderAkademik;
 use App\Filament\Resources\KalenderAkademiks\Schemas\KalenderAkademikForm;
 use App\Filament\Resources\KalenderAkademiks\Tables\KalenderAkademiksTable;
 use App\Models\KalenderAkademik;
@@ -43,9 +44,10 @@ class KalenderAkademikResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListKalenderAkademiks::route('/'),
+            'index'  => ListKalenderAkademiks::route('/'),
             'create' => CreateKalenderAkademik::route('/create'),
-            'edit' => EditKalenderAkademik::route('/{record}/edit'),
+            'view'   => ViewKalenderAkademik::route('/{record}'),
+            'edit'   => EditKalenderAkademik::route('/{record}/edit'),
         ];
     }
 }

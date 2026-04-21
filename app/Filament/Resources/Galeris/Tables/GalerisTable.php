@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Galeris\Tables;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -15,19 +16,22 @@ class GalerisTable
         return $table
             ->columns([
                 TextColumn::make('judul')
-                    ->searchable(),
-                TextColumn::make('file_path')
+                    ->label('Judul')
                     ->searchable(),
                 TextColumn::make('jenis')
-                    ->badge(),
-                TextColumn::make('user_id')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Jenis')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'foto'  => 'info',
+                        'video' => 'success',
+                        default => 'gray',
+                    }),
+                TextColumn::make('user.name')
+                    ->label('Pembuat')
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
+                    ->searchable(),
+                TextColumn::make('created_at')
+                    ->label('Dibuat')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -36,6 +40,7 @@ class GalerisTable
                 //
             ])
             ->recordActions([
+                ViewAction::make(),
                 EditAction::make(),
             ])
             ->toolbarActions([

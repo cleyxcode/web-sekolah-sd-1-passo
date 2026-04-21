@@ -27,9 +27,12 @@ class BeritaForm
                     ->options(['draft' => 'Draft', 'publish' => 'Publish'])
                     ->default('draft')
                     ->required(),
-                TextInput::make('user_id')
+                \Filament\Forms\Components\Select::make('user_id')
+                    ->relationship('user', 'name')
+                    ->searchable()
+                    ->preload()
                     ->required()
-                    ->numeric(),
+                    ->label('Pembuat (Akun)'),
                 DateTimePicker::make('published_at'),
             ]);
     }

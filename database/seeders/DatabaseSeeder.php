@@ -24,9 +24,13 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        $role = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'Super Admin']);
+        $roles = ['Super Admin', 'Kepala Sekolah', 'Guru', 'Orang Tua'];
+        foreach ($roles as $roleName) {
+            \Spatie\Permission\Models\Role::firstOrCreate(['name' => $roleName]);
+        }
+
         if (!$user->hasRole('Super Admin')) {
-            $user->assignRole($role);
+            $user->assignRole('Super Admin');
         }
 
         // Default Tahun Ajaran

@@ -14,18 +14,23 @@ class UserForm
         return $schema
             ->components([
                 TextInput::make('name')
+                    ->label('Nama Lengkap')
                     ->required(),
                 TextInput::make('email')
-                    ->label('Email address')
+                    ->label('Alamat Email')
                     ->email()
                     ->required(),
-                DateTimePicker::make('email_verified_at'),
                 TextInput::make('password')
+                    ->label('Password')
                     ->password()
-                    ->required(),
+                    ->dehydrated(fn ($state) => filled($state))
+                    ->required(fn (string $context): bool => $context === 'create'),
                 Toggle::make('is_active')
+                    ->label('Status Aktif')
+                    ->default(true)
                     ->required(),
                 \Filament\Forms\Components\Select::make('roles')
+                    ->label('Peran (Role)')
                     ->multiple()
                     ->relationship('roles', 'name')
                     ->preload(),

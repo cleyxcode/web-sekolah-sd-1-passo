@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Beritas;
 use App\Filament\Resources\Beritas\Pages\CreateBerita;
 use App\Filament\Resources\Beritas\Pages\EditBerita;
 use App\Filament\Resources\Beritas\Pages\ListBeritas;
+use App\Filament\Resources\Beritas\Pages\ViewBerita;
 use App\Filament\Resources\Beritas\Schemas\BeritaForm;
 use App\Filament\Resources\Beritas\Tables\BeritasTable;
 use App\Models\Berita;
@@ -35,17 +36,16 @@ class BeritaResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => ListBeritas::route('/'),
+            'index'  => ListBeritas::route('/'),
             'create' => CreateBerita::route('/create'),
-            'edit' => EditBerita::route('/{record}/edit'),
+            'view'   => ViewBerita::route('/{record}'),
+            'edit'   => EditBerita::route('/{record}/edit'),
         ];
     }
 }

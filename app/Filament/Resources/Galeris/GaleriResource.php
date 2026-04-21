@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Galeris;
 use App\Filament\Resources\Galeris\Pages\CreateGaleri;
 use App\Filament\Resources\Galeris\Pages\EditGaleri;
 use App\Filament\Resources\Galeris\Pages\ListGaleris;
+use App\Filament\Resources\Galeris\Pages\ViewGaleri;
 use App\Filament\Resources\Galeris\Schemas\GaleriForm;
 use App\Filament\Resources\Galeris\Tables\GalerisTable;
 use App\Models\Galeri;
@@ -35,17 +36,16 @@ class GaleriResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => ListGaleris::route('/'),
+            'index'  => ListGaleris::route('/'),
             'create' => CreateGaleri::route('/create'),
-            'edit' => EditGaleri::route('/{record}/edit'),
+            'view'   => ViewGaleri::route('/{record}'),
+            'edit'   => EditGaleri::route('/{record}/edit'),
         ];
     }
 }

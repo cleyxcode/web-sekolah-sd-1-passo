@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Presensis;
 use App\Filament\Resources\Presensis\Pages\CreatePresensi;
 use App\Filament\Resources\Presensis\Pages\EditPresensi;
 use App\Filament\Resources\Presensis\Pages\ListPresensis;
+use App\Filament\Resources\Presensis\Pages\ViewPresensi;
 use App\Filament\Resources\Presensis\Schemas\PresensiForm;
 use App\Filament\Resources\Presensis\Tables\PresensisTable;
 use App\Models\Presensi;
@@ -43,9 +44,10 @@ class PresensiResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListPresensis::route('/'),
+            'index'  => ListPresensis::route('/'),
             'create' => CreatePresensi::route('/create'),
-            'edit' => EditPresensi::route('/{record}/edit'),
+            'view'   => ViewPresensi::route('/{record}'),
+            'edit'   => EditPresensi::route('/{record}/edit'),
         ];
     }
 }
