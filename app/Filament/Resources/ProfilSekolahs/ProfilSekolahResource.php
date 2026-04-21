@@ -18,7 +18,10 @@ class ProfilSekolahResource extends Resource
 {
     protected static ?string $model = ProfilSekolah::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingOffice2;
+    protected static string|\UnitEnum|null $navigationGroup = 'Konten & Informasi';
+    protected static ?string $modelLabel = 'Profil Sekolah';
+    protected static ?string $pluralModelLabel = 'Profil Sekolah';
 
     public static function form(Schema $schema): Schema
     {

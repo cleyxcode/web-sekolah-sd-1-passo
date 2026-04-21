@@ -18,7 +18,10 @@ class MataPelajaranResource extends Resource
 {
     protected static ?string $model = MataPelajaran::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBookOpen;
+    protected static string|\UnitEnum|null $navigationGroup = 'Akademik';
+    protected static ?string $modelLabel = 'Mata Pelajaran';
+    protected static ?string $pluralModelLabel = 'Mata Pelajaran';
 
     public static function form(Schema $schema): Schema
     {

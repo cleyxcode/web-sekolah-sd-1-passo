@@ -18,7 +18,10 @@ class PresensiResource extends Resource
 {
     protected static ?string $model = Presensi::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentCheck;
+    protected static string|\UnitEnum|null $navigationGroup = 'Akademik';
+    protected static ?string $modelLabel = 'Presensi';
+    protected static ?string $pluralModelLabel = 'Presensi';
 
     public static function form(Schema $schema): Schema
     {

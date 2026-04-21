@@ -18,7 +18,10 @@ class SiswaResource extends Resource
 {
     protected static ?string $model = Siswa::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedAcademicCap;
+    protected static string|\UnitEnum|null $navigationGroup = 'Akademik';
+    protected static ?string $modelLabel = 'Siswa';
+    protected static ?string $pluralModelLabel = 'Siswa';
 
     public static function form(Schema $schema): Schema
     {

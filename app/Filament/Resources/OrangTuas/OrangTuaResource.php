@@ -18,7 +18,10 @@ class OrangTuaResource extends Resource
 {
     protected static ?string $model = OrangTua::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUsers;
+    protected static string|\UnitEnum|null $navigationGroup = 'Pengaturan Pengguna';
+    protected static ?string $modelLabel = 'Orang Tua';
+    protected static ?string $pluralModelLabel = 'Orang Tua';
 
     public static function form(Schema $schema): Schema
     {

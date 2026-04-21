@@ -18,7 +18,10 @@ class NilaiResource extends Resource
 {
     protected static ?string $model = Nilai::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
+    protected static string|\UnitEnum|null $navigationGroup = 'Akademik';
+    protected static ?string $modelLabel = 'Nilai';
+    protected static ?string $pluralModelLabel = 'Nilai';
 
     public static function form(Schema $schema): Schema
     {

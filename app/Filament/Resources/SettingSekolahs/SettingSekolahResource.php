@@ -18,7 +18,10 @@ class SettingSekolahResource extends Resource
 {
     protected static ?string $model = SettingSekolah::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCog8Tooth;
+    protected static string|\UnitEnum|null $navigationGroup = 'Sistem';
+    protected static ?string $modelLabel = 'Setting Sekolah';
+    protected static ?string $pluralModelLabel = 'Setting Sekolah';
 
     public static function form(Schema $schema): Schema
     {

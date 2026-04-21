@@ -18,7 +18,10 @@ class RaporResource extends Resource
 {
     protected static ?string $model = Rapor::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentDuplicate;
+    protected static string|\UnitEnum|null $navigationGroup = 'Akademik';
+    protected static ?string $modelLabel = 'Rapor';
+    protected static ?string $pluralModelLabel = 'Rapor';
 
     public static function form(Schema $schema): Schema
     {

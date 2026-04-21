@@ -18,7 +18,10 @@ class GuruResource extends Resource
 {
     protected static ?string $model = Guru::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
+    protected static string|\UnitEnum|null $navigationGroup = 'Akademik';
+    protected static ?string $modelLabel = 'Guru';
+    protected static ?string $pluralModelLabel = 'Guru';
 
     public static function form(Schema $schema): Schema
     {

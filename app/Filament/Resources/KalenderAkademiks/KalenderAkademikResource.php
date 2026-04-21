@@ -18,7 +18,10 @@ class KalenderAkademikResource extends Resource
 {
     protected static ?string $model = KalenderAkademik::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendarDays;
+    protected static string|\UnitEnum|null $navigationGroup = 'Sistem';
+    protected static ?string $modelLabel = 'Kalender Akademik';
+    protected static ?string $pluralModelLabel = 'Kalender Akademik';
 
     public static function form(Schema $schema): Schema
     {

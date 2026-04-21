@@ -18,7 +18,10 @@ class TahunAjaranResource extends Resource
 {
     protected static ?string $model = TahunAjaran::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendarDays;
+    protected static string|\UnitEnum|null $navigationGroup = 'Sistem';
+    protected static ?string $modelLabel = 'Tahun Ajaran';
+    protected static ?string $pluralModelLabel = 'Tahun Ajaran';
 
     public static function form(Schema $schema): Schema
     {
