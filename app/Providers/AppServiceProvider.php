@@ -31,7 +31,6 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(\App\Models\JadwalPelajaran::class, \App\Policies\JadwalPelajaranPolicy::class);
         Gate::policy(\App\Models\Presensi::class, \App\Policies\PresensiPolicy::class);
         Gate::policy(\App\Models\Nilai::class, \App\Policies\NilaiPolicy::class);
-        Gate::policy(\App\Models\Rapor::class, \App\Policies\RaporPolicy::class);
         Gate::policy(\App\Models\KalenderAkademik::class, \App\Policies\KalenderAkademikPolicy::class);
         Gate::policy(\App\Models\TahunAjaran::class, \App\Policies\TahunAjaranPolicy::class);
         Gate::policy(\App\Models\ProfilSekolah::class, \App\Policies\ProfilSekolahPolicy::class);
