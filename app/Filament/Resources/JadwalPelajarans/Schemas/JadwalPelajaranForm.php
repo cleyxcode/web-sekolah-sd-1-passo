@@ -12,15 +12,21 @@ class JadwalPelajaranForm
     {
         return $schema
             ->components([
-                TextInput::make('kelas_id')
+                \Filament\Forms\Components\Select::make('kelas_id')
+                    ->relationship('kelas', 'nama_kelas')
                     ->required()
-                    ->numeric(),
-                TextInput::make('mata_pelajaran_id')
+                    ->searchable()
+                    ->preload(),
+                \Filament\Forms\Components\Select::make('mata_pelajaran_id')
+                    ->relationship('mataPelajaran', 'nama')
                     ->required()
-                    ->numeric(),
-                TextInput::make('guru_id')
+                    ->searchable()
+                    ->preload(),
+                \Filament\Forms\Components\Select::make('guru_id')
+                    ->relationship('guru', 'nama')
                     ->required()
-                    ->numeric(),
+                    ->searchable()
+                    ->preload(),
                 TextInput::make('hari')
                     ->required(),
                 TimePicker::make('jam_mulai')

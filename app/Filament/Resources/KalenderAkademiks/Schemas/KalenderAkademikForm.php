@@ -21,9 +21,11 @@ class KalenderAkademikForm
                     ->required(),
                 Textarea::make('keterangan')
                     ->columnSpanFull(),
-                TextInput::make('tahun_ajaran_id')
+                \Filament\Forms\Components\Select::make('tahun_ajaran_id')
+                    ->relationship('tahunAjaran', 'nama')
                     ->required()
-                    ->numeric(),
+                    ->searchable()
+                    ->preload(),
             ]);
     }
 }

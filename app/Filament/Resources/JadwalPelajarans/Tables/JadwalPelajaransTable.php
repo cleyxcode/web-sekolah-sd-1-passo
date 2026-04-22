@@ -14,14 +14,17 @@ class JadwalPelajaransTable
     {
         return $table
             ->columns([
-                TextColumn::make('kelas_id')
-                    ->numeric()
+                TextColumn::make('kelas.nama_kelas')
+                    ->label('Kelas')
+                    ->searchable()
                     ->sortable(),
-                TextColumn::make('mata_pelajaran_id')
-                    ->numeric()
+                TextColumn::make('mataPelajaran.nama')
+                    ->label('Mata Pelajaran')
+                    ->searchable()
                     ->sortable(),
-                TextColumn::make('guru_id')
-                    ->numeric()
+                TextColumn::make('guru.nama')
+                    ->label('Guru')
+                    ->searchable()
                     ->sortable(),
                 TextColumn::make('hari')
                     ->searchable(),

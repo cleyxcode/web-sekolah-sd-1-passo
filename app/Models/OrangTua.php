@@ -2,14 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class OrangTua extends Model
+class OrangTua extends Authenticatable
 {
-    protected $guarded = [];
+    use Notifiable;
 
-    public function user()
+    protected $guarded = ['id'];
+    protected $hidden = ['password', 'remember_token'];
+
+    public function siswas()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(Siswa::class, 'orang_tua_siswas');
     }
 }

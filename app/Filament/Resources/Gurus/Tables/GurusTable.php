@@ -24,9 +24,6 @@ class GurusTable
                     ->searchable(),
                 TextColumn::make('jenis_kelamin')
                     ->badge(),
-                TextColumn::make('tanggal_lahir')
-                    ->date()
-                    ->sortable(),
                 TextColumn::make('foto')
                     ->searchable(),
                 TextColumn::make('no_telepon')

@@ -34,6 +34,11 @@ class NilaiResource extends Resource
         return NilaisTable::configure($table);
     }
 
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return parent::getEloquentQuery();
+    }
+
     public static function getRelations(): array
     {
         return [

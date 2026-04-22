@@ -12,21 +12,31 @@ class NilaiForm
     {
         return $schema
             ->components([
-                TextInput::make('siswa_id')
+                Select::make('siswa_id')
+                    ->relationship('siswa', 'nama')
                     ->required()
-                    ->numeric(),
-                TextInput::make('mata_pelajaran_id')
+                    ->searchable()
+                    ->preload(),
+                Select::make('mata_pelajaran_id')
+                    ->relationship('mataPelajaran', 'nama')
                     ->required()
-                    ->numeric(),
-                TextInput::make('guru_id')
+                    ->searchable()
+                    ->preload(),
+                Select::make('guru_id')
+                    ->relationship('guru', 'nama')
                     ->required()
-                    ->numeric(),
-                TextInput::make('kelas_id')
+                    ->searchable()
+                    ->preload(),
+                Select::make('kelas_id')
+                    ->relationship('kelas', 'nama_kelas')
                     ->required()
-                    ->numeric(),
-                TextInput::make('tahun_ajaran_id')
+                    ->searchable()
+                    ->preload(),
+                Select::make('tahun_ajaran_id')
+                    ->relationship('tahunAjaran', 'nama')
                     ->required()
-                    ->numeric(),
+                    ->searchable()
+                    ->preload(),
                 Select::make('semester')
                     ->options([1 => '1', '2'])
                     ->required(),

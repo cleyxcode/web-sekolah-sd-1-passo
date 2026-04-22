@@ -14,15 +14,21 @@ class PresensiForm
     {
         return $schema
             ->components([
-                TextInput::make('siswa_id')
+                Select::make('siswa_id')
+                    ->relationship('siswa', 'nama')
                     ->required()
-                    ->numeric(),
-                TextInput::make('kelas_id')
+                    ->searchable()
+                    ->preload(),
+                Select::make('kelas_id')
+                    ->relationship('kelas', 'nama_kelas')
                     ->required()
-                    ->numeric(),
-                TextInput::make('guru_id')
+                    ->searchable()
+                    ->preload(),
+                Select::make('guru_id')
+                    ->relationship('guru', 'nama')
                     ->required()
-                    ->numeric(),
+                    ->searchable()
+                    ->preload(),
                 DatePicker::make('tanggal')
                     ->required(),
                 Select::make('status')
@@ -30,9 +36,11 @@ class PresensiForm
                     ->required(),
                 Textarea::make('keterangan')
                     ->columnSpanFull(),
-                TextInput::make('tahun_ajaran_id')
+                Select::make('tahun_ajaran_id')
+                    ->relationship('tahunAjaran', 'nama')
                     ->required()
-                    ->numeric(),
+                    ->searchable()
+                    ->preload(),
             ]);
     }
 }

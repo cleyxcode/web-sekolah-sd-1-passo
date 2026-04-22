@@ -14,20 +14,12 @@ class GuruForm
     {
         return $schema
             ->components([
-                \Filament\Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->searchable()
-                    ->preload()
-                    ->label('Akun Pengguna (Opsional)'),
                 TextInput::make('nip'),
                 TextInput::make('nama')
                     ->required(),
                 Select::make('jenis_kelamin')
                     ->options(['L' => 'L', 'P' => 'P'])
                     ->required(),
-                DatePicker::make('tanggal_lahir'),
-                Textarea::make('alamat')
-                    ->columnSpanFull(),
                 TextInput::make('foto'),
                 TextInput::make('no_telepon')
                     ->tel(),

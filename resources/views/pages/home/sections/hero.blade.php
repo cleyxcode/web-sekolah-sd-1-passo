@@ -1,0 +1,77 @@
+{{-- Hero Section --}}
+<section style="background:linear-gradient(160deg,#f0f7ff 0%,#f8f4ff 50%,#faf8ff 100%);overflow:hidden;position:relative;">
+    {{-- BG Blobs --}}
+    <div style="position:absolute;top:-100px;right:-100px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,0.08),transparent 70%);"></div>
+    <div style="position:absolute;bottom:-80px;left:-80px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(79,70,229,0.07),transparent 70%);"></div>
+
+    <div class="container" style="padding-top:5rem;padding-bottom:5rem;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;">
+            {{-- Text --}}
+            <div class="fade-up" style="position:relative;z-index:1;">
+                <div class="section-tag">
+                    <span class="section-tag-dot"></span>
+                    Tahun Ajaran Baru 2025/2026
+                </div>
+                <h1 style="font-size:clamp(2rem,5vw,3.5rem);font-weight:900;color:#0f172a;line-height:1.1;margin-bottom:1.25rem;">
+                    Pendidikan Terbaik<br>Untuk <span style="background:linear-gradient(135deg,#2563eb,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Masa Depan</span>
+                </h1>
+                <p style="font-size:1.05rem;color:#475569;line-height:1.75;margin-bottom:2rem;max-width:480px;">
+                    Sistem informasi akademik terpadu yang memudahkan orang tua, siswa, dan guru dalam mengakses informasi perkembangan belajar secara transparan dan real-time.
+                </p>
+                <div style="display:flex;flex-wrap:wrap;gap:12px;">
+                    <a href="{{ route('login.ortu') }}" style="display:inline-flex;align-items:center;gap:8px;padding:14px 28px;background:linear-gradient(135deg,#2563eb,#4f46e5);color:white;border-radius:14px;font-weight:700;font-size:0.95rem;text-decoration:none;box-shadow:0 4px 20px rgba(37,99,235,0.35);transition:all 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0"/></svg>
+                        Portal Orang Tua
+                    </a>
+                    <a href="{{ route('profil') }}" style="display:inline-flex;align-items:center;gap:8px;padding:14px 28px;background:white;color:#1e293b;border-radius:14px;font-weight:700;font-size:0.95rem;text-decoration:none;border:2px solid #e2e8f0;transition:all 0.2s;" onmouseover="this.style.borderColor='#93c5fd'" onmouseout="this.style.borderColor='#e2e8f0'">
+                        Pelajari Lebih Lanjut
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+                    </a>
+                </div>
+
+                {{-- Stats --}}
+                <div style="display:flex;gap:2rem;margin-top:2.5rem;padding-top:2rem;border-top:1px solid #e2e8f0;">
+                    <div>
+                        <div style="font-size:1.8rem;font-weight:900;color:#2563eb;">500+</div>
+                        <div style="font-size:0.8rem;color:#64748b;font-weight:500;">Siswa Aktif</div>
+                    </div>
+                    <div>
+                        <div style="font-size:1.8rem;font-weight:900;color:#7c3aed;">30+</div>
+                        <div style="font-size:0.8rem;color:#64748b;font-weight:500;">Tenaga Pendidik</div>
+                    </div>
+                    <div>
+                        <div style="font-size:1.8rem;font-weight:900;color:#059669;">A</div>
+                        <div style="font-size:0.8rem;color:#64748b;font-weight:500;">Akreditasi</div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Image --}}
+            <div style="position:relative;" class="fade-up">
+                <div style="border-radius:24px;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,0.15);aspect-ratio:4/3;background:#dbeafe;">
+                    <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                         alt="Siswa SD Negeri 1 Passo"
+                         style="width:100%;height:100%;object-fit:cover;">
+                </div>
+                {{-- Floating badge --}}
+                <div style="position:absolute;bottom:-20px;left:-20px;background:white;padding:14px 18px;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,0.12);display:flex;align-items:center;gap:12px;border:1px solid #f1f5f9;">
+                    <div style="width:44px;height:44px;background:linear-gradient(135deg,#dcfce7,#bbf7d0);border-radius:12px;display:flex;align-items:center;justify-content:center;">
+                        <svg width="22" height="22" fill="none" stroke="#16a34a" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <div>
+                        <div style="font-size:0.72rem;color:#64748b;font-weight:500;">Akreditasi BAN-S/M</div>
+                        <div style="font-size:1rem;font-weight:800;color:#0f172a;">A (Sangat Baik)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Mobile responsive --}}
+    <style>
+        @media(max-width:768px) {
+            section > .container > div { grid-template-columns: 1fr !important; gap: 2rem !important; }
+            section > .container { padding-top: 3rem !important; padding-bottom: 3rem !important; }
+        }
+    </style>
+</section>

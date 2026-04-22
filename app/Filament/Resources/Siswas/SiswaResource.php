@@ -34,6 +34,11 @@ class SiswaResource extends Resource
         return SiswasTable::configure($table);
     }
 
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return parent::getEloquentQuery();
+    }
+
     public static function getRelations(): array
     {
         return [];

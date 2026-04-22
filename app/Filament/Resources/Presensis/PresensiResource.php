@@ -34,6 +34,11 @@ class PresensiResource extends Resource
         return PresensisTable::configure($table);
     }
 
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return parent::getEloquentQuery();
+    }
+
     public static function getRelations(): array
     {
         return [

@@ -23,12 +23,8 @@ class GaleriForm
                     ->required(),
                 Textarea::make('keterangan')
                     ->columnSpanFull(),
-                \Filament\Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->searchable()
-                    ->preload()
-                    ->required()
-                    ->label('Pembuat (Akun)'),
+                \Filament\Forms\Components\Hidden::make('user_id')
+                    ->default(auth()->id()),
             ]);
     }
 }

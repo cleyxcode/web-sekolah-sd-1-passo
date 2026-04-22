@@ -25,14 +25,26 @@ class SiswaForm
                 Textarea::make('alamat')
                     ->columnSpanFull(),
                 TextInput::make('foto'),
-                TextInput::make('kelas_id')
-                    ->numeric(),
-                TextInput::make('tahun_ajaran_id')
-                    ->numeric(),
+                Select::make('kelas_id')
+                    ->relationship('kelas', 'nama_kelas')
+                    ->searchable()
+                    ->preload(),
+                Select::make('tahun_ajaran_id')
+                    ->relationship('tahunAjaran', 'nama')
+                    ->searchable()
+                    ->preload(),
                 Select::make('status')
                     ->options(['aktif' => 'Aktif', 'lulus' => 'Lulus', 'pindah' => 'Pindah'])
                     ->default('aktif')
                     ->required(),
+                Select::make('orangTuas')
+                    ->multiple()
+                    ->relationship('orangTuas', 'nama')
+                    ->preload()
+                    ->searchable()
+                    ->label('Pilih Orang Tua (Jika Kakaknya Sudah Sekolah Disini)')
+                    ->helperText('Biarkan kosong. Sistem akan otomatis membuatkan akun baru jika tidak dipilih.')
+                    ->columnSpanFull(),
             ]);
     }
 }

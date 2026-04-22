@@ -11,9 +11,15 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        // Super Admin bypass — dikerjakan paling awal sebelum Policy lain
         Gate::before(function (\App\Models\User $user, string $ability) {
-            return $user->isSuperAdmin() ? true : null;
+            if ($user->isSuperAdmin()) {
+                return true;
+            }
+            // Kepala Sekolah memiliki akses global untuk melihat (Read-Only)
+            if ($user->hasRole('Kepala Sekolah') && in_array($ability, ['viewAny', 'view'])) {
+                return true;
+            }
+            return null;
         });
 
         // Daftarkan Role/Permission Policy (untuk plugin Spatie)
@@ -37,5 +43,11 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(\App\Models\SettingSekolah::class, \App\Policies\SettingSekolahPolicy::class);
         Gate::policy(\App\Models\User::class, \App\Policies\UserPolicy::class);
         Gate::policy(\App\Models\Pendaftaran::class, \App\Policies\PendaftaranPolicy::class);
+        Gate::policy(\App\Models\CatatanPerkembangan::class, \App\Policies\CatatanPerkembanganPolicy::class);
+
+        if (\Illuminate\Support\Facades\Schema::hasTable('setting_sekolahs')) {
+            $settings = \App\Models\SettingSekolah::first();
+            \Illuminate\Support\Facades\View::share('settings', $settings);
+        }
     }
 }

@@ -13,7 +13,10 @@ class SettingSekolahForm
         return $schema
             ->components([
                 TextInput::make('nama_sekolah'),
-                TextInput::make('logo'),
+                \Filament\Forms\Components\FileUpload::make('logo')
+                    ->image()
+                    ->directory('logo-sekolah')
+                    ->maxSize(2048),
                 Textarea::make('alamat')
                     ->columnSpanFull(),
                 TextInput::make('no_telepon')

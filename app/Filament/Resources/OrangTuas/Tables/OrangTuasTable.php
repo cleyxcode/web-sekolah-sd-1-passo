@@ -14,11 +14,10 @@ class OrangTuasTable
     {
         return $table
             ->columns([
-                TextColumn::make('user.name')
-                    ->label('Akun Pengguna')
-                    ->sortable()
-                    ->searchable(),
                 TextColumn::make('nama')
+                    ->searchable(),
+                TextColumn::make('email')
+                    ->label('Email address')
                     ->searchable(),
                 TextColumn::make('no_telepon')
                     ->searchable(),
