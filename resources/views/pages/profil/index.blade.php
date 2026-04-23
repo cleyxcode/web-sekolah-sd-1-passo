@@ -24,34 +24,34 @@
     @media(max-width:768px) { .vm-grid { grid-template-columns: 1fr; } }
 
     .vm-card {
-        background: white; border-radius: 20px;
+        background: var(--surface); border-radius: 20px;
         padding: 2rem;
-        box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-        border: 1px solid #f1f5f9;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--border);
     }
     .vm-icon {
         width: 52px; height: 52px; border-radius: 14px;
         display: flex; align-items: center; justify-content: center;
         margin-bottom: 1.25rem; flex-shrink: 0;
     }
-    .vm-title { font-size: 1.3rem; font-weight: 800; color: #0f172a; margin-bottom: 1rem; }
-    .vm-content { font-size: 0.95rem; line-height: 1.8; color: #475569; }
+    .vm-title { font-size: 1.3rem; font-weight: 800; color: var(--text); margin-bottom: 1rem; }
+    .vm-content { font-size: 0.95rem; line-height: 1.8; color: var(--text-muted); }
     .vm-content ul { padding-left: 1.25rem; margin: 0; }
     .vm-content li { margin-bottom: 8px; }
     .vm-content p { margin: 0; }
 
     .sejarah-block {
-        background: white; border-radius: 20px;
+        background: var(--surface); border-radius: 20px;
         padding: 2.5rem;
-        box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-        border: 1px solid #f1f5f9;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--border);
     }
     .sejarah-block h2 {
-        font-size: 1.4rem; font-weight: 800; color: #0f172a;
+        font-size: 1.4rem; font-weight: 800; color: var(--text);
         margin-bottom: 1rem; display: flex; align-items: center; gap: 12px;
     }
-    .sejarah-icon { width: 42px; height: 42px; background: #f0fdf4; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #16a34a; flex-shrink: 0; }
-    .sejarah-body { font-size: 0.95rem; line-height: 1.85; color: #475569; }
+    .sejarah-icon { width: 42px; height: 42px; background: rgba(22, 163, 74, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--success); flex-shrink: 0; }
+    .sejarah-body { font-size: 0.95rem; line-height: 1.85; color: var(--text-muted); }
     .sejarah-body p { margin-bottom: 1rem; }
     .sejarah-body p:last-child { margin-bottom: 0; }
 </style>
@@ -72,7 +72,7 @@
 </div>
 
 {{-- Content --}}
-<section style="padding:3rem 0 5rem;background:#f8faff;">
+<section style="padding:3rem 0 5rem;background:var(--bg);transition:background 0.3s;">
     <div class="container" style="max-width:900px;">
 
         {{-- Visi & Misi --}}
@@ -80,7 +80,7 @@
 
             {{-- Visi --}}
             <div class="vm-card">
-                <div class="vm-icon" style="background:#eff6ff;">
+                <div class="vm-icon" style="background:var(--primary-light);">
                     <svg width="26" height="26" fill="none" stroke="#2563eb" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                 </div>
                 <div class="vm-title">{{ $visi->judul ?? 'Visi Sekolah' }}</div>
@@ -89,7 +89,7 @@
 
             {{-- Misi --}}
             <div class="vm-card">
-                <div class="vm-icon" style="background:#faf5ff;">
+                <div class="vm-icon" style="background:var(--surface-2);">
                     <svg width="26" height="26" fill="none" stroke="#7c3aed" stroke-width="2" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                 </div>
                 <div class="vm-title">{{ $misi->judul ?? 'Misi Sekolah' }}</div>

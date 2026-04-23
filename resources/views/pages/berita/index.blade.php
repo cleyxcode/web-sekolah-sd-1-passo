@@ -21,11 +21,11 @@
     }
 
     .news-card {
-        background: white;
+        background: var(--surface);
         border-radius: 20px;
         overflow: hidden;
-        box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-        border: 1px solid #f1f5f9;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--border);
         display: flex;
         flex-direction: column;
         transition: transform 0.3s, box-shadow 0.3s;
@@ -35,13 +35,13 @@
     .news-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
     .news-card:hover .news-card-img img { transform: scale(1.06); }
     .news-card-img .no-img { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
-    .news-kategori { position: absolute; top: 12px; left: 12px; background: rgba(255,255,255,0.95); color: #2563eb; font-size: 0.72rem; font-weight: 800; padding: 4px 12px; border-radius: 999px; backdrop-filter: blur(4px); }
+    .news-kategori { position: absolute; top: 12px; left: 12px; background: rgba(var(--surface-rgb),0.95); color: var(--primary); font-size: 0.72rem; font-weight: 800; padding: 4px 12px; border-radius: 999px; backdrop-filter: blur(4px); }
     .news-body { padding: 1.5rem; display: flex; flex-direction: column; flex: 1; }
-    .news-date { font-size: 0.78rem; color: #94a3b8; font-weight: 600; display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
-    .news-title { font-size: 1.05rem; font-weight: 800; color: #0f172a; margin-bottom: 10px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; transition: color 0.2s; }
-    .news-card:hover .news-title { color: #2563eb; }
-    .news-excerpt { font-size: 0.875rem; color: #64748b; line-height: 1.65; flex: 1; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 16px; }
-    .news-read-more { display: inline-flex; align-items: center; gap: 6px; color: #2563eb; font-size: 0.85rem; font-weight: 700; text-decoration: none; margin-top: auto; }
+    .news-date { font-size: 0.78rem; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
+    .news-title { font-size: 1.05rem; font-weight: 800; color: var(--text); margin-bottom: 10px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; transition: color 0.2s; }
+    .news-card:hover .news-title { color: var(--primary); }
+    .news-excerpt { font-size: 0.875rem; color: var(--text-muted); line-height: 1.65; flex: 1; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 16px; }
+    .news-read-more { display: inline-flex; align-items: center; gap: 6px; color: var(--primary); font-size: 0.85rem; font-weight: 700; text-decoration: none; margin-top: auto; }
     .news-read-more svg { transition: transform 0.2s; }
     .news-card:hover .news-read-more svg { transform: translateX(4px); }
 
@@ -78,7 +78,7 @@
 </div>
 
 {{-- Content --}}
-<section style="padding:3rem 0 5rem;background:#f8faff;">
+<section style="padding:3rem 0 5rem;background:var(--bg);transition:background 0.3s;">
     <div class="container">
         <div class="news-grid">
             @forelse($berita as $idx => $item)
@@ -109,10 +109,10 @@
                 </article>
             </div>
             @empty
-            <div style="grid-column:1/-1;text-align:center;padding:4rem;background:white;border-radius:20px;border:2px dashed #e2e8f0;">
-                <svg width="48" height="48" fill="none" stroke="#cbd5e1" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 16px;"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                <h3 style="font-size:1.1rem;font-weight:800;color:#1e293b;margin-bottom:8px;">Belum Ada Berita</h3>
-                <p style="color:#94a3b8;font-size:0.9rem;">Informasi terbaru akan segera dipublikasikan.</p>
+            <div style="grid-column:1/-1;text-align:center;padding:4rem;background:var(--surface);border-radius:20px;border:2px dashed var(--border);">
+                <svg width="48" height="48" fill="none" stroke="var(--text-light)" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 16px;"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                <h3 style="font-size:1.1rem;font-weight:800;color:var(--text);margin-bottom:8px;">Belum Ada Berita</h3>
+                <p style="color:var(--text-muted);font-size:0.9rem;">Informasi terbaru akan segera dipublikasikan.</p>
             </div>
             @endforelse
         </div>

@@ -7,18 +7,26 @@
     <meta name="description" content="@yield('meta_description', 'Sistem Informasi Akademik dan Portal Resmi SD Negeri 1 Passo.')">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+    <script>
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+        }
+    </script>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #f8faff;
-            color: #1e293b;
+            background: var(--bg);
+            color: var(--text);
             -webkit-font-smoothing: antialiased;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            transition: background 0.3s, color 0.3s;
         }
 
         /* ===== DESIGN TOKENS ===== */
@@ -30,11 +38,13 @@
             --accent-dark: #3730a3;
             --success: #16a34a;
             --surface: #ffffff;
+            --surface-rgb: 255, 255, 255;
             --surface-2: #f1f5f9;
             --border: #e2e8f0;
             --text: #1e293b;
             --text-muted: #64748b;
             --text-light: #94a3b8;
+            --bg: #f8faff;
             --radius: 16px;
             --radius-lg: 24px;
             --shadow-sm: 0 1px 4px rgba(0,0,0,0.06);
@@ -42,14 +52,35 @@
             --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
         }
 
+        [data-theme="dark"] {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --primary-light: #1e3a8a;
+            --accent: #6366f1;
+            --accent-dark: #4f46e5;
+            --success: #22c55e;
+            --surface: #1e293b;
+            --surface-rgb: 30, 41, 59;
+            --surface-2: #0f172a;
+            --border: #334155;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-light: #cbd5e1;
+            --bg: #0f172a;
+            --shadow-sm: 0 1px 4px rgba(0,0,0,0.4);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.5);
+            --shadow-lg: 0 8px 40px rgba(0,0,0,0.6);
+        }
+
         /* ===== NAVBAR ===== */
         .site-nav {
             position: sticky; top: 0; z-index: 100;
-            background: rgba(255,255,255,0.92);
+            background: rgba(var(--surface-rgb), 0.92);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
-            box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+            box-shadow: var(--shadow-sm);
+            transition: background 0.3s, border-color 0.3s;
         }
         .nav-inner {
             max-width: 1200px; margin: 0 auto;
@@ -73,8 +104,8 @@
             transition: transform 0.2s;
         }
         .nav-brand:hover .nav-logo-icon { transform: scale(1.05); }
-        .nav-school-name { font-size: 1rem; font-weight: 800; color: #0f172a; line-height: 1.2; }
-        .nav-school-tagline { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; }
+        .nav-school-name { font-size: 1rem; font-weight: 800; color: var(--text); line-height: 1.2; transition: color 0.3s; }
+        .nav-school-tagline { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; transition: color 0.3s; }
         @media(max-width:480px) { .nav-school-tagline { display: none; } }
 
         .nav-links {
@@ -88,8 +119,8 @@
             transition: all 0.2s;
             white-space: nowrap;
         }
-        .nav-links a:hover { color: var(--primary); background: #eff6ff; }
-        .nav-links a.active { color: var(--primary); background: #eff6ff; }
+        .nav-links a:hover { color: var(--primary); background: var(--surface-2); }
+        .nav-links a.active { color: var(--primary); background: var(--surface-2); }
         @media(max-width:768px) { .nav-links { display: none; } }
         .nav-links.mobile-open { display: flex; flex-direction: column; }
 
@@ -126,9 +157,10 @@
         /* Mobile Menu */
         .mobile-menu {
             display: none;
-            background: white;
+            background: var(--surface);
             border-top: 1px solid var(--border);
             padding: 16px 1.5rem;
+            transition: background 0.3s, border-color 0.3s;
         }
         .mobile-menu.open { display: block; }
         .mobile-menu a {
@@ -137,7 +169,7 @@
             text-decoration: none; border-radius: 10px;
             transition: all 0.2s; margin-bottom: 4px;
         }
-        .mobile-menu a:hover { background: #f1f5f9; color: var(--primary); }
+        .mobile-menu a:hover { background: var(--surface-2); color: var(--primary); }
         .mobile-menu .divider { height: 1px; background: var(--border); margin: 12px 0; }
         .mobile-menu .btn-block {
             display: block; text-align: center; padding: 12px;
@@ -185,15 +217,16 @@
         /* ===== SECTION HEADINGS ===== */
         .section-tag {
             display: inline-flex; align-items: center; gap: 6px;
-            background: #eff6ff; color: #2563eb;
-            border: 1px solid #bfdbfe; border-radius: 999px;
+            background: var(--surface-2); color: var(--primary);
+            border: 1px solid var(--border); border-radius: 999px;
             padding: 5px 14px; font-size: 0.78rem; font-weight: 700;
             margin-bottom: 12px;
+            transition: background 0.3s, border-color 0.3s;
         }
-        .section-tag-dot { width: 7px; height: 7px; border-radius: 50%; background: #2563eb; animation: pulse 2s infinite; }
+        .section-tag-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--primary); animation: pulse 2s infinite; }
         @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
-        .section-title { font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 900; color: #0f172a; line-height: 1.2; }
-        .section-sub { font-size: 1rem; color: var(--text-muted); line-height: 1.7; max-width: 600px; margin: 12px auto 0; }
+        .section-title { font-size: clamp(1.6rem, 4vw, 2.5rem); font-weight: 900; color: var(--text); line-height: 1.2; transition: color 0.3s; }
+        .section-sub { font-size: 1rem; color: var(--text-muted); line-height: 1.7; max-width: 600px; margin: 12px auto 0; transition: color 0.3s; }
 
         /* ===== GLOBAL UTILS ===== */
         .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
@@ -210,8 +243,8 @@
             color: #93c5fd; font-size: 2.5rem;
         }
 
-        @stack('styles')
     </style>
+    @stack('styles')
 </head>
 <body>
     <!-- NAVBAR -->
@@ -240,6 +273,10 @@
             </ul>
 
             <div class="nav-actions">
+                <button id="theme-toggle" aria-label="Toggle Dark Mode" style="padding:8px; border:none; background:transparent; cursor:pointer; color:var(--text); transition:color 0.3s; margin-right:8px; display:flex; align-items:center; justify-content:center; border-radius:50%;">
+                    <svg id="theme-toggle-dark-icon" style="display:none;" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                    <svg id="theme-toggle-light-icon" style="display:none;" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                </button>
                 @if(Auth::guard('ortu')->check())
                     <a href="{{ route('portal.ortu.dashboard') }}" class="btn-primary">Dashboard Anak</a>
                 @else
@@ -347,6 +384,30 @@
             const mobileMenu = document.getElementById('mobileMenu');
             if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
                 mobileMenu.classList.remove('open');
+            }
+        });
+
+        // Theme Toggle Script
+        var themeToggleBtn = document.getElementById('theme-toggle');
+        var themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        var themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+        if (document.documentElement.getAttribute('data-theme') === 'dark') {
+            themeToggleLightIcon.style.display = 'block';
+        } else {
+            themeToggleDarkIcon.style.display = 'block';
+        }
+
+        themeToggleBtn.addEventListener('click', function() {
+            themeToggleDarkIcon.style.display = themeToggleDarkIcon.style.display === 'none' ? 'block' : 'none';
+            themeToggleLightIcon.style.display = themeToggleLightIcon.style.display === 'none' ? 'block' : 'none';
+
+            if (document.documentElement.getAttribute('data-theme') === 'light') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
             }
         });
     </script>

@@ -59,8 +59,8 @@
         transition: all 0.2s; background: transparent;
     }
     .filter-btn.active { background: linear-gradient(135deg, #2563eb, #4f46e5); color: white; border-color: transparent; box-shadow: 0 3px 12px rgba(37,99,235,0.3); }
-    .filter-btn:not(.active) { background: white; color: #64748b; border-color: #e2e8f0; }
-    .filter-btn:not(.active):hover { border-color: #93c5fd; color: #2563eb; }
+    .filter-btn:not(.active) { background: var(--surface); color: var(--text-muted); border-color: var(--border); }
+    .filter-btn:not(.active):hover { border-color: var(--primary-light); color: var(--primary); }
 
     /* Lightbox */
     .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 9999; align-items: center; justify-content: center; }
@@ -87,7 +87,7 @@
 </div>
 
 {{-- Filter & Grid --}}
-<section style="padding: 3rem 0 5rem;background:#f8faff;">
+<section style="padding: 3rem 0 5rem;background:var(--bg);transition:background 0.3s;">
     <div class="container">
 
         {{-- Filter Buttons --}}
@@ -120,10 +120,10 @@
                 </div>
             </div>
             @empty
-            <div style="grid-column:1/-1;text-align:center;padding:4rem;background:white;border-radius:20px;border:2px dashed #e2e8f0;">
-                <svg width="48" height="48" fill="none" stroke="#cbd5e1" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 16px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-                <h3 style="font-size:1.1rem;font-weight:800;color:#1e293b;margin-bottom:8px;">Belum Ada Foto</h3>
-                <p style="color:#94a3b8;font-size:0.9rem;">Dokumentasi kegiatan akan segera ditambahkan.</p>
+            <div style="grid-column:1/-1;text-align:center;padding:4rem;background:var(--surface);border-radius:20px;border:2px dashed var(--border);">
+                <svg width="48" height="48" fill="none" stroke="var(--text-light)" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 16px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                <h3 style="font-size:1.1rem;font-weight:800;color:var(--text);margin-bottom:8px;">Belum Ada Foto</h3>
+                <p style="color:var(--text-muted);font-size:0.9rem;">Dokumentasi kegiatan akan segera ditambahkan.</p>
             </div>
             @endforelse
         </div>
