@@ -106,4 +106,94 @@ class PortalOrtuController extends Controller
 
         return back()->with('success', 'Profil dan pengaturan berhasil diperbarui!');
     }
+
+    public function forgotPasswordForm()
+    {
+        return view('pages.portal-ortu.auth.forgot-password');
+    }
+
+    public function sendOtp(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:orang_tuas,email',
+        ], [
+            'email.exists' => 'Email tidak ditemukan di sistem kami.'
+        ]);
+
+        $ortu = OrangTua::where('email', $request->email)->first();
+        
+        $otp = rand(100000, 999999);
+        $ortu->otp_code = $otp;
+        $ortu->otp_expires_at = now()->addMinutes(10);
+        $ortu->save();
+
+        \Illuminate\Support\Facades\Mail::to($ortu->email)->send(new \App\Mail\OrtuOtpMail($otp));
+
+        session()->put('reset_email', $ortu->email);
+        
+        return redirect()->route('ortu.verify_otp')->with('success', 'Kode OTP telah dikirim ke email Anda.');
+    }
+
+    public function verifyOtpForm()
+    {
+        if (!session()->has('reset_email')) {
+            return redirect()->route('ortu.forgot_password');
+        }
+        return view('pages.portal-ortu.auth.verify-otp');
+    }
+
+    public function verifyOtp(Request $request)
+    {
+        $request->validate([
+            'otp' => 'required|numeric',
+        ]);
+
+        $email = session()->get('reset_email');
+        if (!$email) return redirect()->route('ortu.forgot_password');
+
+        $ortu = OrangTua::where('email', $email)
+            ->where('otp_code', $request->otp)
+            ->where('otp_expires_at', '>=', now())
+            ->first();
+
+        if (!$ortu) {
+            return back()->withErrors(['otp' => 'Kode OTP tidak valid atau sudah kadaluarsa.']);
+        }
+
+        session()->put('otp_verified', true);
+        return redirect()->route('ortu.reset_password')->with('success', 'OTP valid. Silakan buat password baru.');
+    }
+
+    public function resetPasswordForm()
+    {
+        if (!session()->get('otp_verified')) {
+            return redirect()->route('ortu.forgot_password');
+        }
+        return view('pages.portal-ortu.auth.reset-password');
+    }
+
+    public function resetPassword(Request $request)
+    {
+        if (!session()->get('otp_verified')) {
+            return redirect()->route('ortu.forgot_password');
+        }
+
+        $request->validate([
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        $email = session()->get('reset_email');
+        $ortu = OrangTua::where('email', $email)->first();
+        
+        if ($ortu) {
+            $ortu->password = \Illuminate\Support\Facades\Hash::make($request->password);
+            $ortu->otp_code = null;
+            $ortu->otp_expires_at = null;
+            $ortu->save();
+        }
+
+        session()->forget(['reset_email', 'otp_verified']);
+
+        return redirect()->route('login.ortu')->with('success', 'Password berhasil direset. Silakan login.');
+    }
 }

@@ -87,7 +87,7 @@
                         <input type="checkbox" name="remember" style="width:16px;height:16px;accent-color:#2563eb;cursor:pointer;">
                         <span style="font-size:0.875rem;color:#475569;font-weight:500;">Ingat saya</span>
                     </label>
-                    <a href="#" style="font-size:0.875rem;color:#2563eb;font-weight:700;text-decoration:none;">Lupa sandi?</a>
+                    <a href="{{ route('ortu.forgot_password') }}" style="font-size:0.875rem;color:#2563eb;font-weight:700;text-decoration:none;">Lupa sandi?</a>
                 </div>
 
                 {{-- Submit --}}

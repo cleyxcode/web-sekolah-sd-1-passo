@@ -20,6 +20,8 @@ return new class extends Migration
             $table->text('alamat')->nullable();
             $table->string('pekerjaan')->nullable();
             $table->string('hubungan')->nullable()->comment('Hubungan dengan siswa: Ayah, Ibu, Wali, dll');
+            $table->string('otp_code')->nullable();
+            $table->timestamp('otp_expires_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
