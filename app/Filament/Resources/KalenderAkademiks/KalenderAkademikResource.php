@@ -14,6 +14,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 
 class KalenderAkademikResource extends Resource
 {
@@ -24,6 +25,10 @@ class KalenderAkademikResource extends Resource
     protected static ?string $modelLabel = 'Kalender Akademik';
     protected static ?string $pluralModelLabel = 'Kalender Akademik';
 
+    public static function canAccess(): bool
+    {
+        return !Auth::user()?->hasRole('Guru');
+    }
     public static function form(Schema $schema): Schema
     {
         return KalenderAkademikForm::configure($schema);

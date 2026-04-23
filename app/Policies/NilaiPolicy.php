@@ -9,59 +9,41 @@ class NilaiPolicy
 {
     public function viewAny(User $user): bool
     {
-        if ($user->hasRole(['Orang Tua', 'Kepala Sekolah'])) {
-            return true;
-        }
-        return $user->checkPermissionTo('view-any Nilai');
+        return $user->hasRole('Super Admin') || $user->hasRole('Kepala Sekolah') || $user->hasRole('Guru') || $user->hasRole('Orang Tua');
     }
 
     public function view(User $user, Nilai $nilai): bool
     {
-        if ($user->hasRole(['Orang Tua', 'Kepala Sekolah'])) {
-            return true;
-        }
-        return $user->checkPermissionTo('view Nilai');
+        return $user->hasRole('Super Admin') || $user->hasRole('Kepala Sekolah') || $user->hasRole('Guru') || $user->hasRole('Orang Tua');
     }
 
     public function create(User $user): bool
     {
-        if ($user->hasRole('Orang Tua')) {
-            return false;
-        }
-        return $user->checkPermissionTo('create Nilai');
+        return $user->hasRole('Super Admin') || $user->hasRole('Guru');
     }
 
     public function update(User $user, Nilai $nilai): bool
     {
-        if ($user->hasRole('Orang Tua')) {
-            return false;
-        }
-        return $user->checkPermissionTo('update Nilai');
+        return $user->hasRole('Super Admin') || $user->hasRole('Guru');
     }
 
     public function delete(User $user, Nilai $nilai): bool
     {
-        if ($user->hasRole('Orang Tua')) {
-            return false;
-        }
-        return $user->checkPermissionTo('delete Nilai');
+        return $user->hasRole('Super Admin') || $user->hasRole('Guru');
     }
 
     public function deleteAny(User $user): bool
     {
-        if ($user->hasRole('Orang Tua')) {
-            return false;
-        }
-        return $user->checkPermissionTo('delete-any Nilai');
+        return $user->hasRole('Super Admin') || $user->hasRole('Guru');
     }
 
     public function restore(User $user, Nilai $nilai): bool
     {
-        return $user->checkPermissionTo('restore Nilai');
+        return $user->hasRole('Super Admin');
     }
 
     public function forceDelete(User $user, Nilai $nilai): bool
     {
-        return $user->checkPermissionTo('force-delete Nilai');
+        return $user->hasRole('Super Admin');
     }
 }

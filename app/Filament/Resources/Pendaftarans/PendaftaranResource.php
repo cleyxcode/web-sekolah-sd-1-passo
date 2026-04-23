@@ -15,6 +15,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 
 class PendaftaranResource extends Resource
 {
@@ -25,6 +26,10 @@ class PendaftaranResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'judul';
 
+    public static function canAccess(): bool
+    {
+        return !Auth::user()?->hasRole('Guru');
+    }
     public static function form(Schema $schema): Schema
     {
         return PendaftaranForm::configure($schema);

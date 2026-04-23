@@ -27,31 +27,57 @@ class PresensiForm
                     ->schema([
                         Grid::make(2)->schema([
                             Select::make('kelas_id')
-                                ->label('Kelas')
+                                ->label('Filter Kelas (Opsional)')
                                 ->options(
                                     Kelas::orderBy('tingkat')->orderBy('nama_kelas')
                                         ->get()
                                         ->mapWithKeys(fn ($k) => [$k->id => "Kelas {$k->nama_kelas} (Tingkat {$k->tingkat})"])
                                 )
                                 ->searchable()
-                                ->required()
                                 ->live()
-                                ->afterStateUpdated(fn ($set) => $set('siswa_id', null)),
+                                ->afterStateUpdated(fn ($set) => $set('siswa_id', null))
+                                ->dehydrated(false)
+                                ->hidden(fn () => Auth::user()?->hasRole('Guru')),
 
                             Select::make('siswa_id')
                                 ->label('Siswa')
                                 ->required()
                                 ->searchable()
                                 ->options(function ($get) {
-                                    $kelasId = $get('kelas_id');
-                                    if (!$kelasId) return [];
-                                    return Siswa::where('kelas_id', $kelasId)
-                                        ->where('status', 'aktif')
-                                        ->orderBy('nama')
-                                        ->pluck('nama', 'id');
+                                    $user = Auth::user();
+                                    $query = Siswa::with('kelas')->where('status', 'aktif')->orderBy('nama');
+
+                                    if ($user?->hasRole('Guru')) {
+                                        $guru = Guru::where('user_id', $user->id)->first();
+                                        if ($guru) {
+                                            $kelasIds = Kelas::where('wali_kelas_id', $guru->id)->pluck('id');
+                                            if ($kelasIds->isEmpty()) return [];
+                                            $query->whereIn('kelas_id', $kelasIds);
+                                        } else {
+                                            return [];
+                                        }
+                                    } else {
+                                        $kelasId = $get('kelas_id');
+                                        if ($kelasId) {
+                                            $query->where('kelas_id', $kelasId);
+                                        }
+                                    }
+
+                                    return $query->get()->mapWithKeys(function ($s) {
+                                        $label = $s->nama;
+                                        if ($s->kelas) $label .= " (Kelas {$s->kelas->nama_kelas})";
+                                        return [$s->id => $label];
+                                    });
                                 })
-                                ->disabled(fn ($get) => !$get('kelas_id'))
-                                ->helperText('Pilih kelas terlebih dahulu.'),
+                                ->helperText(fn() => Auth::user()?->hasRole('Guru') 
+                                    ? 'Daftar siswa di kelas yang Anda wali.' 
+                                    : 'Pilih kelas terlebih dahulu untuk memfilter (opsional).')
+                                ->afterStateHydrated(function ($state, $set) {
+                                    if ($state) {
+                                        $siswa = Siswa::find($state);
+                                        if ($siswa) $set('kelas_id', $siswa->kelas_id);
+                                    }
+                                }),
                         ]),
                     ]),
 

@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Models\Guru;
+use App\Models\Kelas;
 
 class RoleAndUserSeeder extends Seeder
 {
@@ -81,5 +83,22 @@ class RoleAndUserSeeder extends Seeder
             ['name' => 'Budi Santoso, S.Pd', 'password' => Hash::make('password')]
         );
         if (!$userGuru->hasRole('Guru')) $userGuru->assignRole('Guru');
+
+        // Pastikan akun guru@sekolah.com memiliki profil di tabel Guru
+        $guruProfile = Guru::firstOrCreate(
+            ['user_id' => $userGuru->id],
+            [
+                'nip' => '198001012010011001',
+                'nama' => 'Budi Santoso, S.Pd',
+                'jenis_kelamin' => 'L',
+                'no_telepon' => '081234567890'
+            ]
+        );
+
+        // Assign guru ini sebagai wali kelas (contoh: kelas pertama) agar bisa mengisi data
+        $kelas = Kelas::first();
+        if ($kelas) {
+            $kelas->update(['wali_kelas_id' => $guruProfile->id]);
+        }
     }
 }

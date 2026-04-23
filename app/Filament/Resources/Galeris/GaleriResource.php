@@ -14,6 +14,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 
 class GaleriResource extends Resource
 {
@@ -24,6 +25,10 @@ class GaleriResource extends Resource
     protected static ?string $modelLabel = 'Galeri';
     protected static ?string $pluralModelLabel = 'Galeri';
 
+    public static function canAccess(): bool
+    {
+        return !Auth::user()?->hasRole('Guru');
+    }
     public static function form(Schema $schema): Schema
     {
         return GaleriForm::configure($schema);

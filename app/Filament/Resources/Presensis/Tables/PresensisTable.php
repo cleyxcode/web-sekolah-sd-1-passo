@@ -81,11 +81,19 @@ class PresensisTable
             ->filters([
                 SelectFilter::make('kelas_id')
                     ->label('Filter Kelas')
-                    ->options(
-                        Kelas::orderBy('tingkat')->orderBy('nama_kelas')
-                            ->get()
-                            ->mapWithKeys(fn ($k) => [$k->id => "Kelas {$k->nama_kelas}"])
-                    )
+                    ->options(function () {
+                        $user = \Illuminate\Support\Facades\Auth::user();
+                        $query = Kelas::orderBy('tingkat')->orderBy('nama_kelas');
+                        if ($user?->hasRole('Guru')) {
+                            $guru = \App\Models\Guru::where('user_id', $user->id)->first();
+                            if ($guru) {
+                                $query->where('wali_kelas_id', $guru->id);
+                            } else {
+                                return [];
+                            }
+                        }
+                        return $query->get()->mapWithKeys(fn ($k) => [$k->id => "Kelas {$k->nama_kelas}"]);
+                    })
                     ->searchable(),
 
                 SelectFilter::make('status')

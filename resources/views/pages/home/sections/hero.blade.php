@@ -39,30 +39,23 @@
                         <div style="font-size:1.8rem;font-weight:900;color:#7c3aed;">30+</div>
                         <div style="font-size:0.8rem;color:#64748b;font-weight:500;">Tenaga Pendidik</div>
                     </div>
-                    <div>
-                        <div style="font-size:1.8rem;font-weight:900;color:#059669;">A</div>
-                        <div style="font-size:0.8rem;color:#64748b;font-weight:500;">Akreditasi</div>
-                    </div>
+
                 </div>
             </div>
 
             {{-- Image --}}
             <div style="position:relative;" class="fade-up">
                 <div style="border-radius:24px;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,0.15);aspect-ratio:4/3;background:#dbeafe;">
-                    <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-                         alt="Siswa SD Negeri 1 Passo"
+                    @php
+                        $heroImg = isset($settings) && $settings?->foto_hero
+                            ? Storage::url($settings->foto_hero)
+                            : 'https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80';
+                    @endphp
+                    <img src="{{ $heroImg }}"
+                         alt="Foto Sekolah {{ $settings->nama_sekolah ?? 'SD Negeri 1 Passo' }}"
                          style="width:100%;height:100%;object-fit:cover;">
                 </div>
-                {{-- Floating badge --}}
-                <div style="position:absolute;bottom:-20px;left:-20px;background:white;padding:14px 18px;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,0.12);display:flex;align-items:center;gap:12px;border:1px solid #f1f5f9;">
-                    <div style="width:44px;height:44px;background:linear-gradient(135deg,#dcfce7,#bbf7d0);border-radius:12px;display:flex;align-items:center;justify-content:center;">
-                        <svg width="22" height="22" fill="none" stroke="#16a34a" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    </div>
-                    <div>
-                        <div style="font-size:0.72rem;color:#64748b;font-weight:500;">Akreditasi BAN-S/M</div>
-                        <div style="font-size:1rem;font-weight:800;color:#0f172a;">A (Sangat Baik)</div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>

@@ -11,17 +11,18 @@ class CreateGuru extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        if (empty($data['user_id'])) {
-            $email = strtolower(str_replace(' ', '', $data['nama'])) . rand(100, 999) . '@sekolah.com';
-            $user = \App\Models\User::create([
-                'name' => $data['nama'],
-                'email' => $email,
-                'password' => \Illuminate\Support\Facades\Hash::make('password123'),
-                'is_active' => true,
-            ]);
-            $user->assignRole('Guru');
-            $data['user_id'] = $user->id;
-        }
+        $user = \App\Models\User::create([
+            'name' => $data['nama'],
+            'email' => $data['email'],
+            'password' => \Illuminate\Support\Facades\Hash::make($data['password']),
+        ]);
+        
+        $user->assignRole('Guru');
+        $data['user_id'] = $user->id;
+
+        unset($data['email']);
+        unset($data['password']);
+
         return $data;
     }
 }

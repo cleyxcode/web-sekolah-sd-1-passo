@@ -16,4 +16,35 @@ class EditGuru extends EditRecord
             DeleteAction::make(),
         ];
     }
+
+    protected function mutateFormDataBeforeFill(array $data): array
+    {
+        $guru = $this->getRecord();
+        if ($guru->user) {
+            $data['email'] = $guru->user->email;
+        }
+        return $data;
+    }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        $guru = $this->getRecord();
+        if ($guru->user) {
+            $userData = [
+                'name' => $data['nama'],
+                'email' => $data['email'],
+            ];
+
+            if (!empty($data['password'])) {
+                $userData['password'] = \Illuminate\Support\Facades\Hash::make($data['password']);
+            }
+
+            $guru->user->update($userData);
+        }
+
+        unset($data['email']);
+        unset($data['password']);
+
+        return $data;
+    }
 }

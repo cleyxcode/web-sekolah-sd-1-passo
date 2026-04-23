@@ -9,59 +9,41 @@ class PresensiPolicy
 {
     public function viewAny(User $user): bool
     {
-        if ($user->hasRole(['Orang Tua', 'Kepala Sekolah'])) {
-            return true;
-        }
-        return $user->checkPermissionTo('view-any Presensi');
+        return $user->hasRole('Super Admin') || $user->hasRole('Kepala Sekolah') || $user->hasRole('Guru') || $user->hasRole('Orang Tua');
     }
 
     public function view(User $user, Presensi $presensi): bool
     {
-        if ($user->hasRole(['Orang Tua', 'Kepala Sekolah'])) {
-            return true;
-        }
-        return $user->checkPermissionTo('view Presensi');
+        return $user->hasRole('Super Admin') || $user->hasRole('Kepala Sekolah') || $user->hasRole('Guru') || $user->hasRole('Orang Tua');
     }
 
     public function create(User $user): bool
     {
-        if ($user->hasRole('Orang Tua')) {
-            return false;
-        }
-        return $user->checkPermissionTo('create Presensi');
+        return $user->hasRole('Super Admin') || $user->hasRole('Guru');
     }
 
     public function update(User $user, Presensi $presensi): bool
     {
-        if ($user->hasRole('Orang Tua')) {
-            return false;
-        }
-        return $user->checkPermissionTo('update Presensi');
+        return $user->hasRole('Super Admin') || $user->hasRole('Guru');
     }
 
     public function delete(User $user, Presensi $presensi): bool
     {
-        if ($user->hasRole('Orang Tua')) {
-            return false;
-        }
-        return $user->checkPermissionTo('delete Presensi');
+        return $user->hasRole('Super Admin') || $user->hasRole('Guru');
     }
 
     public function deleteAny(User $user): bool
     {
-        if ($user->hasRole('Orang Tua')) {
-            return false;
-        }
-        return $user->checkPermissionTo('delete-any Presensi');
+        return $user->hasRole('Super Admin') || $user->hasRole('Guru');
     }
 
     public function restore(User $user, Presensi $presensi): bool
     {
-        return $user->checkPermissionTo('restore Presensi');
+        return $user->hasRole('Super Admin');
     }
 
     public function forceDelete(User $user, Presensi $presensi): bool
     {
-        return $user->checkPermissionTo('force-delete Presensi');
+        return $user->hasRole('Super Admin');
     }
 }
