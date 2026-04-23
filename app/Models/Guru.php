@@ -12,4 +12,19 @@ class Guru extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function mataPelajarans()
+    {
+        return $this->hasMany(GuruMataPelajaran::class);
+    }
+
+    public function nilais()
+    {
+        return $this->hasMany(Nilai::class);
+    }
+
+    public function presensis()
+    {
+        return $this->hasMany(Presensi::class);
+    }
 }

@@ -27,4 +27,13 @@ class Presensi extends Model
     {
         return $this->belongsTo(TahunAjaran::class);
     }
+
+    /**
+     * Accessor: URL lengkap foto absen untuk ditampilkan di portal orang tua
+     */
+    public function getFotoAbsenUrlAttribute(): ?string
+    {
+        if (!$this->foto_absen) return null;
+        return \Illuminate\Support\Facades\Storage::url($this->foto_absen);
+    }
 }

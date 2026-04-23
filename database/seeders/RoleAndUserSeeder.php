@@ -30,6 +30,9 @@ class RoleAndUserSeeder extends Seeder
             }
         }
 
+        // Permission khusus dashboard statistik
+        Permission::firstOrCreate(['name' => 'view_dashboard_stats']);
+
         // 3. Buat Roles
         $roleSuperAdmin = Role::firstOrCreate(['name' => 'Super Admin']);
         $roleKepsek = Role::firstOrCreate(['name' => 'Kepala Sekolah']);
@@ -37,8 +40,8 @@ class RoleAndUserSeeder extends Seeder
 
         // 4. Assign Permissions ke Peran (Selain Super Admin yang punya bypass)
         
-        // --- KEPALA SEKOLAH (Read-Only ke semua) ---
-        $kepsekPermissions = [];
+        // --- KEPALA SEKOLAH (Read-Only ke semua + bisa lihat statistik dashboard) ---
+        $kepsekPermissions = ['view_dashboard_stats'];
         foreach ($resources as $resource) {
             $kepsekPermissions[] = 'view_any_' . $resource;
             $kepsekPermissions[] = 'view_' . $resource;

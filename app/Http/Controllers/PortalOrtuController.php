@@ -52,9 +52,23 @@ class PortalOrtuController extends Controller
             'kelas.jadwalPelajarans.mataPelajaran',
             'kelas.jadwalPelajarans.guru',
             'nilais.mataPelajaran',
-            'presensis' => function($q) { $q->orderBy('tanggal', 'desc'); },
+            'presensis' => function($q) { $q->orderBy('tanggal', 'desc')->limit(30); },
             'catatanPerkembangans.guru' => function($q) { $q->latest(); }
         ])->get();
+
+        // Hitung statistik kehadiran per anak
+        foreach ($anak_anak as $anak) {
+            $anak->stat_hadir  = $anak->presensis->where('status','hadir')->count();
+            $anak->stat_sakit  = $anak->presensis->where('status','sakit')->count();
+            $anak->stat_izin   = $anak->presensis->where('status','izin')->count();
+            $anak->stat_alpha  = $anak->presensis->where('status','alpha')->count();
+            $anak->stat_total  = $anak->presensis->count();
+            $anak->pct_hadir   = $anak->stat_total > 0
+                ? round(($anak->stat_hadir / $anak->stat_total) * 100)
+                : 0;
+            // Presensi yang ada foto absen
+            $anak->presensis_foto = $anak->presensis->whereNotNull('foto_absen')->values();
+        }
 
         return view('pages.portal-ortu.index', compact('ortu', 'anak_anak'));
     }
