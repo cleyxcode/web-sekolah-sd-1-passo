@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nama_sekolah')->nullable();
             $table->string('logo')->nullable();
+            $table->string('foto_hero')->nullable()->comment('Foto utama yang ditampilkan di halaman beranda');
             $table->text('alamat')->nullable();
             $table->string('no_telepon')->nullable();
             $table->string('email')->nullable();

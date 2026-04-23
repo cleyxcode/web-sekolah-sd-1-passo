@@ -14,21 +14,22 @@ class RoleAndUserSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Definisikan Resources/Modul yang ada
+        // 1. Definisikan Resources/Modul yang ada sesuai nama model di Policy
         $resources = [
-            'berita', 'catatan_perkembangan', 'deskripsi_kompetensi', 'galeri', 
-            'guru', 'guru_mata_pelajaran', 'jadwal_pelajaran', 'kalender_akademik', 
-            'kelas', 'mata_pelajaran', 'nilai', 'orang_tua', 'pendaftaran', 
-            'presensi', 'profil_sekolah', 'setting_sekolah', 'siswa', 
-            'tahun_ajaran', 'user'
+            'Berita', 'CatatanPerkembangan', 'DeskripsiKompetensi', 'Galeri', 
+            'Guru', 'GuruMataPelajaran', 'JadwalPelajaran', 'KalenderAkademik', 
+            'Kelas', 'MataPelajaran', 'Nilai', 'OrangTua', 'Pendaftaran', 
+            'Presensi', 'ProfilSekolah', 'SettingSekolah', 'Siswa', 
+            'TahunAjaran', 'User'
         ];
 
-        $actions = ['view_any', 'view', 'create', 'update', 'delete'];
+        // Hanya gunakan 5 aksi dasar agar tampilan checkbox di UI Filament tidak membuat admin awam bingung
+        $actions = ['view-any', 'view', 'create', 'update', 'delete'];
 
         // 2. Buat semua Permissions
         foreach ($resources as $resource) {
             foreach ($actions as $action) {
-                Permission::firstOrCreate(['name' => $action . '_' . $resource]);
+                Permission::firstOrCreate(['name' => $action . ' ' . $resource]);
             }
         }
 
@@ -45,23 +46,23 @@ class RoleAndUserSeeder extends Seeder
         // --- KEPALA SEKOLAH (Read-Only ke semua + bisa lihat statistik dashboard) ---
         $kepsekPermissions = ['view_dashboard_stats'];
         foreach ($resources as $resource) {
-            $kepsekPermissions[] = 'view_any_' . $resource;
-            $kepsekPermissions[] = 'view_' . $resource;
+            $kepsekPermissions[] = 'view-any ' . $resource;
+            $kepsekPermissions[] = 'view ' . $resource;
         }
         $roleKepsek->syncPermissions($kepsekPermissions);
 
         // --- GURU ---
         // Guru punya akses CRUD ke nilai, presensi, catatan, dan view ke beberapa data induk
         $guruPermissions = [
-            'view_any_siswa', 'view_siswa',
-            'view_any_jadwal_pelajaran', 'view_jadwal_pelajaran',
-            'view_any_kalender_akademik', 'view_kalender_akademik',
+            'view-any Siswa', 'view Siswa',
+            'view-any JadwalPelajaran', 'view JadwalPelajaran',
+            'view-any KalenderAkademik', 'view KalenderAkademik',
             // CRUD Nilai
-            'view_any_nilai', 'view_nilai', 'create_nilai', 'update_nilai', 'delete_nilai',
+            'view-any Nilai', 'view Nilai', 'create Nilai', 'update Nilai', 'delete Nilai',
             // CRUD Presensi
-            'view_any_presensi', 'view_presensi', 'create_presensi', 'update_presensi', 'delete_presensi',
+            'view-any Presensi', 'view Presensi', 'create Presensi', 'update Presensi', 'delete Presensi',
             // CRUD Catatan Perkembangan
-            'view_any_catatan_perkembangan', 'view_catatan_perkembangan', 'create_catatan_perkembangan', 'update_catatan_perkembangan', 'delete_catatan_perkembangan',
+            'view-any CatatanPerkembangan', 'view CatatanPerkembangan', 'create CatatanPerkembangan', 'update CatatanPerkembangan', 'delete CatatanPerkembangan',
         ];
         $roleGuru->syncPermissions($guruPermissions);
 

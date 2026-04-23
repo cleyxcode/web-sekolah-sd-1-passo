@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('no_telepon')->nullable();
             $table->text('alamat')->nullable();
             $table->string('pekerjaan')->nullable();
+            $table->string('hubungan')->nullable()->comment('Hubungan dengan siswa: Ayah, Ibu, Wali, dll');
             $table->rememberToken();
             $table->timestamps();
         });

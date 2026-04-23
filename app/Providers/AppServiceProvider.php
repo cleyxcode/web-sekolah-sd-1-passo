@@ -12,11 +12,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::before(function (\App\Models\User $user, string $ability) {
-            if ($user->isSuperAdmin()) {
-                return true;
-            }
-            // Kepala Sekolah memiliki akses global untuk melihat (Read-Only)
-            if ($user->hasRole('Kepala Sekolah') && in_array($ability, ['viewAny', 'view'])) {
+            if ($user->isSuperAdmin() || $user->hasRole('Super Admin')) {
                 return true;
             }
             return null;

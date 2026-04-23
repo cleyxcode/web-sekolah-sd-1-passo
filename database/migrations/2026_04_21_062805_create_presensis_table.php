@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('tanggal');
             $table->enum('status', ['hadir', 'sakit', 'izin', 'alpha']);
             $table->text('keterangan')->nullable();
+            $table->string('foto_absen')->nullable()->comment('Path foto bukti kehadiran, tampil di portal orang tua');
             $table->foreignId('tahun_ajaran_id')->constrained('tahun_ajarans')->cascadeOnDelete();
             $table->timestamps();
         });
