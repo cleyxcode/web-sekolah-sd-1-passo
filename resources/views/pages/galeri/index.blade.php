@@ -65,7 +65,7 @@
     /* Lightbox */
     .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 9999; align-items: center; justify-content: center; }
     .lightbox.open { display: flex; }
-    .lightbox img { max-width: 90vw; max-height: 85vh; border-radius: 12px; object-fit: contain; }
+    .lightbox img, .lightbox video { max-width: 90vw; max-height: 85vh; border-radius: 12px; object-fit: contain; }
     .lightbox-close { position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.15); border: none; width: 44px; height: 44px; border-radius: 50%; color: white; cursor: pointer; font-size: 1.4rem; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
     .lightbox-close:hover { background: rgba(255,255,255,0.25); }
     .lightbox-caption { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); padding: 10px 20px; border-radius: 12px; color: white; font-size: 0.9rem; font-weight: 600; white-space: nowrap; }
@@ -100,9 +100,13 @@
         {{-- Grid --}}
         <div class="galeri-grid" id="galeriGrid">
             @forelse($galeri as $item)
-            <div class="galeri-card" data-jenis="{{ $item->jenis }}" onclick="openLightbox('{{ Str::startsWith($item->file_path, 'http') ? $item->file_path : Storage::url($item->file_path) }}', '{{ addslashes($item->judul) }}')">
+            <div class="galeri-card" data-jenis="{{ $item->jenis }}" onclick="openLightbox('{{ Str::startsWith($item->file_path, 'http') ? $item->file_path : Storage::url($item->file_path) }}', '{{ addslashes($item->judul) }}', '{{ $item->jenis }}')">
                 @if($item->file_path)
-                    <img src="{{ Str::startsWith($item->file_path, 'http') ? $item->file_path : Storage::url($item->file_path) }}" alt="{{ $item->judul }}" loading="lazy">
+                    @if($item->jenis === 'video')
+                        <video src="{{ Str::startsWith($item->file_path, 'http') ? $item->file_path : Storage::url($item->file_path) }}" muted loop style="width:100%;height:100%;object-fit:cover;pointer-events:none;"></video>
+                    @else
+                        <img src="{{ Str::startsWith($item->file_path, 'http') ? $item->file_path : Storage::url($item->file_path) }}" alt="{{ $item->judul }}" loading="lazy">
+                    @endif
                 @else
                     <div class="galeri-placeholder">
                         <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
@@ -138,22 +142,40 @@
 {{-- Lightbox --}}
 <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
     <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
-    <img id="lightboxImg" src="" alt="">
+    <div id="lightboxContent" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;">
+        <img id="lightboxImg" src="" alt="" style="display:none;">
+        <video id="lightboxVideo" src="" controls style="display:none;"></video>
+    </div>
     <div class="lightbox-caption" id="lightboxCaption"></div>
 </div>
 
 @push('scripts')
 <script>
-function openLightbox(src, title) {
-    document.getElementById('lightboxImg').src = src;
+function openLightbox(src, title, jenis) {
+    const img = document.getElementById('lightboxImg');
+    const vid = document.getElementById('lightboxVideo');
+    if(jenis === 'video') {
+        img.style.display = 'none';
+        img.src = '';
+        vid.style.display = 'block';
+        vid.src = src;
+        vid.play();
+    } else {
+        vid.style.display = 'none';
+        vid.pause();
+        vid.src = '';
+        img.style.display = 'block';
+        img.src = src;
+    }
     document.getElementById('lightboxCaption').textContent = title;
     document.getElementById('lightbox').classList.add('open');
     document.body.style.overflow = 'hidden';
 }
 function closeLightbox(e) {
-    if (!e || e.target === document.getElementById('lightbox') || e.target.classList.contains('lightbox-close')) {
+    if (!e || e.target === document.getElementById('lightbox') || e.target.classList.contains('lightbox-close') || e.target === document.getElementById('lightboxContent')) {
         document.getElementById('lightbox').classList.remove('open');
         document.body.style.overflow = '';
+        document.getElementById('lightboxVideo').pause();
     }
 }
 document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeLightbox(); });

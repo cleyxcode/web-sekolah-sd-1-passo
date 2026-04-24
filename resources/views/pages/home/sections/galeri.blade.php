@@ -27,8 +27,8 @@
         aspect-ratio: 1;
     }
     @media(max-width:640px) { .galeri-home-item.big { grid-column: span 2; grid-row: span 1; aspect-ratio: 16/9; } }
-    .galeri-home-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
-    .galeri-home-item:hover img { transform: scale(1.08); }
+    .galeri-home-item img, .galeri-home-item video { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+    .galeri-home-item:hover img, .galeri-home-item:hover video { transform: scale(1.08); }
     .galeri-home-item .overlay {
         position: absolute; inset: 0;
         background: linear-gradient(to top, rgba(15,23,42,0.7) 0%, transparent 60%);
@@ -61,7 +61,12 @@
             @foreach($galeri->take(7) as $idx => $item)
             <div class="galeri-home-item {{ $idx === 0 ? 'big' : '' }}">
                 @if($item->file_path)
-                    <img src="{{ Str::startsWith($item->file_path, 'http') ? $item->file_path : Storage::url($item->file_path) }}" alt="{{ $item->judul }}" loading="lazy">
+                    @if($item->jenis === 'video')
+                        <video src="{{ Str::startsWith($item->file_path, 'http') ? $item->file_path : Storage::url($item->file_path) }}" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video>
+                        <div style="position:absolute;top:10px;left:10px;background:rgba(239,68,68,0.9);color:white;border-radius:8px;padding:3px 10px;font-size:0.72rem;font-weight:700;z-index:2;">▶ VIDEO</div>
+                    @else
+                        <img src="{{ Str::startsWith($item->file_path, 'http') ? $item->file_path : Storage::url($item->file_path) }}" alt="{{ $item->judul }}" loading="lazy">
+                    @endif
                 @else
                     <div class="galeri-no-img">
                         <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
