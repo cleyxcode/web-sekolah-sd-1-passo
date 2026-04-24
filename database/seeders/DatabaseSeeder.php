@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             MasterDataSeeder::class,
             AkademikSeeder::class,
             ContentSeeder::class,
+            TugasSeeder::class,
         ]);
     }
 }

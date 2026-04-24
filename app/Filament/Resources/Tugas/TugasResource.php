@@ -61,10 +61,6 @@ class TugasResource extends Resource
         return $query->with(['kelas', 'guru'])->latest();
     }
 
-    public static function canCreate(): bool
-    {
-        return true;
-    }
 
     public static function getRelations(): array
     {

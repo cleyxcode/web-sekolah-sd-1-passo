@@ -23,7 +23,7 @@ class RoleAndUserSeeder extends Seeder
             'CatatanPerkembangan', 'DeskripsiKompetensi', 'Guru',
             'GuruMataPelajaran', 'JadwalPelajaran', 'KalenderAkademik',
             'Kelas', 'MataPelajaran', 'Nilai', 'OrangTua',
-            'Presensi', 'Siswa', 'TahunAjaran', 'User',
+            'Presensi', 'Siswa', 'TahunAjaran', 'Tugas', 'User',
         ];
 
         // Resource konten website — dikelola Admin Konten
@@ -91,6 +91,8 @@ class RoleAndUserSeeder extends Seeder
             // CRUD Catatan Perkembangan
             'view-any CatatanPerkembangan', 'view CatatanPerkembangan',
             'create CatatanPerkembangan', 'update CatatanPerkembangan', 'delete CatatanPerkembangan',
+            // CRUD Tugas & Komentar
+            'view-any Tugas', 'view Tugas', 'create Tugas', 'update Tugas', 'delete Tugas',
         ];
         $roleGuru->syncPermissions($guruPermissions);
 
