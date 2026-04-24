@@ -1,5 +1,5 @@
 <style>
-    .galeri-section { padding: 4.5rem 0; background: #f8faff; }
+    .galeri-section { padding: 4.5rem 0; background: var(--surface-2); transition: background 0.3s; }
     .galeri-wrap { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
     .galeri-top { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 12px; }
 
@@ -19,7 +19,7 @@
         position: relative;
         background: linear-gradient(135deg, #dbeafe, #ede9fe);
         cursor: pointer;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+        box-shadow: var(--shadow-sm);
     }
     .galeri-home-item.big {
         grid-column: span 2;
@@ -50,7 +50,7 @@
                 </div>
                 <h2 class="section-title" style="font-size:clamp(1.4rem,3vw,2rem);">Galeri Kegiatan</h2>
             </div>
-            <a href="{{ route('galeri') }}" class="lihat-semua" style="display:inline-flex;align-items:center;gap:6px;color:#2563eb;font-size:0.9rem;font-weight:700;text-decoration:none;white-space:nowrap;">
+            <a href="{{ route('galeri') }}" class="lihat-semua" style="display:inline-flex;align-items:center;gap:6px;color:var(--primary);font-size:0.9rem;font-weight:700;text-decoration:none;white-space:nowrap;">
                 Lihat Semua
                 <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
@@ -74,13 +74,13 @@
             @endforeach
         </div>
         @else
-        <div style="text-align:center;padding:3rem;background:white;border-radius:16px;border:2px dashed #e2e8f0;">
-            <p style="color:#94a3b8;font-size:0.9rem;font-weight:600;">Belum ada foto yang ditambahkan.</p>
+        <div style="text-align:center;padding:3rem;background:var(--surface);border-radius:16px;border:2px dashed var(--border);">
+            <p style="color:var(--text-muted);font-size:0.9rem;font-weight:600;">Belum ada foto yang ditambahkan.</p>
         </div>
         @endif
 
         <div style="text-align:center;margin-top:1.75rem;">
-            <a href="{{ route('galeri') }}" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:white;border:2px solid #e2e8f0;border-radius:14px;font-size:0.9rem;font-weight:700;color:#475569;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.borderColor='#93c5fd';this.style.color='#2563eb'" onmouseout="this.style.borderColor='#e2e8f0';this.style.color='#475569'">
+            <a href="{{ route('galeri') }}" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:var(--surface);border:2px solid var(--border);border-radius:14px;font-size:0.9rem;font-weight:700;color:var(--text-muted);text-decoration:none;transition:all 0.2s;" onmouseover="this.style.borderColor='#93c5fd';this.style.color='var(--primary)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-muted)'">
                 Lihat Semua Galeri
                 <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>

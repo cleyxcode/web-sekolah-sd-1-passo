@@ -1,8 +1,8 @@
 <style>
-    .berita-section { padding: 4.5rem 0; background: white; }
+    .berita-section { padding: 4.5rem 0; background: var(--bg); transition: background 0.3s; }
     .berita-wrap { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
     .berita-top { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 12px; }
-    .lihat-semua { display: inline-flex; align-items: center; gap: 6px; color: #2563eb; font-size: 0.9rem; font-weight: 700; text-decoration: none; white-space: nowrap; }
+    .lihat-semua { display: inline-flex; align-items: center; gap: 6px; color: var(--primary); font-size: 0.9rem; font-weight: 700; text-decoration: none; white-space: nowrap; }
     .lihat-semua:hover { text-decoration: underline; }
 
     .berita-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
@@ -10,14 +10,14 @@
     @media(max-width:560px) { .berita-grid { grid-template-columns: 1fr; } }
 
     .berita-card {
-        background: white; border-radius: 18px;
-        overflow: hidden; border: 1px solid #f1f5f9;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        background: var(--surface); border-radius: 18px;
+        overflow: hidden; border: 1px solid var(--border);
+        box-shadow: var(--shadow-sm);
         display: flex; flex-direction: column;
-        transition: transform 0.25s, box-shadow 0.25s;
+        transition: transform 0.25s, box-shadow 0.25s, background 0.3s, border-color 0.3s;
         text-decoration: none;
     }
-    .berita-card:hover { transform: translateY(-4px); box-shadow: 0 10px 35px rgba(0,0,0,0.1); }
+    .berita-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
     .berita-card-img {
         position: relative; aspect-ratio: 16/10;
         background: linear-gradient(135deg, #dbeafe, #ede9fe);
@@ -28,17 +28,17 @@
     .berita-no-img { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
     .berita-kategori-badge {
         position: absolute; top: 10px; left: 10px;
-        background: rgba(255,255,255,0.95); color: #2563eb;
+        background: rgba(var(--surface-rgb),0.95); color: var(--primary);
         font-size: 0.7rem; font-weight: 800;
         padding: 3px 10px; border-radius: 999px;
         backdrop-filter: blur(4px);
     }
-    .berita-body { padding: 1.25rem; display: flex; flex-direction: column; flex: 1; }
-    .berita-date { font-size: 0.75rem; color: #94a3b8; font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
-    .berita-judul { font-size: 0.95rem; font-weight: 800; color: #0f172a; line-height: 1.45; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .berita-card:hover .berita-judul { color: #2563eb; }
-    .berita-excerpt { font-size: 0.82rem; color: #64748b; line-height: 1.65; flex: 1; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .berita-link { font-size: 0.82rem; color: #2563eb; font-weight: 700; display: flex; align-items: center; gap: 4px; margin-top: auto; }
+    .berita-body { padding: 1.25rem; display: flex; flex-direction: column; flex: 1; background: var(--surface); transition: background 0.3s; }
+    .berita-date { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+    .berita-judul { font-size: 0.95rem; font-weight: 800; color: var(--text); line-height: 1.45; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; transition: color 0.3s; }
+    .berita-card:hover .berita-judul { color: var(--primary); }
+    .berita-excerpt { font-size: 0.82rem; color: var(--text-muted); line-height: 1.65; flex: 1; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .berita-link { font-size: 0.82rem; color: var(--primary); font-weight: 700; display: flex; align-items: center; gap: 4px; margin-top: auto; }
 </style>
 
 <section class="berita-section" id="berita">
@@ -81,8 +81,8 @@
                 </div>
             </a>
             @empty
-            <div style="grid-column:1/-1;text-align:center;padding:3rem;background:#f8fafc;border-radius:16px;border:2px dashed #e2e8f0;">
-                <p style="color:#94a3b8;font-size:0.9rem;font-weight:600;">Belum ada berita yang dipublikasikan.</p>
+            <div style="grid-column:1/-1;text-align:center;padding:3rem;background:var(--surface);border-radius:16px;border:2px dashed var(--border);">
+                <p style="color:var(--text-muted);font-size:0.9rem;font-weight:600;">Belum ada berita yang dipublikasikan.</p>
             </div>
             @endforelse
         </div>
