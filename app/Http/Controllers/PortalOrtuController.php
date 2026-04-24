@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\OrangTua;
+use App\Models\Tugas;
 
 class PortalOrtuController extends Controller
 {
@@ -51,6 +52,7 @@ class PortalOrtuController extends Controller
         $anak_anak = $ortu->siswas()->with([
             'kelas.jadwalPelajarans.mataPelajaran',
             'kelas.jadwalPelajarans.guru',
+            'kelas.waliKelas',
             'nilais.mataPelajaran',
             'presensis' => function($q) { $q->orderBy('tanggal', 'desc')->limit(30); },
             'catatanPerkembangans.guru' => function($q) { $q->latest(); }
@@ -68,6 +70,17 @@ class PortalOrtuController extends Controller
                 : 0;
             // Presensi yang ada foto absen
             $anak->presensis_foto = $anak->presensis->whereNotNull('foto_absen')->values();
+
+            // Tugas aktif untuk kelas anak ini (urut deadline terdekat)
+            if ($anak->kelas_id) {
+                $anak->tugas_kelas = Tugas::where('kelas_id', $anak->kelas_id)
+                    ->where('status', 'aktif')
+                    ->with(['guru', 'komentars.guru'])
+                    ->orderBy('deadline', 'asc')
+                    ->get();
+            } else {
+                $anak->tugas_kelas = collect();
+            }
         }
 
         return view('pages.portal-ortu.index', compact('ortu', 'anak_anak'));

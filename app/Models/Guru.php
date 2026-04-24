@@ -27,4 +27,9 @@ class Guru extends Model
     {
         return $this->hasMany(Presensi::class);
     }
+
+    public function tugas()
+    {
+        return $this->hasMany(Tugas::class);
+    }
 }

@@ -190,8 +190,157 @@
                 </div>
             </div>
 
-            {{-- ===== ROW 4: FOTO ABSEN GALLERY ===== --}}
+            {{-- ===== ROW 4: TUGAS KELAS ===== --}}
+            <div class="mb-6">
+                <div class="card tugas-card-wrap">
+                    <div class="card-body">
+                        <div class="section-header" style="margin-bottom:1.25rem;">
+                            <div class="section-icon icon-orange">
+                                <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg>
+                            </div>
+                            <div>
+                                <div class="section-title">Tugas Kelas</div>
+                                <div class="section-sub">
+                                    Dari Wali Kelas: <strong>{{ $anak->kelas->waliKelas->nama ?? '-' }}</strong>
+                                    &bull; {{ $anak->tugas_kelas->count() }} tugas aktif
+                                </div>
+                            </div>
+                            @if($anak->tugas_kelas->count() > 0)
+                                @php
+                                    $tugasMendekat = $anak->tugas_kelas->filter(fn($t) => now()->diffInHours($t->deadline) <= 48 && !$t->deadline->isPast())->count();
+                                @endphp
+                                @if($tugasMendekat > 0)
+                                <span class="tugas-alert-badge">
+                                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                                    {{ $tugasMendekat }} deadline mendekat!
+                                </span>
+                                @endif
+                            @endif
+                        </div>
+
+                        @if($anak->tugas_kelas->isEmpty())
+                        <div class="empty-state">
+                            <svg width="44" height="44" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+                            <p>Belum ada tugas aktif untuk kelas ini</p>
+                        </div>
+                        @else
+                        <div class="tugas-grid">
+                            @foreach($anak->tugas_kelas as $tugas)
+                                @php
+                                    $jamSisa   = now()->diffInHours($tugas->deadline, false);
+                                    $sudahLewat = $tugas->deadline->isPast();
+                                    if ($sudahLewat) {
+                                        $cardColor = 'tugas-card-merah';
+                                        $badgeClass = 'tugas-badge-merah';
+                                        $badgeText  = 'Lewat Deadline';
+                                        $clockColor = '#ef4444';
+                                    } elseif ($jamSisa <= 24) {
+                                        $cardColor = 'tugas-card-oranye';
+                                        $badgeClass = 'tugas-badge-oranye';
+                                        $badgeText  = 'Deadline Hari Ini!';
+                                        $clockColor = '#f97316';
+                                    } elseif ($jamSisa <= 72) {
+                                        $cardColor = 'tugas-card-kuning';
+                                        $badgeClass = 'tugas-badge-kuning';
+                                        $badgeText  = 'Segera';
+                                        $clockColor = '#eab308';
+                                    } else {
+                                        $cardColor = 'tugas-card-hijau';
+                                        $badgeClass = 'tugas-badge-hijau';
+                                        $badgeText  = 'Aktif';
+                                        $clockColor = '#22c55e';
+                                    }
+                                @endphp
+                                <div class="tugas-item {{ $cardColor }}">
+                                    <div class="tugas-item-header">
+                                        <div class="tugas-mapel-chip">
+                                            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+                                            {{ $tugas->mata_pelajaran ?? 'Umum' }}
+                                        </div>
+                                        <span class="tugas-badge {{ $badgeClass }}">{{ $badgeText }}</span>
+                                    </div>
+
+                                    <h4 class="tugas-judul">{{ $tugas->judul }}</h4>
+
+                                    @if($tugas->deskripsi)
+                                    <p class="tugas-desc">{{ Str::limit($tugas->deskripsi, 120) }}</p>
+                                    @endif
+
+                                    <div class="tugas-meta">
+                                        <div class="tugas-deadline">
+                                            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="{{ $clockColor }}"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                            <span>{{ $tugas->deadline->translatedFormat('l, d M Y') }} &bull; {{ $tugas->deadline->format('H:i') }} WIB</span>
+                                        </div>
+                                        <div class="tugas-sisa">
+                                            @if($sudahLewat)
+                                                <span class="sisa-lewat">⚠ Sudah melewati deadline</span>
+                                            @else
+                                                <span class="sisa-aktif">Sisa: {{ $tugas->deadline->diffForHumans(['parts' => 2]) }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
+
+                                    <div class="tugas-footer">
+                                        <div class="tugas-guru">
+                                            <div class="tugas-guru-avatar">{{ substr($tugas->guru->nama ?? 'G', 0, 1) }}</div>
+                                            <span>{{ $tugas->guru->nama ?? 'Guru' }}</span>
+                                        </div>
+                                    </div>
+
+                                    @if(!empty($tugas->foto_tugas))
+                                    <div class="tugas-foto-grid">
+                                        @foreach($tugas->foto_tugas as $foto)
+                                        <a href="{{ Storage::url($foto) }}" target="_blank" class="tugas-foto-item">
+                                            <img src="{{ Storage::url($foto) }}" alt="Foto Tugas" loading="lazy">
+                                        </a>
+                                        @endforeach
+                                    </div>
+                                    @endif
+
+                                    @if(!empty($tugas->file_tugas))
+                                    <div class="tugas-file-list">
+                                        @foreach($tugas->file_tugas as $file)
+                                        <a href="{{ Storage::url($file) }}" target="_blank" class="tugas-file-link">
+                                            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" /></svg>
+                                            Lampiran Dokumen {{ $loop->iteration }}
+                                        </a>
+                                        @endforeach
+                                    </div>
+                                    @endif
+
+                                    @if($tugas->komentars->count() > 0)
+                                    <div class="tugas-komentar-section">
+                                        <div class="tugas-komentar-title">
+                                            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                                            Komentar & Catatan Guru ({{ $tugas->komentars->count() }})
+                                        </div>
+                                        <div class="tugas-komentar-list">
+                                            @foreach($tugas->komentars as $komentar)
+                                            <div class="tugas-komentar-item">
+                                                <div class="tugas-komentar-avatar">{{ substr($komentar->guru->nama ?? 'G', 0, 1) }}</div>
+                                                <div class="tugas-komentar-content">
+                                                    <div class="tugas-komentar-meta">
+                                                        <span class="tugas-komentar-name">{{ $komentar->guru->nama ?? 'Guru' }}</span>
+                                                        <span class="tugas-komentar-time">{{ $komentar->created_at->diffForHumans() }}</span>
+                                                    </div>
+                                                    <p class="tugas-komentar-text">{{ $komentar->komentar }}</p>
+                                                </div>
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            {{-- ===== ROW 5: FOTO ABSEN GALLERY ===== --}}
             @if($anak->presensis_foto->count() > 0)
+
             <div class="mb-6">
                 <div class="card">
                     <div class="card-body">
@@ -334,7 +483,118 @@
 
 /* Presensi foto link hover */
 .presensi-item a:hover { color:#1d4ed8; }
+
+/* ===== TUGAS KELAS STYLES ===== */
+.icon-orange { background:linear-gradient(135deg,#f97316,#ea580c); color:white; }
+
+/* Alert badge di header tugas */
+.tugas-alert-badge {
+    display:inline-flex; align-items:center; gap:5px;
+    background:#fef2f2; color:#dc2626; border:1.5px solid #fecaca;
+    border-radius:99px; padding:5px 12px; font-size:0.74rem; font-weight:700;
+    animation: pulse-badge 1.8s infinite;
+}
+@keyframes pulse-badge {
+    0%,100% { transform:scale(1); box-shadow:0 0 0 0 rgba(220,38,38,0.3); }
+    50% { transform:scale(1.03); box-shadow:0 0 0 6px rgba(220,38,38,0); }
+}
+
+/* Tugas grid */
+.tugas-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+@media(max-width:768px) { .tugas-grid { grid-template-columns:1fr; } }
+
+/* Tugas item card */
+.tugas-item {
+    border-radius:16px; padding:18px; display:flex; flex-direction:column; gap:10px;
+    border:1.5px solid transparent; transition:transform 0.2s ease, box-shadow 0.2s ease;
+    position:relative; overflow:hidden;
+}
+.tugas-item:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,0.08); }
+
+/* Tugas warna berdasarkan deadline */
+.tugas-card-hijau  { background:#f0fdf4; border-color:#bbf7d0; }
+.tugas-card-kuning { background:#fefce8; border-color:#fef08a; }
+.tugas-card-oranye { background:#fff7ed; border-color:#fed7aa; }
+.tugas-card-merah  { background:#fef2f2; border-color:#fecaca; }
+
+/* Header tugas (mapel chip + badge) */
+.tugas-item-header { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.tugas-mapel-chip {
+    display:inline-flex; align-items:center; gap:4px;
+    background:rgba(0,0,0,0.06); border-radius:99px; padding:4px 10px;
+    font-size:0.72rem; font-weight:700; color:#475569;
+}
+
+/* Badge status */
+.tugas-badge { display:inline-block; border-radius:99px; padding:3px 10px; font-size:0.7rem; font-weight:800; text-transform:uppercase; letter-spacing:0.05em; }
+.tugas-badge-hijau  { background:#dcfce7; color:#15803d; }
+.tugas-badge-kuning { background:#fef9c3; color:#854d0e; }
+.tugas-badge-oranye { background:#ffedd5; color:#9a3412; }
+.tugas-badge-merah  { background:#fee2e2; color:#991b1b; }
+
+/* Judul tugas */
+.tugas-judul { font-size:1rem; font-weight:800; color:var(--p-text); margin:0; line-height:1.3; }
+
+/* Deskripsi singkat */
+.tugas-desc { font-size:0.82rem; color:var(--p-text-muted); margin:0; line-height:1.6; }
+
+/* Meta deadline */
+.tugas-meta { display:flex; flex-direction:column; gap:4px; }
+.tugas-deadline { display:flex; align-items:center; gap:6px; font-size:0.8rem; color:#475569; font-weight:600; }
+.tugas-sisa { font-size:0.78rem; padding-left:21px; }
+.sisa-aktif { color:#16a34a; font-weight:700; }
+.sisa-lewat { color:#dc2626; font-weight:700; }
+
+/* Footer: guru + lampiran */
+.tugas-footer { display:flex; align-items:center; justify-content:space-between; margin-top:4px; padding-top:10px; border-top:1px solid rgba(0,0,0,0.06); }
+.tugas-guru { display:flex; align-items:center; gap:7px; }
+.tugas-guru-avatar {
+    width:26px; height:26px; border-radius:50%;
+    background:linear-gradient(135deg,#6366f1,#4f46e5);
+    color:white; font-size:0.7rem; font-weight:900;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.tugas-guru span { font-size:0.78rem; font-weight:600; color:#475569; }
+.tugas-lampiran-btn {
+    display:inline-flex; align-items:center; gap:5px;
+    background:#eff6ff; color:#2563eb; border:1px solid #bfdbfe;
+    border-radius:8px; padding:5px 11px; font-size:0.74rem; font-weight:700;
+    text-decoration:none; transition:background 0.2s;
+}
+.tugas-lampiran-btn:hover { background:#dbeafe; }
+
+/* Foto Tugas Grid */
+.tugas-foto-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(70px, 1fr)); gap:8px; margin-top:8px; }
+.tugas-foto-item { aspect-ratio:1; border-radius:8px; overflow:hidden; border:1px solid rgba(0,0,0,0.1); display:block; transition:transform 0.2s; }
+.tugas-foto-item img { width:100%; height:100%; object-fit:cover; }
+.tugas-foto-item:hover { transform:scale(1.05); }
+
+/* File Tugas List */
+.tugas-file-list { display:flex; flex-direction:column; gap:6px; margin-top:8px; }
+.tugas-file-link {
+    display:inline-flex; align-items:center; gap:6px; background:#f8fafc; border:1px solid #e2e8f0;
+    padding:6px 10px; border-radius:8px; font-size:0.75rem; color:#334155; text-decoration:none; font-weight:600;
+    transition:background 0.2s, border-color 0.2s;
+}
+.tugas-file-link svg { color:#64748b; }
+.tugas-file-link:hover { background:#f1f5f9; border-color:#cbd5e1; color:#0f172a; }
+
+/* Komentar Section */
+.tugas-komentar-section { margin-top:12px; padding-top:12px; border-top:1px dashed rgba(0,0,0,0.1); }
+.tugas-komentar-title { display:flex; align-items:center; gap:6px; font-size:0.75rem; font-weight:700; color:#475569; margin-bottom:10px; text-transform:uppercase; letter-spacing:0.02em; }
+.tugas-komentar-list { display:flex; flex-direction:column; gap:10px; }
+.tugas-komentar-item { display:flex; gap:10px; background:rgba(255,255,255,0.5); padding:10px; border-radius:10px; border:1px solid rgba(0,0,0,0.03); }
+.tugas-komentar-avatar {
+    width:28px; height:28px; border-radius:50%; background:linear-gradient(135deg,#10b981,#059669);
+    color:white; font-size:0.75rem; font-weight:900; display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.tugas-komentar-content { flex:1; }
+.tugas-komentar-meta { display:flex; justify-content:space-between; align-items:center; margin-bottom:2px; }
+.tugas-komentar-name { font-size:0.75rem; font-weight:700; color:#1e293b; }
+.tugas-komentar-time { font-size:0.65rem; color:#94a3b8; }
+.tugas-komentar-text { font-size:0.8rem; color:#475569; line-height:1.5; margin:0; }
 </style>
+
 
 <script>
 function switchTab(index) {
