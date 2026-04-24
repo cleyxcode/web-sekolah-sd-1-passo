@@ -593,6 +593,34 @@
 .tugas-komentar-name { font-size:0.75rem; font-weight:700; color:#1e293b; }
 .tugas-komentar-time { font-size:0.65rem; color:#94a3b8; }
 .tugas-komentar-text { font-size:0.8rem; color:#475569; line-height:1.5; margin:0; }
+
+/* === DARK MODE TUGAS === */
+[data-portal-theme="dark"] .tugas-alert-badge { background:rgba(220,38,38,0.15); border-color:rgba(220,38,38,0.3); }
+[data-portal-theme="dark"] .tugas-card-hijau { background:rgba(21,128,61,0.1); border-color:rgba(21,128,61,0.25); }
+[data-portal-theme="dark"] .tugas-card-kuning { background:rgba(161,98,7,0.1); border-color:rgba(161,98,7,0.25); }
+[data-portal-theme="dark"] .tugas-card-oranye { background:rgba(194,65,12,0.1); border-color:rgba(194,65,12,0.25); }
+[data-portal-theme="dark"] .tugas-card-merah { background:rgba(185,28,28,0.1); border-color:rgba(185,28,28,0.25); }
+
+[data-portal-theme="dark"] .tugas-mapel-chip { background:rgba(255,255,255,0.06); color:var(--p-text-muted); }
+[data-portal-theme="dark"] .tugas-deadline { color:var(--p-text-light); }
+[data-portal-theme="dark"] .tugas-guru span { color:var(--p-text-muted); }
+[data-portal-theme="dark"] .tugas-lampiran-btn { background:rgba(59,130,246,0.15); border-color:rgba(59,130,246,0.3); color:#60a5fa; }
+[data-portal-theme="dark"] .tugas-lampiran-btn:hover { background:rgba(59,130,246,0.25); }
+
+[data-portal-theme="dark"] .tugas-foto-item { border-color:rgba(255,255,255,0.1); }
+[data-portal-theme="dark"] .tugas-file-link { background:var(--p-surface-2); border-color:var(--p-border); color:var(--p-text); }
+[data-portal-theme="dark"] .tugas-file-link:hover { background:var(--p-border); color:white; }
+[data-portal-theme="dark"] .tugas-file-link svg { color:var(--p-text-muted); }
+
+[data-portal-theme="dark"] .tugas-komentar-section { border-top-color:rgba(255,255,255,0.1); }
+[data-portal-theme="dark"] .tugas-komentar-title { color:var(--p-text-muted); }
+[data-portal-theme="dark"] .tugas-komentar-item { background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.05); }
+[data-portal-theme="dark"] .tugas-komentar-name { color:var(--p-text); }
+[data-portal-theme="dark"] .tugas-komentar-text { color:var(--p-text-light); }
+[data-portal-theme="dark"] .tugas-badge-hijau { background:rgba(22,163,74,0.2); color:#4ade80; }
+[data-portal-theme="dark"] .tugas-badge-kuning { background:rgba(202,138,4,0.2); color:#facc15; }
+[data-portal-theme="dark"] .tugas-badge-oranye { background:rgba(234,88,12,0.2); color:#fb923c; }
+[data-portal-theme="dark"] .tugas-badge-merah { background:rgba(220,38,38,0.2); color:#f87171; }
 </style>
 
 
