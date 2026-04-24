@@ -22,8 +22,10 @@ class PendaftaranResource extends Resource
     protected static ?string $model = Pendaftaran::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedLink;
-    protected static string|\UnitEnum|null $navigationGroup = 'Sistem';
-
+    protected static string|\UnitEnum|null $navigationGroup = 'Konten Website';
+    protected static ?string $navigationLabel = 'Pendaftaran Siswa';
+    protected static ?string $modelLabel = 'Data Pendaftaran';
+    protected static ?string $pluralModelLabel = 'Data Pendaftaran';
     protected static ?string $recordTitleAttribute = 'judul';
 
     public static function canAccess(): bool
