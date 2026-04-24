@@ -15,14 +15,12 @@ class KelasOverviewWidget extends TableWidget
     protected static ?int $sort = 4;
     protected int | string | array $columnSpan = 'full';
 
-    // Semua role bisa lihat ringkasan kelas
+    // Widget ringkasan kelas: Super Admin, Kepala Sekolah, Guru
     public static function canView(): bool
     {
         $user = Auth::user();
         if (!$user) return false;
-
-        return $user->hasAnyRole(['Super Admin', 'Kepala Sekolah', 'Guru'])
-            || $user->can('view_dashboard_stats');
+        return $user->hasRole('Super Admin') || $user->can('view_dashboard_chart');
     }
 
     public function table(Table $table): Table

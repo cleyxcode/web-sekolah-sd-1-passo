@@ -27,7 +27,7 @@ class GaleriResource extends Resource
 
     public static function canAccess(): bool
     {
-        return !Auth::user()?->hasRole('Guru');
+        $user = Auth::user(); return $user && !$user->hasRole('Guru');
     }
     public static function form(Schema $schema): Schema
     {

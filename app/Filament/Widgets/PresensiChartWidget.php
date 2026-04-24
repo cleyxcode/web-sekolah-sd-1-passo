@@ -12,14 +12,12 @@ class PresensiChartWidget extends ChartWidget
     protected static ?int $sort = 2;
     protected int | string | array $columnSpan = 'full';
 
-    // Hanya role yang diizinkan yang bisa melihat widget ini
+    // Widget grafik presensi: Super Admin, Kepala Sekolah, Guru (data akademik)
     public static function canView(): bool
     {
         $user = Auth::user();
         if (!$user) return false;
-
-        return $user->hasAnyRole(['Super Admin', 'Kepala Sekolah'])
-            || $user->can('view_dashboard_stats');
+        return $user->hasRole('Super Admin') || $user->can('view_dashboard_chart');
     }
 
     protected function getData(): array

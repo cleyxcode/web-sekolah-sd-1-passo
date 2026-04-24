@@ -12,21 +12,12 @@ use Illuminate\Support\Facades\Auth;
 
 class StatsOverviewWidget extends BaseStatsOverviewWidget
 {
-    // Hanya role yang diizinkan yang bisa melihat widget ini
+    // Widget statistik angka: Super Admin, Kepala Sekolah, Admin Konten
     public static function canView(): bool
     {
         $user = Auth::user();
-
         if (!$user) return false;
-
-        // Super Admin selalu bisa lihat
-        if ($user->hasRole('Super Admin')) return true;
-
-        // Kepala Sekolah bisa lihat
-        if ($user->hasRole('Kepala Sekolah')) return true;
-
-        // Guru hanya jika punya permission khusus
-        return $user->can('view_dashboard_stats');
+        return $user->hasRole('Super Admin') || $user->can('view_dashboard_stats');
     }
 
     protected function getStats(): array

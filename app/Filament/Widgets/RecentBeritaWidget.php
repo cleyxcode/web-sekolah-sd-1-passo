@@ -15,11 +15,12 @@ class RecentBeritaWidget extends TableWidget
     protected static ?string $heading = 'Berita Terbaru';
     protected static ?int $sort = 5;
 
-    // Semua role bisa lihat berita terbaru
+    // Widget berita terbaru: semua role + Admin Konten
     public static function canView(): bool
     {
         $user = Auth::user();
-        return $user?->hasAnyRole(['Super Admin', 'Kepala Sekolah', 'Guru']) ?? false;
+        if (!$user) return false;
+        return $user->hasRole('Super Admin') || $user->can('view_dashboard_recent');
     }
 
     public function table(Table $table): Table
