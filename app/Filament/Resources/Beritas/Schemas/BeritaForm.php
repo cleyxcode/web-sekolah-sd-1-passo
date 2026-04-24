@@ -4,8 +4,8 @@ namespace App\Filament\Resources\Beritas\Schemas;
 
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\FileUpload;
 use Filament\Schemas\Schema;
 
 class BeritaForm
@@ -18,10 +18,13 @@ class BeritaForm
                     ->required(),
                 TextInput::make('slug')
                     ->required(),
-                Textarea::make('isi')
+                RichEditor::make('isi')
                     ->required()
                     ->columnSpanFull(),
-                TextInput::make('foto'),
+                FileUpload::make('foto')
+                    ->image()
+                    ->directory('berita')
+                    ->maxSize(5120),
                 TextInput::make('kategori'),
                 Select::make('status')
                     ->options(['draft' => 'Draft', 'publish' => 'Publish'])

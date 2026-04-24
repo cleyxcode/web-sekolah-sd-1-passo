@@ -77,10 +77,6 @@ class SettingSekolahForm
                             ->label('Website')
                             ->url()
                             ->prefix('https://'),
-                        TextInput::make('link_ppdb')
-                            ->label('Link PPDB')
-                            ->url()
-                            ->prefix('https://'),
                     ]),
 
                 Section::make('Media Sosial')

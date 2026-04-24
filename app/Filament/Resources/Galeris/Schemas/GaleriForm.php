@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\Galeris\Schemas;
 
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
 
@@ -15,7 +15,11 @@ class GaleriForm
             ->components([
                 TextInput::make('judul')
                     ->required(),
-                TextInput::make('file_path')
+                FileUpload::make('file_path')
+                    ->label('File Foto/Video')
+                    ->directory('galeri')
+                    ->acceptedFileTypes(['image/*', 'video/*'])
+                    ->maxSize(10240)
                     ->required(),
                 Select::make('jenis')
                     ->options(['foto' => 'Foto', 'video' => 'Video'])

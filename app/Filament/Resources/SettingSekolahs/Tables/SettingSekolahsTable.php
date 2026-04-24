@@ -37,8 +37,7 @@ class SettingSekolahsTable
                     ->searchable(),
                 TextColumn::make('akreditasi')
                     ->searchable(),
-                TextColumn::make('link_ppdb')
-                    ->searchable(),
+
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
