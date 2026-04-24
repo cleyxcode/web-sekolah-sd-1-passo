@@ -8,8 +8,8 @@
     @if($anak_anak->isEmpty())
         <div class="empty-warning">
             <svg width="56" height="56" fill="none" viewBox="0 0 24 24" stroke="#f59e0b" style="margin:0 auto 16px"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-            <h3 style="font-size:1.4rem;font-weight:800;color:#1e293b;margin:0 0 10px;">Belum Ada Data Anak</h3>
-            <p style="color:#64748b;font-size:0.9rem;line-height:1.7;margin:0;">Akun Anda belum dihubungkan dengan profil siswa mana pun. Silakan hubungi Tata Usaha sekolah untuk melakukan sinkronisasi data.</p>
+            <h3 style="font-size:1.4rem;font-weight:800;color:var(--p-text);margin:0 0 10px;">Belum Ada Data Anak</h3>
+            <p style="color:var(--p-text-muted);font-size:0.9rem;line-height:1.7;margin:0;">Akun Anda belum dihubungkan dengan profil siswa mana pun. Silakan hubungi Tata Usaha sekolah untuk melakukan sinkronisasi data.</p>
         </div>
     @else
 
@@ -73,7 +73,7 @@
                         </div>
 
                         {{-- Progress bar --}}
-                        <div style="height:10px;background:#f1f5f9;border-radius:99px;margin-bottom:1.25rem;overflow:hidden;">
+                        <div class="progress-track" style="height:10px;background:#f1f5f9;border-radius:99px;margin-bottom:1.25rem;overflow:hidden;">
                             <div style="height:100%;width:{{ $anak->pct_hadir }}%;background:linear-gradient(90deg,#22c55e,#16a34a);border-radius:99px;transition:width 1s ease;"></div>
                         </div>
 
@@ -235,7 +235,7 @@
                                 <div class="section-sub">Evaluasi Akademik</div>
                             </div>
                         </div>
-                        <div style="overflow-x:auto;border-radius:12px;border:1px solid #f1f5f9;">
+                        <div style="overflow-x:auto;border-radius:12px;border:1px solid var(--p-border);">
                             <table class="nilai-table">
                                 <thead>
                                     <tr>

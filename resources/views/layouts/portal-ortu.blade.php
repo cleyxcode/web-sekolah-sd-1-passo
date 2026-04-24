@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="id" class="scroll-smooth" data-portal-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,14 +7,44 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --p-bg: #f0f2f7;
+            --p-surface: #ffffff;
+            --p-surface-2: #f8fafc;
+            --p-border: #e2e8f0;
+            --p-text: #0f172a;
+            --p-text-muted: #64748b;
+            --p-text-light: #94a3b8;
+            --p-nav-bg: rgba(255,255,255,0.88);
+            --p-shadow: 0 2px 16px rgba(0,0,0,0.06);
+            --p-shadow-lg: 0 8px 32px rgba(0,0,0,0.1);
+            --p-jadwal-bg: #f8fafc;
+            --p-presensi-bg: #f8fafc;
+            --p-nilai-th: #f8fafc;
+        }
+        [data-portal-theme="dark"] {
+            --p-bg: #0f172a;
+            --p-surface: #1e293b;
+            --p-surface-2: #263348;
+            --p-border: #334155;
+            --p-text: #f1f5f9;
+            --p-text-muted: #94a3b8;
+            --p-text-light: #64748b;
+            --p-nav-bg: rgba(15,23,42,0.92);
+            --p-shadow: 0 2px 16px rgba(0,0,0,0.3);
+            --p-shadow-lg: 0 8px 32px rgba(0,0,0,0.4);
+            --p-jadwal-bg: #263348;
+            --p-presensi-bg: #263348;
+            --p-nilai-th: #263348;
+        }
         *, *::before, *::after { box-sizing: border-box; }
-
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #f0f2f7;
-            color: #1e293b;
+            background-color: var(--p-bg);
+            color: var(--p-text);
             margin: 0;
             -webkit-font-smoothing: antialiased;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         /* ====== NAVBAR ====== */
@@ -22,15 +52,16 @@
             position: sticky;
             top: 0;
             z-index: 50;
-            background: rgba(255,255,255,0.85);
+            background: var(--p-nav-bg);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(0,0,0,0.07);
+            border-bottom: 1px solid var(--p-border);
             padding: 0 1.5rem;
             height: 64px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            transition: background 0.3s, border-color 0.3s;
         }
         .portal-nav .brand { display: flex; align-items: center; gap: 12px; }
         .portal-nav .brand-icon {
@@ -42,8 +73,17 @@
             box-shadow: 0 4px 12px rgba(79,70,229,0.35);
             flex-shrink: 0;
         }
-        .portal-nav .brand-title { font-weight: 800; font-size: 1rem; color: #0f172a; line-height: 1.2; }
-        .portal-nav .brand-sub { font-size: 0.72rem; color: #64748b; font-weight: 500; }
+        .portal-nav .brand-title { font-weight: 800; font-size: 1rem; color: var(--p-text); line-height: 1.2; transition: color 0.3s; }
+        .portal-nav .brand-sub { font-size: 0.72rem; color: var(--p-text-muted); font-weight: 500; }
+        /* Theme toggle button */
+        .portal-theme-btn {
+            width: 38px; height: 38px; border: none;
+            background: var(--p-surface-2); border-radius: 10px;
+            cursor: pointer; color: var(--p-text-muted);
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s; border: 1px solid var(--p-border);
+        }
+        .portal-theme-btn:hover { background: var(--p-border); color: var(--p-text); }
 
         .nav-actions { display: flex; align-items: center; gap: 12px; }
         .nav-profile-btn {
@@ -53,7 +93,7 @@
             text-decoration: none;
             transition: background 0.2s;
         }
-        .nav-profile-btn:hover { background: #f1f5f9; }
+        .nav-profile-btn:hover { background: var(--p-surface-2); }
         .nav-profile-btn .avatar {
             width: 38px; height: 38px;
             background: linear-gradient(135deg, #818cf8, #4f46e5);
@@ -62,15 +102,15 @@
             font-weight: 800; font-size: 1rem; color: white;
             flex-shrink: 0;
         }
-        .nav-profile-btn .nav-name { font-size: 0.85rem; font-weight: 700; color: #0f172a; }
-        .nav-profile-btn .nav-sub { font-size: 0.68rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; }
+        .nav-profile-btn .nav-name { font-size: 0.85rem; font-weight: 700; color: var(--p-text); transition: color 0.3s; }
+        .nav-profile-btn .nav-sub { font-size: 0.68rem; color: var(--p-text-light); text-transform: uppercase; letter-spacing: 0.05em; }
         @media(max-width: 600px) { .nav-profile-btn .nav-text { display: none; } }
 
-        .nav-divider { width: 1px; height: 24px; background: #e2e8f0; }
+        .nav-divider { width: 1px; height: 24px; background: var(--p-border); }
         .nav-logout-btn {
             width: 38px; height: 38px;
             border: none; background: transparent; cursor: pointer;
-            border-radius: 10px; color: #94a3b8;
+            border-radius: 10px; color: var(--p-text-light);
             display: flex; align-items: center; justify-content: center;
             transition: all 0.2s;
         }
@@ -115,13 +155,14 @@
 
         /* ====== CARD ====== */
         .card {
-            background: white;
+            background: var(--p-surface);
             border-radius: 20px;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.05);
+            box-shadow: var(--p-shadow);
+            border: 1px solid var(--p-border);
             overflow: hidden;
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.3s, border-color 0.3s;
         }
-        .card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(0,0,0,0.09); }
+        .card:hover { transform: translateY(-3px); box-shadow: var(--p-shadow-lg); }
         .card-body { padding: 1.75rem; }
         @media(max-width:768px) { .card-body { padding: 1.25rem; } }
 
@@ -205,8 +246,8 @@
         .icon-green { background: #f0fdf4; color: #16a34a; }
         .icon-purple { background: #faf5ff; color: #7c3aed; }
         .icon-dark { background: rgba(255,255,255,0.1); color: white; }
-        .section-title { font-size: 1.05rem; font-weight: 800; color: #0f172a; margin: 0; }
-        .section-sub { font-size: 0.75rem; color: #94a3b8; font-weight: 500; margin: 2px 0 0; }
+        .section-title { font-size: 1.05rem; font-weight: 800; color: var(--p-text); margin: 0; transition: color 0.3s; }
+        .section-sub { font-size: 0.75rem; color: var(--p-text-light); font-weight: 500; margin: 2px 0 0; }
 
         /* ====== GRID SYSTEM ====== */
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
@@ -225,7 +266,7 @@
         @media(max-width:768px) { .fixed-height { height: 380px; } }
 
         /* ====== JADWAL ====== */
-        .hari-group { background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 14px; padding: 14px; margin-bottom: 12px; }
+        .hari-group { background: var(--p-jadwal-bg); border: 1px solid var(--p-border); border-radius: 14px; padding: 14px; margin-bottom: 12px; transition: background 0.3s; }
         .hari-label {
             font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
             letter-spacing: 0.1em; color: #4f46e5;
@@ -234,9 +275,10 @@
         .hari-dot { width: 7px; height: 7px; border-radius: 50%; background: #4f46e5; flex-shrink: 0; }
         .jadwal-item {
             display: flex; align-items: center; gap: 12px;
-            background: white; border-radius: 12px;
+            background: var(--p-surface); border-radius: 12px;
             padding: 10px 14px; margin-bottom: 8px;
             box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+            transition: background 0.3s;
         }
         .jadwal-item:last-child { margin-bottom: 0; }
         .jadwal-time {
@@ -245,21 +287,21 @@
             font-size: 0.75rem; font-weight: 800;
             white-space: nowrap; flex-shrink: 0;
         }
-        .jadwal-mapel { font-weight: 700; color: #0f172a; font-size: 0.88rem; }
-        .jadwal-guru { font-size: 0.75rem; color: #94a3b8; font-weight: 500; margin-top: 2px; }
+        .jadwal-mapel { font-weight: 700; color: var(--p-text); font-size: 0.88rem; transition: color 0.3s; }
+        .jadwal-guru { font-size: 0.75rem; color: var(--p-text-light); font-weight: 500; margin-top: 2px; }
 
         /* ====== PRESENSI ====== */
         .presensi-item {
             display: flex; justify-content: space-between; align-items: center;
             padding: 14px 16px;
-            background: #f8fafc; border: 1px solid #f1f5f9;
+            background: var(--p-presensi-bg); border: 1px solid var(--p-border);
             border-radius: 14px; margin-bottom: 8px;
-            transition: background 0.15s;
+            transition: background 0.2s, border-color 0.2s;
         }
-        .presensi-item:hover { background: #f1f5f9; }
+        .presensi-item:hover { background: var(--p-border); }
         .presensi-item:last-child { margin-bottom: 0; }
-        .presensi-date { font-weight: 700; color: #0f172a; font-size: 0.88rem; }
-        .presensi-note { font-size: 0.75rem; color: #64748b; margin-top: 3px; }
+        .presensi-date { font-weight: 700; color: var(--p-text); font-size: 0.88rem; transition: color 0.3s; }
+        .presensi-note { font-size: 0.75rem; color: var(--p-text-muted); margin-top: 3px; }
         .badge { display: inline-block; padding: 4px 12px; border-radius: 8px; font-size: 0.72rem; font-weight: 800; }
         .badge-hadir { background: #dcfce7; color: #15803d; }
         .badge-sakit { background: #fef9c3; color: #a16207; }
@@ -272,14 +314,15 @@
             padding: 12px 16px; text-align: left;
             font-size: 0.7rem; font-weight: 800;
             text-transform: uppercase; letter-spacing: 0.08em;
-            color: #64748b; background: #f8fafc;
-            border-bottom: 1px solid #f1f5f9;
+            color: var(--p-text-muted); background: var(--p-nilai-th);
+            border-bottom: 1px solid var(--p-border);
+            transition: background 0.3s;
         }
-        .nilai-table td { padding: 14px 16px; font-size: 0.875rem; border-bottom: 1px solid #f8fafc; }
+        .nilai-table td { padding: 14px 16px; font-size: 0.875rem; border-bottom: 1px solid var(--p-border); transition: background 0.2s; }
         .nilai-table tr:last-child td { border-bottom: none; }
-        .nilai-table tr:hover td { background: #f8fafc; }
-        .nilai-mapel { font-weight: 700; color: #0f172a; }
-        .nilai-jenis { display: inline-block; background: #f1f5f9; color: #475569; padding: 3px 10px; border-radius: 7px; font-size: 0.75rem; font-weight: 600; }
+        .nilai-table tr:hover td { background: var(--p-surface-2); }
+        .nilai-mapel { font-weight: 700; color: var(--p-text); transition: color 0.3s; }
+        .nilai-jenis { display: inline-block; background: var(--p-surface-2); color: var(--p-text-muted); padding: 3px 10px; border-radius: 7px; font-size: 0.75rem; font-weight: 600; }
         .nilai-score-good { background: #dcfce7; color: #15803d; }
         .nilai-score-bad { background: #fee2e2; color: #b91c1c; }
         .nilai-score {
@@ -321,6 +364,14 @@
             border-radius: 20px; padding: 3rem 2rem; text-align: center;
             max-width: 540px; margin: 4rem auto;
         }
+        [data-portal-theme="dark"] .empty-warning { background: #1e293b; border-color: #334155; }
+        [data-portal-theme="dark"] .stat-hadir { background: rgba(21,128,61,0.15); }
+        [data-portal-theme="dark"] .stat-sakit { background: rgba(161,98,7,0.15); }
+        [data-portal-theme="dark"] .stat-izin  { background: rgba(29,78,216,0.15); }
+        [data-portal-theme="dark"] .stat-alpha { background: rgba(185,28,28,0.15); }
+        [data-portal-theme="dark"] .tab-btn-item.inactive { background: var(--p-surface); border-color: var(--p-border); color: var(--p-text-muted); }
+        [data-portal-theme="dark"] .progress-track { background: #334155 !important; }
+        [data-portal-theme="dark"] .total-badge { background: var(--p-surface-2); color: var(--p-text-muted); }
 
         /* ====== FOOTER ====== */
         .portal-footer { text-align: center; padding: 2rem; font-size: 0.8rem; color: #94a3b8; }
@@ -358,6 +409,11 @@
                 </div>
             </a>
             <div class="nav-divider"></div>
+            <button onclick="togglePortalTheme()" class="portal-theme-btn" id="portalThemeBtn" title="Ganti Tema">
+                <svg id="icon-sun" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" style="display:none"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                <svg id="icon-moon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+            </button>
+            <div class="nav-divider"></div>
             <form action="{{ route('logout.ortu') }}" method="POST">
                 @csrf
                 <button type="submit" class="nav-logout-btn" title="Keluar">
@@ -373,10 +429,31 @@
     </main>
 
     @if(Auth::guard('ortu')->check())
-    <footer class="portal-footer">
+    <footer class="portal-footer" style="border-top:1px solid var(--p-border);color:var(--p-text-muted);transition:border-color 0.3s;">
         &copy; {{ date('Y') }} SD Negeri 1 Passo &mdash; Sistem Pemantauan Akademik Siswa
     </footer>
     @endif
 
+<script>
+function togglePortalTheme() {
+    const html = document.documentElement;
+    const isDark = html.getAttribute('data-portal-theme') === 'dark';
+    const newTheme = isDark ? 'light' : 'dark';
+    html.setAttribute('data-portal-theme', newTheme);
+    localStorage.setItem('portal-theme', newTheme);
+    document.getElementById('icon-sun').style.display  = isDark ? 'none' : 'block';
+    document.getElementById('icon-moon').style.display = isDark ? 'block' : 'none';
+}
+(function(){
+    const saved = localStorage.getItem('portal-theme') || 'light';
+    document.documentElement.setAttribute('data-portal-theme', saved);
+    if (saved === 'dark') {
+        const s = document.getElementById('icon-sun');
+        const m = document.getElementById('icon-moon');
+        if(s) s.style.display='block';
+        if(m) m.style.display='none';
+    }
+})();
+</script>
 </body>
 </html>
