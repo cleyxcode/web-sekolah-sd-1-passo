@@ -27,6 +27,8 @@
             display: flex;
             flex-direction: column;
             transition: background 0.3s, color 0.3s;
+            overflow-x: hidden;
+            width: 100%;
         }
 
         /* ===== DESIGN TOKENS ===== */
@@ -106,7 +108,11 @@
         .nav-brand:hover .nav-logo-icon { transform: scale(1.05); }
         .nav-school-name { font-size: 1rem; font-weight: 800; color: var(--text); line-height: 1.2; transition: color 0.3s; }
         .nav-school-tagline { font-size: 0.72rem; color: var(--text-muted); font-weight: 500; transition: color 0.3s; }
-        @media(max-width:480px) { .nav-school-tagline { display: none; } }
+        @media(max-width:640px) { 
+            .nav-school-tagline { display: none; }
+            .nav-school-name { font-size: 0.9rem; }
+            .nav-logo-icon { width: 36px; height: 36px; font-size: 1rem; }
+        }
 
         .nav-links {
             display: flex; align-items: center; gap: 4px;
@@ -143,7 +149,10 @@
             white-space: nowrap;
         }
         .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37,99,235,0.4); }
-        @media(max-width:640px) { .btn-ghost { display: none; } }
+        @media(max-width:768px) { 
+            .btn-ghost { display: none; }
+            .nav-actions .btn-primary { display: none; }
+        }
 
         .hamburger {
             display: none; width: 40px; height: 40px;
@@ -157,12 +166,17 @@
         /* Mobile Menu */
         .mobile-menu {
             display: none;
+            position: absolute;
+            top: 72px; left: 0; right: 0;
             background: var(--surface);
-            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
             padding: 16px 1.5rem;
+            z-index: 99;
+            box-shadow: var(--shadow-md);
             transition: background 0.3s, border-color 0.3s;
         }
-        .mobile-menu.open { display: block; }
+        .mobile-menu.open { display: block; animation: slideDown 0.3s ease-out; }
+        @keyframes slideDown { from{opacity:0;transform:translateY(-10px);} to{opacity:1;transform:translateY(0);} }
         .mobile-menu a {
             display: block; padding: 12px 16px;
             font-size: 0.95rem; font-weight: 600; color: var(--text);
@@ -229,8 +243,12 @@
         .section-sub { font-size: 1rem; color: var(--text-muted); line-height: 1.7; max-width: 600px; margin: 12px auto 0; transition: color 0.3s; }
 
         /* ===== GLOBAL UTILS ===== */
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
-        @media(max-width:640px) { .container { padding: 0 1rem; } }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; width: 100%; }
+        @media(max-width:640px) { .container { padding: 0 1.25rem; } }
+
+        .section { padding: 5rem 0; transition: padding 0.3s; }
+        @media(max-width:768px) { .section { padding: 3rem 0; } }
+        @media(max-width:480px) { .section { padding: 2.5rem 0; } }
 
         /* ===== ANIMATIONS ===== */
         @keyframes fadeUp { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }

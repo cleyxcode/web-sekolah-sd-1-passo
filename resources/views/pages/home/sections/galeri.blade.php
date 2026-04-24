@@ -1,5 +1,5 @@
 <style>
-    .galeri-section { padding: 4.5rem 0; background: var(--surface-2); transition: background 0.3s; }
+    .galeri-section { background: var(--surface-2); transition: background 0.3s; }
     .galeri-wrap { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
     .galeri-top { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 12px; }
 
@@ -40,7 +40,7 @@
     .galeri-no-img { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #93c5fd; }
 </style>
 
-<section class="galeri-section" id="galeri">
+<section class="galeri-section section" id="galeri">
     <div class="galeri-wrap">
         <div class="galeri-top">
             <div>

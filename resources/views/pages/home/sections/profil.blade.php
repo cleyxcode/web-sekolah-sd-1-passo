@@ -1,5 +1,5 @@
 <style>
-    .profil-section { padding: 4.5rem 0; background: var(--surface-2); transition: background 0.3s; }
+    .profil-section { background: var(--surface-2); transition: background 0.3s; }
     .profil-wrap { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
     .profil-header { text-align: center; margin-bottom: 2.5rem; }
     .profil-vm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
@@ -24,7 +24,7 @@
     .profil-card-body p { margin: 0; }
 </style>
 
-<section class="profil-section" id="profil">
+<section class="profil-section section" id="profil">
     <div class="profil-wrap">
         <div class="profil-header">
             <div class="section-tag" style="display:inline-flex;margin-bottom:12px;">

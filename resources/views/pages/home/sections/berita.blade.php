@@ -1,5 +1,5 @@
 <style>
-    .berita-section { padding: 4.5rem 0; background: var(--bg); transition: background 0.3s; }
+    .berita-section { background: var(--bg); transition: background 0.3s; }
     .berita-wrap { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
     .berita-top { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 12px; }
     .lihat-semua { display: inline-flex; align-items: center; gap: 6px; color: var(--primary); font-size: 0.9rem; font-weight: 700; text-decoration: none; white-space: nowrap; }
@@ -41,7 +41,7 @@
     .berita-link { font-size: 0.82rem; color: var(--primary); font-weight: 700; display: flex; align-items: center; gap: 4px; margin-top: auto; }
 </style>
 
-<section class="berita-section" id="berita">
+<section class="berita-section section" id="berita">
     <div class="berita-wrap">
         <div class="berita-top">
             <div>
