@@ -36,13 +36,19 @@ class PresensiForm
                                 ->searchable()
                                 ->live()
                                 ->afterStateUpdated(fn ($set) => $set('siswa_id', null))
-                                ->dehydrated(false)
                                 ->hidden(fn () => Auth::user()?->hasRole('Guru')),
 
                             Select::make('siswa_id')
                                 ->label('Siswa')
                                 ->required()
                                 ->searchable()
+                                ->live()
+                                ->afterStateUpdated(function ($state, $set) {
+                                    if ($state) {
+                                        $siswa = \App\Models\Siswa::find($state);
+                                        if ($siswa) $set('kelas_id', $siswa->kelas_id);
+                                    }
+                                })
                                 ->options(function ($get) {
                                     $user = Auth::user();
                                     $query = Siswa::with('kelas')->where('status', 'aktif')->orderBy('nama');
