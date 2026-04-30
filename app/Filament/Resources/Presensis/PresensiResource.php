@@ -43,19 +43,23 @@ class PresensiResource extends Resource
     public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
     {
         $query = parent::getEloquentQuery();
-        $user = Auth::user();
+        $user  = Auth::user();
 
-        if ($user?->hasRole('Guru')) {
-            $guru = Guru::where('user_id', $user->id)->first();
-            if ($guru) {
-                $kelasIds = Kelas::where('wali_kelas_id', $guru->id)->pluck('id');
-                $query->whereIn('kelas_id', $kelasIds);
-            } else {
-                $query->whereRaw('0 = 1');
+        // Super Admin & Kepala Sekolah: lihat semua presensi
+        if ($user->hasRole('Super Admin') || $user->hasRole('Kepala Sekolah')) {
+            return $query;
+        }
+
+        // Wali Kelas: hanya presensi kelas yang ia wali
+        $guru = Guru::where('user_id', $user->id)->first();
+        if ($guru) {
+            $kelasIds = Kelas::where('wali_kelas_id', $guru->id)->pluck('id');
+            if ($kelasIds->isNotEmpty()) {
+                return $query->whereIn('kelas_id', $kelasIds);
             }
         }
 
-        return $query;
+        return $query->whereRaw('0 = 1');
     }
 
     /**

@@ -41,23 +41,20 @@ class SiswaResource extends Resource
         $query = parent::getEloquentQuery();
         $user  = auth()->user();
 
-        // Super admin bisa melihat semua data siswa
-        if ($user->hasRole('Super Admin')) {
+        // Super Admin & Kepala Sekolah bisa melihat semua siswa
+        if ($user->hasRole('Super Admin') || $user->hasRole('Kepala Sekolah')) {
             return $query;
         }
 
-        // Guru hanya melihat siswa dari kelas yang ia ampu (wali kelas)
+        // Wali Kelas hanya melihat siswa dari kelas yang ia wali
         $guru = Guru::where('user_id', $user->id)->first();
-
         if ($guru) {
-            // Ambil ID kelas yang gurunya adalah wali kelas
-            $kelasIds = Kelas::where('wali_kelas_id', $guru->id)
-                ->pluck('id');
-
-            return $query->whereIn('kelas_id', $kelasIds);
+            $kelasIds = Kelas::where('wali_kelas_id', $guru->id)->pluck('id');
+            if ($kelasIds->isNotEmpty()) {
+                return $query->whereIn('kelas_id', $kelasIds);
+            }
         }
 
-        // Jika user bukan super admin dan bukan guru yang terdaftar, tampilkan kosong
         return $query->whereRaw('0 = 1');
     }
 

@@ -48,17 +48,21 @@ class TugasResource extends Resource
         $query = parent::getEloquentQuery();
         $user  = Auth::user();
 
-        if ($user?->hasRole('Guru')) {
-            $guru = Guru::where('user_id', $user->id)->first();
-            if ($guru) {
-                $kelasIds = Kelas::where('wali_kelas_id', $guru->id)->pluck('id');
-                $query->whereIn('kelas_id', $kelasIds);
-            } else {
-                $query->whereRaw('0 = 1');
+        // Super Admin & Kepala Sekolah: lihat semua tugas
+        if ($user->hasRole('Super Admin') || $user->hasRole('Kepala Sekolah')) {
+            return $query->with(['kelas', 'guru'])->latest();
+        }
+
+        // Wali Kelas: hanya tugas di kelas yang ia wali
+        $guru = Guru::where('user_id', $user->id)->first();
+        if ($guru) {
+            $kelasIds = Kelas::where('wali_kelas_id', $guru->id)->pluck('id');
+            if ($kelasIds->isNotEmpty()) {
+                return $query->whereIn('kelas_id', $kelasIds)->with(['kelas', 'guru'])->latest();
             }
         }
 
-        return $query->with(['kelas', 'guru'])->latest();
+        return $query->whereRaw('0 = 1');
     }
 
 

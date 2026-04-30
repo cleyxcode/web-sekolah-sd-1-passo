@@ -54,20 +54,21 @@ class CatatanPerkembanganResource extends Resource
         $query = parent::getEloquentQuery();
         $user  = Auth::user();
 
-        if ($user?->hasRole('Guru')) {
-            $guru = Guru::where('user_id', $user->id)->first();
-            if ($guru) {
-                // Ambil ID kelas yang guru ini jadi wali kelas
-                $kelasIds = Kelas::where('wali_kelas_id', $guru->id)->pluck('id');
-                // Filter: hanya catatan untuk siswa di kelas tersebut
-                $query->whereHas('siswa', fn ($q) => $q->whereIn('kelas_id', $kelasIds));
-            } else {
-                // Guru tidak punya profil guru → tidak bisa lihat apapun
-                $query->whereRaw('0 = 1');
+        // Super Admin & Kepala Sekolah: lihat semua catatan
+        if ($user->hasRole('Super Admin') || $user->hasRole('Kepala Sekolah')) {
+            return $query;
+        }
+
+        // Wali Kelas: hanya catatan siswa di kelas yang ia wali
+        $guru = Guru::where('user_id', $user->id)->first();
+        if ($guru) {
+            $kelasIds = Kelas::where('wali_kelas_id', $guru->id)->pluck('id');
+            if ($kelasIds->isNotEmpty()) {
+                return $query->whereHas('siswa', fn ($q) => $q->whereIn('kelas_id', $kelasIds));
             }
         }
 
-        return $query;
+        return $query->whereRaw('0 = 1');
     }
 
     /**
