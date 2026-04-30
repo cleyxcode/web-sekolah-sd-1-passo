@@ -24,6 +24,7 @@ class RoleAndUserSeeder extends Seeder
             'GuruMataPelajaran', 'JadwalPelajaran', 'KalenderAkademik',
             'Kelas', 'MataPelajaran', 'Nilai', 'OrangTua',
             'Presensi', 'Siswa', 'TahunAjaran', 'Tugas', 'User',
+            'Role', 'Permission',
         ];
 
         // Resource konten website — dikelola Admin Konten
@@ -44,10 +45,18 @@ class RoleAndUserSeeder extends Seeder
         }
 
         // Permission khusus — dashboard widget statistik
-        // Pisahkan agar bisa diberikan per role secara fleksibel
-        Permission::firstOrCreate(['name' => 'view_dashboard_stats']);      // Statistik angka (total siswa, guru, dll)
-        Permission::firstOrCreate(['name' => 'view_dashboard_chart']);      // Grafik kehadiran & nilai
-        Permission::firstOrCreate(['name' => 'view_dashboard_recent']);     // Widget berita terbaru
+        Permission::firstOrCreate(['name' => 'view_dashboard_stats']);
+        Permission::firstOrCreate(['name' => 'view_dashboard_chart']);
+        Permission::firstOrCreate(['name' => 'view_dashboard_recent']);
+
+        // Permission khusus — wali kelas (input nilai rapor)
+        Permission::firstOrCreate(['name' => 'input-nilai-as-wali-kelas']);
+        // Permission khusus — cetak rapor
+        Permission::firstOrCreate(['name' => 'cetak-rapor-kelas']);
+        Permission::firstOrCreate(['name' => 'rekap-nilai-kelas']);
+        // Permission khusus — profil guru di website
+        Permission::firstOrCreate(['name' => 'manage-profil-guru-website']);
+        Permission::firstOrCreate(['name' => 'view-profil-guru-website']);
 
         // =====================================================================
         // 3. BUAT ROLES
@@ -68,33 +77,48 @@ class RoleAndUserSeeder extends Seeder
             'view_dashboard_chart',
             'view_dashboard_recent',
         ];
-        foreach ($allResources as $resource) {
-            $kepsekPermissions[] = 'view-any ' . $resource;
-            $kepsekPermissions[] = 'view ' . $resource;
-        }
-        $roleKepsek->syncPermissions($kepsekPermissions);
-
-        // --- GURU ---
-        // Akses CRUD nilai, presensi, catatan + view data induk + widget recent berita
+        // --- GURU (Wali Kelas) ---
+        // Guru adalah Wali Kelas — bisa CRUD nilai kelasnya, presensi, catatan, tugas
+        // Logika Create/Edit/Delete Nilai dikontrol tambahan via NilaiResource::canCreate/canEdit
         $guruPermissions = [
-            'view_dashboard_recent',  // hanya lihat widget berita terbaru
-            // Lihat data siswa & jadwal
+            'view_dashboard_recent',
+            // Lihat data siswa & referensi
             'view-any Siswa', 'view Siswa',
             'view-any JadwalPelajaran', 'view JadwalPelajaran',
             'view-any KalenderAkademik', 'view KalenderAkademik',
             'view-any MataPelajaran', 'view MataPelajaran',
             'view-any Kelas', 'view Kelas',
-            // CRUD Nilai
+            'view-any TahunAjaran', 'view TahunAjaran',
+            // CRUD Nilai — hanya kelas yang di-walikan (dikontrol via Resource method)
             'view-any Nilai', 'view Nilai', 'create Nilai', 'update Nilai', 'delete Nilai',
+            // Permission khusus wali kelas
+            'input-nilai-as-wali-kelas',
+            'cetak-rapor-kelas',
+            'rekap-nilai-kelas',
             // CRUD Presensi
             'view-any Presensi', 'view Presensi', 'create Presensi', 'update Presensi', 'delete Presensi',
             // CRUD Catatan Perkembangan
             'view-any CatatanPerkembangan', 'view CatatanPerkembangan',
             'create CatatanPerkembangan', 'update CatatanPerkembangan', 'delete CatatanPerkembangan',
-            // CRUD Tugas & Komentar
+            // CRUD Tugas
             'view-any Tugas', 'view Tugas', 'create Tugas', 'update Tugas', 'delete Tugas',
         ];
         $roleGuru->syncPermissions($guruPermissions);
+
+        // --- KEPALA SEKOLAH ---
+        // View-only semua resource + akses rekap laporan
+        $kepsekPermissions = [
+            'view_dashboard_stats',
+            'view_dashboard_chart',
+            'view_dashboard_recent',
+            'rekap-nilai-kelas',
+            'cetak-rapor-kelas',
+        ];
+        foreach ($allResources as $resource) {
+            $kepsekPermissions[] = 'view-any ' . $resource;
+            $kepsekPermissions[] = 'view ' . $resource;
+        }
+        $roleKepsek->syncPermissions($kepsekPermissions);
 
         // --- ADMIN KONTEN ---
         // CRUD konten website saja, tidak bisa akses data akademik sensitif

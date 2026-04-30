@@ -4,11 +4,11 @@ namespace App\Filament\Resources\Nilais\Schemas;
 
 use App\Models\Guru;
 use App\Models\Kelas;
+use App\Models\MataPelajaran;
 use App\Models\Siswa;
 use App\Models\TahunAjaran;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Placeholder;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -18,25 +18,49 @@ class NilaiForm
 {
     public static function configure(Schema $schema): Schema
     {
+        $user         = Auth::user();
+        $isSuperAdmin = $user?->hasRole('Super Admin');
+        $guru         = Guru::where('user_id', $user?->id)->first();
+
+        // Wali kelas: guru yang menjadi wali kelas di suatu kelas
+        $kelasWali = $guru
+            ? Kelas::where('wali_kelas_id', $guru->id)->first()
+            : null;
+
+        $isWaliKelas = $kelasWali !== null;
+
+        // Opsi kelas yang tersedia
+        $kelasOptions = self::getKelasOptions($isSuperAdmin, $guru, $kelasWali);
+
         return $schema
             ->components([
                 Section::make('Identitas Siswa')
-                    ->description('Pilih siswa berdasarkan kelas terlebih dahulu.')
+                    ->description('Pilih kelas dan siswa untuk pengisian nilai.')
                     ->icon('heroicon-o-user-group')
                     ->schema([
                         Grid::make(2)->schema([
-                            // Filter kelas dulu, lalu siswa otomatis terfilter
+
                             Select::make('kelas_id')
                                 ->label('Kelas')
-                                ->options(
-                                    Kelas::orderBy('tingkat')->orderBy('nama_kelas')
-                                        ->get()
-                                        ->mapWithKeys(fn ($k) => [$k->id => "Kelas {$k->nama_kelas} (Tingkat {$k->tingkat})"])
-                                )
+                                ->options($kelasOptions)
                                 ->searchable()
                                 ->required()
-                                ->live() // reactive: mempengaruhi dropdown siswa
-                                ->afterStateUpdated(fn ($set) => $set('siswa_id', null)),
+                                ->live()
+                                // Wali kelas: otomatis terpilih dan dikunci
+                                ->default(function () use ($isSuperAdmin, $kelasWali) {
+                                    if (!$isSuperAdmin && $kelasWali) {
+                                        return $kelasWali->id;
+                                    }
+                                    return null;
+                                })
+                                ->afterStateUpdated(fn ($set) => $set('siswa_id', null))
+                                ->disabled(fn () => !$isSuperAdmin && $isWaliKelas)
+                                ->dehydrated()
+                                ->helperText(function () use ($isSuperAdmin, $isWaliKelas, $kelasWali) {
+                                    if ($isSuperAdmin) return null;
+                                    if ($isWaliKelas) return 'Otomatis terisi karena Anda adalah Wali Kelas ' . $kelasWali->nama_kelas . '.';
+                                    return '⚠️ Anda belum terdaftar sebagai Wali Kelas. Hubungi Super Admin.';
+                                }),
 
                             Select::make('siswa_id')
                                 ->label('Siswa')
@@ -52,39 +76,61 @@ class NilaiForm
                                         ->pluck('nama', 'id');
                                 })
                                 ->disabled(fn ($get) => !$get('kelas_id'))
-                                ->helperText('Pilih kelas terlebih dahulu.'),
+                                ->helperText('Daftar siswa aktif di kelas yang dipilih.'),
                         ]),
                     ]),
 
                 Section::make('Detail Nilai')
-                    ->description('Isi data mata pelajaran, ujian, dan nilai angka.')
+                    ->description('Isi mata pelajaran, semester, jenis ujian, dan nilai.')
                     ->icon('heroicon-o-document-text')
                     ->schema([
                         Grid::make(2)->schema([
+
                             Select::make('mata_pelajaran_id')
                                 ->label('Mata Pelajaran')
-                                ->relationship('mataPelajaran', 'nama')
                                 ->required()
                                 ->searchable()
-                                ->preload(),
+                                ->preload()
+                                ->options(function ($get) use ($isSuperAdmin, $kelasWali) {
+                                    $kelasId = $get('kelas_id');
 
+                                    // Ambil objek kelas: dari state form atau default wali kelas
+                                    $kelas = $kelasId
+                                        ? Kelas::find($kelasId)
+                                        : ($kelasWali ?? null);
+
+                                    if (!$kelas) {
+                                        return MataPelajaran::orderBy('nama')->pluck('nama', 'id');
+                                    }
+
+                                    // Filter mata pelajaran berdasarkan tingkat kelas
+                                    return MataPelajaran::where(function ($q) use ($kelas) {
+                                        $q->where('tingkat_kelas', $kelas->tingkat)
+                                          ->orWhereNull('tingkat_kelas');
+                                    })
+                                    ->orderBy('nama')
+                                    ->pluck('nama', 'id');
+                                })
+                                ->helperText('Mata pelajaran sesuai tingkat kelas yang dipilih.'),
+
+                            // Field Guru Pengajar — otomatis dari wali kelas, hanya Super Admin bisa ubah
                             Select::make('guru_id')
-                                ->label('Guru Pengajar')
+                                ->label('Wali Kelas / Penginput')
                                 ->relationship('guru', 'nama')
                                 ->required()
                                 ->searchable()
                                 ->preload()
-                                ->default(function () {
-                                    // Otomatis pilih guru dari user yang login
-                                    $user = Auth::user();
-                                    if ($user?->hasRole('Guru')) {
-                                        return Guru::where('user_id', $user->id)->value('id');
-                                    }
-                                    return null;
-                                }),
+                                ->default(fn () => $guru?->id)
+                                ->disabled(fn () => !$isSuperAdmin)
+                                ->dehydrated()
+                                ->helperText(fn () => !$isSuperAdmin
+                                    ? 'Otomatis terisi dengan akun Wali Kelas Anda.'
+                                    : null
+                                ),
                         ]),
 
                         Grid::make(3)->schema([
+
                             Select::make('tahun_ajaran_id')
                                 ->label('Tahun Ajaran')
                                 ->options(fn () => TahunAjaran::orderByDesc('nama')->pluck('nama', 'id'))
@@ -119,5 +165,27 @@ class NilaiForm
                             ->helperText('Masukkan nilai antara 0 - 100.'),
                     ]),
             ]);
+    }
+
+    /**
+     * Ambil opsi kelas:
+     * - Super Admin: semua kelas
+     * - Wali Kelas: hanya kelas yang ia ampu
+     * - Guru biasa (bukan wali kelas): tidak ada opsi
+     */
+    private static function getKelasOptions(bool $isSuperAdmin, ?Guru $guru, ?Kelas $kelasWali): array|\Illuminate\Support\Collection
+    {
+        if ($isSuperAdmin) {
+            return Kelas::orderBy('tingkat')->orderBy('nama_kelas')
+                ->get()
+                ->mapWithKeys(fn ($k) => [$k->id => "Kelas {$k->nama_kelas} (Tingkat {$k->tingkat})"]);
+        }
+
+        if ($kelasWali) {
+            // Hanya kelas yang ia walikan
+            return collect([$kelasWali->id => "Kelas {$kelasWali->nama_kelas} (Wali Kelas Anda)"]);
+        }
+
+        return collect();
     }
 }

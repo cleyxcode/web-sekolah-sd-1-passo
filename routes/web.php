@@ -31,6 +31,7 @@ Route::post('/portal-ortu/logout', [\App\Http\Controllers\PortalOrtuController::
 Route::get('/portal-ortu', [\App\Http\Controllers\PortalOrtuController::class, 'dashboard'])->name('portal.ortu.dashboard');
 Route::get('/portal-ortu/profil', [\App\Http\Controllers\PortalOrtuController::class, 'profil'])->name('portal.ortu.profil');
 Route::put('/portal-ortu/profil', [\App\Http\Controllers\PortalOrtuController::class, 'updateProfil'])->name('portal.ortu.profil.update');
+Route::get('/portal-ortu/cetak-rapor/{siswa}', [\App\Http\Controllers\PortalOrtuController::class, 'cetakRapor'])->name('portal.ortu.cetak-rapor');
 
 // Lupa Password (OTP)
 Route::get('/portal-ortu/forgot-password', [\App\Http\Controllers\PortalOrtuController::class, 'forgotPasswordForm'])->name('ortu.forgot_password');

@@ -8,6 +8,8 @@ use App\Filament\Resources\Siswas\Pages\ListSiswas;
 use App\Filament\Resources\Siswas\Pages\ViewSiswa;
 use App\Filament\Resources\Siswas\Schemas\SiswaForm;
 use App\Filament\Resources\Siswas\Tables\SiswasTable;
+use App\Models\Guru;
+use App\Models\Kelas;
 use App\Models\Siswa;
 use BackedEnum;
 use Filament\Resources\Resource;
@@ -36,7 +38,27 @@ class SiswaResource extends Resource
 
     public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
     {
-        return parent::getEloquentQuery();
+        $query = parent::getEloquentQuery();
+        $user  = auth()->user();
+
+        // Super admin bisa melihat semua data siswa
+        if ($user->hasRole('Super Admin')) {
+            return $query;
+        }
+
+        // Guru hanya melihat siswa dari kelas yang ia ampu (wali kelas)
+        $guru = Guru::where('user_id', $user->id)->first();
+
+        if ($guru) {
+            // Ambil ID kelas yang gurunya adalah wali kelas
+            $kelasIds = Kelas::where('wali_kelas_id', $guru->id)
+                ->pluck('id');
+
+            return $query->whereIn('kelas_id', $kelasIds);
+        }
+
+        // Jika user bukan super admin dan bukan guru yang terdaftar, tampilkan kosong
+        return $query->whereRaw('0 = 1');
     }
 
     public static function getRelations(): array

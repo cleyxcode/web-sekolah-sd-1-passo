@@ -6,6 +6,7 @@
 
     @include('pages.home.sections.hero')
     @include('pages.home.sections.profil')
+    @include('pages.home.sections.profil-guru')
     @include('pages.home.sections.berita')
     @include('pages.home.sections.galeri')
     @include('pages.home.sections.cta')

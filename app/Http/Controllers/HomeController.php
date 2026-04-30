@@ -21,8 +21,14 @@ class HomeController extends Controller
         
         $galeri = Galeri::latest()->take(4)->get();
         $pendaftaran = \App\Models\Pendaftaran::where('is_active', true)->latest()->first();
+
+        // Data guru/staff untuk slideshow profil
+        $profil_guru = \App\Models\Guru::where('tampil_di_website', true)
+            ->orderBy('urutan_tampil')
+            ->orderBy('nama')
+            ->get();
         
-        return view('pages.home.index', compact('berita', 'visi', 'misi', 'galeri', 'pendaftaran'));
+        return view('pages.home.index', compact('berita', 'visi', 'misi', 'galeri', 'pendaftaran', 'profil_guru'));
     }
 
     public function profil()

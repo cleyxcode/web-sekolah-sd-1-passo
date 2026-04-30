@@ -192,6 +192,7 @@ class AkademikSeeder extends Seeder
                     Nilai::firstOrCreate([
                         'siswa_id'         => $siswa->id,
                         'mata_pelajaran_id' => $mapelId,
+                        'semester'         => '1',
                         'jenis_ujian'      => 'UTS',
                         'tahun_ajaran_id'  => $tahunAjaran->id,
                     ], [

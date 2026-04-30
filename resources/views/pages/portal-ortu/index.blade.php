@@ -375,14 +375,21 @@
                 {{-- Transkrip Nilai --}}
                 <div class="card">
                     <div class="card-body">
-                        <div class="section-header">
-                            <div class="section-icon icon-purple">
-                                <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+                        <div class="section-header" style="justify-content:space-between;">
+                            <div style="display:flex;align-items:center;gap:14px;">
+                                <div class="section-icon icon-purple">
+                                    <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+                                </div>
+                                <div>
+                                    <div class="section-title">Transkrip Nilai</div>
+                                    <div class="section-sub">Evaluasi Akademik</div>
+                                </div>
                             </div>
-                            <div>
-                                <div class="section-title">Transkrip Nilai</div>
-                                <div class="section-sub">Evaluasi Akademik</div>
-                            </div>
+                            <a href="{{ route('portal.ortu.cetak-rapor', $anak->id) }}?semester=1&jenis_ujian=UTS" target="_blank"
+                               class="tugas-lampiran-btn" style="background:#f0fdf4; color:#16a34a; border-color:#bbf7d0;">
+                                <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
+                                Cetak E-Rapor
+                            </a>
                         </div>
                         <div style="overflow-x:auto;border-radius:12px;border:1px solid var(--p-border);">
                             <table class="nilai-table">
