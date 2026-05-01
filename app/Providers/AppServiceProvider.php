@@ -40,6 +40,14 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(\App\Models\User::class, \App\Policies\UserPolicy::class);
         Gate::policy(\App\Models\Pendaftaran::class, \App\Policies\PendaftaranPolicy::class);
         Gate::policy(\App\Models\CatatanPerkembangan::class, \App\Policies\CatatanPerkembanganPolicy::class);
+        Gate::policy(\App\Models\RiwayatKelas::class, \App\Policies\RiwayatKelasPolicy::class);
+
+        // Gate khusus: Proses Naik Kelas Otomatis
+        // Dapat dipanggil via: Gate::allows('naik-kelas') atau $user->can('naik-kelas')
+        // Super Admin bypass otomatis via Gate::before di atas.
+        Gate::define('naik-kelas', function (\App\Models\User $user) {
+            return $user->checkPermissionTo('naik-kelas');
+        });
 
         if (\Illuminate\Support\Facades\Schema::hasTable('setting_sekolahs')) {
             $settings = \App\Models\SettingSekolah::first();
@@ -47,3 +55,4 @@ class AppServiceProvider extends ServiceProvider
         }
     }
 }
+

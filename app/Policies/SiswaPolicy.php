@@ -69,4 +69,13 @@ class SiswaPolicy
     {
         return $user->checkPermissionTo('force-delete Siswa');
     }
+
+    /**
+     * Determine whether the user can process naik kelas for a single siswa.
+     * Hanya Super Admin & Kepala Sekolah yang berhak.
+     */
+    public function naikKelas(User $user, Siswa $siswa): bool
+    {
+        return $user->checkPermissionTo('naik-kelas');
+    }
 }

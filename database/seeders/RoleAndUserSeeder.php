@@ -23,7 +23,7 @@ class RoleAndUserSeeder extends Seeder
             'CatatanPerkembangan', 'DeskripsiKompetensi', 'Guru',
             'GuruMataPelajaran', 'JadwalPelajaran', 'KalenderAkademik',
             'Kelas', 'MataPelajaran', 'Nilai', 'OrangTua',
-            'Presensi', 'Siswa', 'TahunAjaran', 'Tugas', 'User',
+            'Presensi', 'RiwayatKelas', 'Siswa', 'TahunAjaran', 'Tugas', 'User',
             'Role', 'Permission',
         ];
 
@@ -57,6 +57,10 @@ class RoleAndUserSeeder extends Seeder
         // Permission khusus — profil guru di website
         Permission::firstOrCreate(['name' => 'manage-profil-guru-website']);
         Permission::firstOrCreate(['name' => 'view-profil-guru-website']);
+
+        // Permission khusus — naik kelas (proses kenaikan kelas otomatis)
+        // Hanya Super Admin & Kepala Sekolah yang boleh menjalankan proses ini
+        Permission::firstOrCreate(['name' => 'naik-kelas']);
 
         // =====================================================================
         // 3. BUAT ROLES
@@ -106,13 +110,14 @@ class RoleAndUserSeeder extends Seeder
         $roleGuru->syncPermissions($guruPermissions);
 
         // --- KEPALA SEKOLAH ---
-        // View-only semua resource + akses rekap laporan
+        // View-only semua resource + akses rekap laporan + naik kelas
         $kepsekPermissions = [
             'view_dashboard_stats',
             'view_dashboard_chart',
             'view_dashboard_recent',
             'rekap-nilai-kelas',
             'cetak-rapor-kelas',
+            'naik-kelas',  // Kepala Sekolah boleh memproses naik kelas
         ];
         foreach ($allResources as $resource) {
             $kepsekPermissions[] = 'view-any ' . $resource;

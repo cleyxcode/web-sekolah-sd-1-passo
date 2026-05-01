@@ -103,4 +103,13 @@ class KelasPolicy
     {
         return $user->checkPermissionTo('force-delete-any Kelas');
     }
+
+    /**
+     * Determine whether the user can process kenaikan kelas otomatis.
+     * Hanya Super Admin & Kepala Sekolah yang berhak.
+     */
+    public function naikKelas(User $user): bool
+    {
+        return $user->checkPermissionTo('naik-kelas');
+    }
 }
