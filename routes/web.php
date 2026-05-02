@@ -33,13 +33,7 @@ Route::get('/portal-ortu/profil', [\App\Http\Controllers\PortalOrtuController::c
 Route::put('/portal-ortu/profil', [\App\Http\Controllers\PortalOrtuController::class, 'updateProfil'])->name('portal.ortu.profil.update');
 
 
-// Lupa Password (OTP)
-Route::get('/portal-ortu/forgot-password', [\App\Http\Controllers\PortalOrtuController::class, 'forgotPasswordForm'])->name('ortu.forgot_password');
-Route::post('/portal-ortu/forgot-password', [\App\Http\Controllers\PortalOrtuController::class, 'sendOtp'])->name('ortu.forgot_password.post');
-Route::get('/portal-ortu/verify-otp', [\App\Http\Controllers\PortalOrtuController::class, 'verifyOtpForm'])->name('ortu.verify_otp');
-Route::post('/portal-ortu/verify-otp', [\App\Http\Controllers\PortalOrtuController::class, 'verifyOtp'])->name('ortu.verify_otp.post');
-Route::get('/portal-ortu/reset-password', [\App\Http\Controllers\PortalOrtuController::class, 'resetPasswordForm'])->name('ortu.reset_password');
-Route::post('/portal-ortu/reset-password', [\App\Http\Controllers\PortalOrtuController::class, 'resetPassword'])->name('ortu.reset_password.post');
+
 
 // Admin: Cetak E-Rapor per siswa (dilindungi auth)
 Route::middleware(['auth'])->group(function () {
