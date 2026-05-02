@@ -12,7 +12,7 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Tables\Actions\Action;
+use Filament\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -138,6 +138,13 @@ class NilaisTable
                     DeleteBulkAction::make(),
                 ]),
             ])
-            ->defaultSort('created_at', 'desc');
+            ->modifyQueryUsing(fn ($query) => $query
+                ->leftJoin('kelas as k_sort', 'nilais.kelas_id', '=', 'k_sort.id')
+                ->leftJoin('siswas as s_sort', 'nilais.siswa_id', '=', 's_sort.id')
+                ->orderBy('k_sort.tingkat', 'asc')
+                ->orderBy('k_sort.nama_kelas', 'asc')
+                ->orderBy('s_sort.nama', 'asc')
+                ->select('nilais.*')
+            );
     }
 }
