@@ -30,16 +30,16 @@
                         <div class="guru-card"
                             style="flex:0 0 calc(33.333% - 16px);min-width:calc(33.333% - 16px);max-width:calc(33.333% - 16px);">
                             <div class="guru-card-inner" style="
-                                                        background:var(--surface);
-                                                        border:1.5px solid var(--border);
-                                                        border-radius:24px;
-                                                        padding:36px 28px 28px;
-                                                        text-align:center;
-                                                        position:relative;
-                                                        overflow:hidden;
-                                                        transition:all 0.35s cubic-bezier(0.4,0,0.2,1);
-                                                        cursor:default;
-                                                    "
+                                                                background:var(--surface);
+                                                                border:1.5px solid var(--border);
+                                                                border-radius:24px;
+                                                                padding:36px 28px 28px;
+                                                                text-align:center;
+                                                                position:relative;
+                                                                overflow:hidden;
+                                                                transition:all 0.35s cubic-bezier(0.4,0,0.2,1);
+                                                                cursor:default;
+                                                            "
                                 onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 24px 48px rgba(0,0,0,0.12)';this.style.borderColor='#93c5fd';"
                                 onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none';this.style.borderColor='var(--border)';">
 
@@ -57,23 +57,24 @@
                                             style="width:96px;height:96px;border-radius:50%;object-fit:cover;border:4px solid white;box-shadow:0 8px 24px rgba(0,0,0,0.12);">
                                     @else
                                         <div style="
-                                                                                    width:96px;height:96px;border-radius:50%;
-                                                                                    background:linear-gradient(135deg,#6366f1,#4f46e5);
-                                                                                    display:flex;align-items:center;justify-content:center;
-                                                                                    font-size:2.2rem;font-weight:900;color:white;
-                                                                                    border:4px solid white;box-shadow:0 8px 24px rgba(99,102,241,0.3);
-                                                                                    margin:0 auto;
-                                                                                ">{{ strtoupper(substr($guru->nama, 0, 1)) }}</div>
+                                                                                                width:96px;height:96px;border-radius:50%;
+                                                                                                background:linear-gradient(135deg,#6366f1,#4f46e5);
+                                                                                                display:flex;align-items:center;justify-content:center;
+                                                                                                font-size:2.2rem;font-weight:900;color:white;
+                                                                                                border:4px solid white;box-shadow:0 8px 24px rgba(99,102,241,0.3);
+                                                                                                margin:0 auto;
+                                                                                            ">
+                                            {{ strtoupper(substr($guru->nama, 0, 1)) }}</div>
                                     @endif
                                     {{-- Gender indicator --}}
                                     <div style="
-                                                                position:absolute;bottom:2px;right:2px;
-                                                                width:22px;height:22px;border-radius:50%;
-                                                                background:{{ $guru->jenis_kelamin === 'L' ? 'linear-gradient(135deg,#2563eb,#1d4ed8)' : 'linear-gradient(135deg,#db2777,#be185d)' }};
-                                                                display:flex;align-items:center;justify-content:center;
-                                                                border:2px solid white;
-                                                                font-size:0.6rem;font-weight:900;color:white;
-                                                            ">{{ $guru->jenis_kelamin === 'L' ? '♂' : '♀' }}</div>
+                                                                        position:absolute;bottom:2px;right:2px;
+                                                                        width:22px;height:22px;border-radius:50%;
+                                                                        background:{{ $guru->jenis_kelamin === 'L' ? 'linear-gradient(135deg,#2563eb,#1d4ed8)' : 'linear-gradient(135deg,#db2777,#be185d)' }};
+                                                                        display:flex;align-items:center;justify-content:center;
+                                                                        border:2px solid white;
+                                                                        font-size:0.6rem;font-weight:900;color:white;
+                                                                    ">{{ $guru->jenis_kelamin === 'L' ? '♂' : '♀' }}</div>
                                 </div>
 
                                 {{-- Info --}}
@@ -84,13 +85,13 @@
                                     </h3>
 
                                     <span style="
-                                                                display:inline-block;
-                                                                background:linear-gradient(135deg,#dbeafe,#ede9fe);
-                                                                color:#4338ca;
-                                                                padding:4px 14px;border-radius:99px;
-                                                                font-size:0.75rem;font-weight:700;
-                                                                margin-bottom:14px;
-                                                            ">{{ $guru->jabatan ?? 'Tenaga Pendidik' }}</span>
+                                                                        display:inline-block;
+                                                                        background:linear-gradient(135deg,#dbeafe,#ede9fe);
+                                                                        color:#4338ca;
+                                                                        padding:4px 14px;border-radius:99px;
+                                                                        font-size:0.75rem;font-weight:700;
+                                                                        margin-bottom:14px;
+                                                                    ">{{ $guru->jabatan ?? 'Tenaga Pendidik' }}</span>
 
                                     {{-- Divider --}}
                                     <div style="height:1px;background:var(--border);margin:14px 0;transition:background 0.3s;">
@@ -115,13 +116,13 @@
 
                 {{-- Prev / Next buttons (mobile: hidden, desktop: shown) --}}
                 <button id="guru-prev" onclick="guruSlide(-1)" aria-label="Sebelumnya" style="
-                                    position:absolute;left:-20px;top:50%;transform:translateY(-50%);
-                                    width:48px;height:48px;border-radius:50%;
-                                    background:var(--surface);border:1.5px solid var(--border);
-                                    display:flex;align-items:center;justify-content:center;
-                                    cursor:pointer;z-index:10;box-shadow:0 4px 16px rgba(0,0,0,0.08);
-                                    transition:all 0.2s;
-                                " onmouseover="this.style.background='#2563eb';this.style.borderColor='#2563eb';"
+                                        position:absolute;left:-20px;top:50%;transform:translateY(-50%);
+                                        width:48px;height:48px;border-radius:50%;
+                                        background:var(--surface);border:1.5px solid var(--border);
+                                        display:flex;align-items:center;justify-content:center;
+                                        cursor:pointer;z-index:10;box-shadow:0 4px 16px rgba(0,0,0,0.08);
+                                        transition:all 0.2s;
+                                    " onmouseover="this.style.background='#2563eb';this.style.borderColor='#2563eb';"
                     onmouseout="this.style.background='var(--surface)';this.style.borderColor='var(--border)';">
                     <svg id="guru-prev-icon" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#475569"
                         style="transition:stroke 0.2s;">
@@ -130,13 +131,13 @@
                 </button>
 
                 <button id="guru-next" onclick="guruSlide(1)" aria-label="Berikutnya" style="
-                                    position:absolute;right:-20px;top:50%;transform:translateY(-50%);
-                                    width:48px;height:48px;border-radius:50%;
-                                    background:var(--surface);border:1.5px solid var(--border);
-                                    display:flex;align-items:center;justify-content:center;
-                                    cursor:pointer;z-index:10;box-shadow:0 4px 16px rgba(0,0,0,0.08);
-                                    transition:all 0.2s;
-                                " onmouseover="this.style.background='#2563eb';this.style.borderColor='#2563eb';"
+                                        position:absolute;right:-20px;top:50%;transform:translateY(-50%);
+                                        width:48px;height:48px;border-radius:50%;
+                                        background:var(--surface);border:1.5px solid var(--border);
+                                        display:flex;align-items:center;justify-content:center;
+                                        cursor:pointer;z-index:10;box-shadow:0 4px 16px rgba(0,0,0,0.08);
+                                        transition:all 0.2s;
+                                    " onmouseover="this.style.background='#2563eb';this.style.borderColor='#2563eb';"
                     onmouseout="this.style.background='var(--surface)';this.style.borderColor='var(--border)';">
                     <svg id="guru-next-icon" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#475569"
                         style="transition:stroke 0.2s;">
@@ -212,10 +213,10 @@
                     const dot = document.createElement('button');
                     dot.setAttribute('aria-label', 'Slide ' + (i + 1));
                     dot.style.cssText = `
-                                width:${i === currentIdx ? '28px' : '8px'};height:8px;border-radius:99px;
-                                background:${i === currentIdx ? '#2563eb' : 'var(--border)'};
-                                border:none;cursor:pointer;padding:0;transition:all 0.3s;
-                            `;
+                                    width:${i === currentIdx ? '28px' : '8px'};height:8px;border-radius:99px;
+                                    background:${i === currentIdx ? '#2563eb' : 'var(--border)'};
+                                    border:none;cursor:pointer;padding:0;transition:all 0.3s;
+                                `;
                     dot.onclick = () => goTo(i);
                     dotsEl.appendChild(dot);
                 }
