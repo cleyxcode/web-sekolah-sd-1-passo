@@ -210,26 +210,5 @@ class PortalOrtuController extends Controller
         return redirect()->route('login.ortu')->with('success', 'Password berhasil direset. Silakan login.');
     }
 
-    public function cetakRapor(Request $request, \App\Models\Siswa $siswa)
-    {
-        $ortu = Auth::guard('ortu')->user();
-        if (!$ortu || !$ortu->siswas()->where('siswas.id', $siswa->id)->exists()) {
-            abort(403, 'Akses ditolak.');
-        }
 
-        $semester = $request->query('semester', '1');
-        $jenisUjian = $request->query('jenis_ujian', 'UTS');
-
-        $nilais = \App\Models\Nilai::where('siswa_id', $siswa->id)
-            ->where('semester', $semester)
-            ->where('jenis_ujian', $jenisUjian)
-            ->with('mataPelajaran')
-            ->get();
-
-        $sekolah = \App\Models\SettingSekolah::first();
-        $kelas = $siswa->kelas()->with('waliKelas')->first();
-        $tahunAjaran = \App\Models\TahunAjaran::orderByDesc('nama')->first();
-
-        return view('rapor.cetak-rapor', compact('siswa', 'nilais', 'sekolah', 'kelas', 'semester', 'tahunAjaran', 'jenisUjian'));
-    }
 }
