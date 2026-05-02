@@ -40,3 +40,9 @@ Route::get('/portal-ortu/verify-otp', [\App\Http\Controllers\PortalOrtuControlle
 Route::post('/portal-ortu/verify-otp', [\App\Http\Controllers\PortalOrtuController::class, 'verifyOtp'])->name('ortu.verify_otp.post');
 Route::get('/portal-ortu/reset-password', [\App\Http\Controllers\PortalOrtuController::class, 'resetPasswordForm'])->name('ortu.reset_password');
 Route::post('/portal-ortu/reset-password', [\App\Http\Controllers\PortalOrtuController::class, 'resetPassword'])->name('ortu.reset_password.post');
+
+// Admin: Cetak E-Rapor per siswa (dilindungi auth)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/cetak-rapor/{nilai}', [\App\Http\Controllers\RaporController::class, 'cetakAdmin'])
+        ->name('admin.cetak-rapor');
+});

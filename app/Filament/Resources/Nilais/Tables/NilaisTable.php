@@ -6,17 +6,16 @@ use App\Models\Guru;
 use App\Models\Kelas;
 use App\Models\MataPelajaran;
 use App\Models\Nilai;
-
 use App\Models\Siswa;
 use App\Models\TahunAjaran;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Torgodly\Html2Media\Actions\Html2MediaAction;
 
 class NilaisTable
 {
@@ -69,7 +68,7 @@ class NilaisTable
                     }),
 
                 TextColumn::make('guru.nama')
-                    ->label('Guru Pengajar')
+                    ->label('Wali Kelas')
                     ->searchable()
                     ->toggleable(),
 
@@ -89,7 +88,7 @@ class NilaisTable
                     ->options(function () {
                         $user = auth()->user();
 
-                        if ($user->hasRole('Super Admin')) {
+                        if ($user->hasRole('Super Admin') || $user->hasRole('Kepala Sekolah')) {
                             return Kelas::orderBy('tingkat')->orderBy('nama_kelas')
                                 ->get()
                                 ->mapWithKeys(fn ($k) => [$k->id => "Kelas {$k->nama_kelas}"]);
@@ -125,18 +124,14 @@ class NilaisTable
                 ViewAction::make(),
                 EditAction::make(),
 
-                // 📄 Cetak E-Rapor per Siswa
-                Html2MediaAction::make('cetak_rapor')
+                // 📄 Cetak E-Rapor per Siswa — buka halaman cetak di tab baru
+                Action::make('cetak_rapor')
                     ->label('E-Rapor')
                     ->icon('heroicon-o-printer')
                     ->color('success')
-                    ->print()
-                    ->preview()
-                    ->savePdf()
-                    ->filename(fn ($record) => 'E-Rapor_' . str($record->siswa?->nama ?? 'siswa')->slug() . '_' . $record->semester . '_' . $record->jenis_ujian)
-                    ->orientation('portrait')
-                    ->format('a4', 'mm')
-                    ->content(fn ($record) => self::buildRaporContent($record)),
+                    ->url(fn ($record) => route('admin.cetak-rapor', $record->id))
+                    ->openUrlInNewTab()
+                    ->tooltip('Buka halaman cetak E-Rapor siswa ini'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
@@ -144,36 +139,5 @@ class NilaisTable
                 ]),
             ])
             ->defaultSort('created_at', 'desc');
-    }
-
-    /**
-     * Build konten rapor per siswa untuk satu record nilai.
-     * Mengambil semua nilai siswa tersebut di semester & jenis ujian yang sama.
-     */
-    private static function buildRaporContent($record): \Illuminate\Contracts\View\View
-    {
-        $siswa      = $record->siswa;
-        $kelas      = $record->kelas;
-        $semester   = $record->semester;
-        $jenisUjian = $record->jenis_ujian;
-        $tahunAjaran = $record->tahunAjaran;
-
-        // Ambil semua nilai siswa untuk semester & jenis ujian ini
-        $nilais = Nilai::with('mataPelajaran')
-            ->where('siswa_id', $siswa->id)
-            ->where('kelas_id', $kelas?->id)
-            ->where('semester', $semester)
-            ->where('jenis_ujian', $jenisUjian)
-            ->where('tahun_ajaran_id', $tahunAjaran?->id)
-            ->get();
-
-        // Load relasi wali kelas
-        $kelas?->load('waliKelas');
-
-        $sekolah = \App\Models\SettingSekolah::first();
-
-        return view('rapor.cetak-rapor', compact(
-            'siswa', 'kelas', 'semester', 'jenisUjian', 'tahunAjaran', 'nilais', 'sekolah'
-        ));
     }
 }
