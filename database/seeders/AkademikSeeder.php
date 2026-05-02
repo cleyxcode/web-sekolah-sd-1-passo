@@ -52,18 +52,19 @@ class AkademikSeeder extends Seeder
         // 3. BUAT 12 GURU (2 per tingkat, 6 tingkat)
         // ============================================================
         $guruData = [
-            ['email' => 'guru1@sekolah.com',  'nama' => 'Budi Santoso, S.Pd',     'nip' => '198001012010011001', 'jk' => 'L'],
-            ['email' => 'guru2@sekolah.com',  'nama' => 'Siti Rahmawati, S.Pd',   'nip' => '198202022010022002', 'jk' => 'P'],
-            ['email' => 'guru3@sekolah.com',  'nama' => 'Ahmad Fauzi, S.Pd',      'nip' => '197901032009033003', 'jk' => 'L'],
-            ['email' => 'guru4@sekolah.com',  'nama' => 'Dewi Kusuma, S.Pd',      'nip' => '198504042011044004', 'jk' => 'P'],
-            ['email' => 'guru5@sekolah.com',  'nama' => 'Rizki Pratama, S.Pd',    'nip' => '199001052012055005', 'jk' => 'L'],
-            ['email' => 'guru6@sekolah.com',  'nama' => 'Ningsih Wahyuni, S.Pd',  'nip' => '198706062013066006', 'jk' => 'P'],
-            ['email' => 'guru7@sekolah.com',  'nama' => 'Eko Setiawan, S.Pd',     'nip' => '198307072014077007', 'jk' => 'L'],
-            ['email' => 'guru8@sekolah.com',  'nama' => 'Fitri Handayani, S.Pd',  'nip' => '199208082015088008', 'jk' => 'P'],
-            ['email' => 'guru9@sekolah.com',  'nama' => 'Hendra Wijaya, S.Pd',    'nip' => '198009092016099009', 'jk' => 'L'],
-            ['email' => 'guru10@sekolah.com', 'nama' => 'Indah Permata, S.Pd',    'nip' => '199110102017100010', 'jk' => 'P'],
-            ['email' => 'guru11@sekolah.com', 'nama' => 'Joko Susilo, S.Pd',      'nip' => '197811112018111011', 'jk' => 'L'],
-            ['email' => 'guru12@sekolah.com', 'nama' => 'Kartini Lestari, S.Pd',  'nip' => '198612122019122012', 'jk' => 'P'],
+            // [email, nama, nip, jk, jabatan, urutan]
+            ['email' => 'guru1@sekolah.com',  'nama' => 'Budi Santoso, S.Pd',    'nip' => '198001012010011001', 'jk' => 'L', 'jabatan' => 'Kepala Sekolah',        'urutan' => 1],
+            ['email' => 'guru2@sekolah.com',  'nama' => 'Siti Rahmawati, S.Pd',  'nip' => '198202022010022002', 'jk' => 'P', 'jabatan' => 'Wali Kelas 1A',         'urutan' => 2],
+            ['email' => 'guru3@sekolah.com',  'nama' => 'Ahmad Fauzi, S.Pd',     'nip' => '197901032009033003', 'jk' => 'L', 'jabatan' => 'Wali Kelas 1B',         'urutan' => 3],
+            ['email' => 'guru4@sekolah.com',  'nama' => 'Dewi Kusuma, S.Pd',     'nip' => '198504042011044004', 'jk' => 'P', 'jabatan' => 'Wali Kelas 2A',         'urutan' => 4],
+            ['email' => 'guru5@sekolah.com',  'nama' => 'Rizki Pratama, S.Pd',   'nip' => '199001052012055005', 'jk' => 'L', 'jabatan' => 'Wali Kelas 2B',         'urutan' => 5],
+            ['email' => 'guru6@sekolah.com',  'nama' => 'Ningsih Wahyuni, S.Pd', 'nip' => '198706062013066006', 'jk' => 'P', 'jabatan' => 'Wali Kelas 3A',         'urutan' => 6],
+            ['email' => 'guru7@sekolah.com',  'nama' => 'Eko Setiawan, S.Pd',    'nip' => '198307072014077007', 'jk' => 'L', 'jabatan' => 'Wali Kelas 3B',         'urutan' => 7],
+            ['email' => 'guru8@sekolah.com',  'nama' => 'Fitri Handayani, S.Pd', 'nip' => '199208082015088008', 'jk' => 'P', 'jabatan' => 'Wali Kelas 4A',         'urutan' => 8],
+            ['email' => 'guru9@sekolah.com',  'nama' => 'Hendra Wijaya, S.Pd',   'nip' => '198009092016099009', 'jk' => 'L', 'jabatan' => 'Wali Kelas 4B',         'urutan' => 9],
+            ['email' => 'guru10@sekolah.com', 'nama' => 'Indah Permata, S.Pd',   'nip' => '199110102017100010', 'jk' => 'P', 'jabatan' => 'Wali Kelas 5A',         'urutan' => 10],
+            ['email' => 'guru11@sekolah.com', 'nama' => 'Joko Susilo, S.Pd',     'nip' => '197811112018111011', 'jk' => 'L', 'jabatan' => 'Wali Kelas 5B',         'urutan' => 11],
+            ['email' => 'guru12@sekolah.com', 'nama' => 'Kartini Lestari, S.Pd', 'nip' => '198612122019122012', 'jk' => 'P', 'jabatan' => 'Wali Kelas 6A',         'urutan' => 12],
         ];
 
         $gurus = [];
@@ -76,8 +77,24 @@ class AkademikSeeder extends Seeder
 
             $guru = Guru::firstOrCreate(
                 ['user_id' => $user->id],
-                ['nip' => $gd['nip'], 'nama' => $gd['nama'], 'jenis_kelamin' => $gd['jk'], 'no_telepon' => '0812345678' . str_pad($idx, 2, '0', STR_PAD_LEFT)]
+                [
+                    'nip'             => $gd['nip'],
+                    'nama'            => $gd['nama'],
+                    'jenis_kelamin'   => $gd['jk'],
+                    'no_telepon'      => '0812345678' . str_pad($idx, 2, '0', STR_PAD_LEFT),
+                    'jabatan'         => $gd['jabatan'],
+                    'urutan_tampil'   => $gd['urutan'],
+                    'tampil_di_website' => true,
+                ]
             );
+
+            // Update jabatan & urutan jika record sudah ada
+            $guru->update([
+                'jabatan'           => $gd['jabatan'],
+                'urutan_tampil'     => $gd['urutan'],
+                'tampil_di_website' => true,
+            ]);
+
             $gurus[] = $guru;
         }
 
