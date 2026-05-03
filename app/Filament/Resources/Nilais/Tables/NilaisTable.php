@@ -84,6 +84,7 @@ class NilaisTable
             ])
             ->filters([
                 SelectFilter::make('kelas_id')
+                    ->attribute('nilais.kelas_id')
                     ->label('Filter Kelas')
                     ->options(function () {
                         $user = auth()->user();
