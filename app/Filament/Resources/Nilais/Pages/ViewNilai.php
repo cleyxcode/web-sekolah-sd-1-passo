@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Nilais\Pages;
 
 use App\Filament\Resources\Nilais\NilaiResource;
 use App\Models\Nilai;
+use App\Models\SettingSekolah;
 
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
@@ -26,7 +27,7 @@ class ViewNilai extends ViewRecord
                 ->preview()
                 ->savePdf()
                 ->orientation('portrait')
-                ->format('a4', 'mm')
+                ->format('a4')
                 ->filename(fn () => 'E-Rapor_' . str($this->record->siswa?->nama ?? 'siswa')->slug()
                     . '_Smt' . $this->record->semester
                     . '_' . $this->record->jenis_ujian
@@ -54,7 +55,7 @@ class ViewNilai extends ViewRecord
             ->get();
 
         $kelas?->load('waliKelas');
-        $sekolah = \App\Models\SettingSekolah::first();
+        $sekolah = SettingSekolah::first();
 
         return view('rapor.cetak-rapor', compact(
             'siswa', 'kelas', 'semester', 'jenisUjian', 'tahunAjaran', 'nilais', 'sekolah'

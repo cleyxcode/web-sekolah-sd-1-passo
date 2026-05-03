@@ -115,7 +115,7 @@ class RekapNilaiKelas extends ResourcePage implements HasForms
                 ->preview()
                 ->savePdf()
                 ->orientation('landscape')
-                ->format('a4', 'mm')
+                ->format('a4')
                 ->filename(fn () => 'Rekap-Nilai-Kelas-' . ($this->getKelasData()?->nama_kelas ?? 'kelas') . '-Smt' . ($this->data['semester'] ?? ''))
                 ->content(fn () => $this->buildRekapContent()),
         ];
@@ -136,7 +136,7 @@ class RekapNilaiKelas extends ResourcePage implements HasForms
 
         $kelas       = Kelas::with('waliKelas')->find($kelasId);
         $tahunAjaran = TahunAjaran::find($tahunAjaranId);
-        $sekolah     = \App\Models\SettingSekolah::first();
+        $sekolah     = SettingSekolah::first();
 
         // Siswa aktif di kelas ini
         $siswas = Siswa::where('kelas_id', $kelasId)
