@@ -27,13 +27,9 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->viteTheme('resources/css/filament/admin/theme.css')
             ->login()
-            ->brandName('E-Raport SD 1 Passo')
-            ->font('Poppins')
             ->colors([
-                'primary' => '#1e3a8a', // Warna biru tua (Dark Blue)
-                'info'    => \Filament\Support\Colors\Color::Blue,
+                'primary' => Color::Amber,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
