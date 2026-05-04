@@ -51,7 +51,7 @@ class SiswaResource extends Resource
         if ($guru) {
             $kelasIds = Kelas::where('wali_kelas_id', $guru->id)->pluck('id');
             if ($kelasIds->isNotEmpty()) {
-                return $query->whereIn('kelas_id', $kelasIds);
+                return $query->whereIn('siswas.kelas_id', $kelasIds);
             }
         }
 

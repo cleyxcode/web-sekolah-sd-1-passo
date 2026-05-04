@@ -73,16 +73,16 @@ class Nilai extends Model
 
     public function scopeSemester($query, string $semester)
     {
-        return $query->where('semester', $semester);
+        return $query->where('nilais.semester', $semester);
     }
 
     public function scopeJenisUjian($query, string $jenisUjian)
     {
-        return $query->where('jenis_ujian', $jenisUjian);
+        return $query->where('nilais.jenis_ujian', $jenisUjian);
     }
 
     public function scopeTahunAjaran($query, int $tahunAjaranId)
     {
-        return $query->where('tahun_ajaran_id', $tahunAjaranId);
+        return $query->where('nilais.tahun_ajaran_id', $tahunAjaranId);
     }
 }
