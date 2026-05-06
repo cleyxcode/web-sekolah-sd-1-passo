@@ -1,5 +1,6 @@
 <?php
 
+// Lokasi folder
 namespace App\Filament\Resources\SettingSekolahs\Tables;
 
 use Filament\Actions\BulkActionGroup;
@@ -8,6 +9,13 @@ use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
+/**
+ * SettingSekolahsTable
+ * 
+ * Karena SettingSekolahResource dibuat langsung diarahkan ke halaman Edit (Index diarahkan ke Edit),
+ * file tabel ini sebenarnya jarang tereksekusi. Namun tetap disiapkan sebagai cadangan jika 
+ * pengaturan sekolah ingin ditampilkan dalam format daftar tabel.
+ */
 class SettingSekolahsTable
 {
     public static function configure(Table $table): Table
@@ -21,7 +29,7 @@ class SettingSekolahsTable
                 TextColumn::make('no_telepon')
                     ->searchable(),
                 TextColumn::make('email')
-                    ->label('Email address')
+                    ->label('Alamat Email')
                     ->searchable(),
                 TextColumn::make('instagram')
                     ->searchable(),
