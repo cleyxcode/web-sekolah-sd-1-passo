@@ -8,7 +8,7 @@ use App\Models\Siswa;
 use App\Models\TahunAjaran;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Checkbox;
-use Filament\Forms\Components\Placeholder;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Repeater;
@@ -63,9 +63,9 @@ class NaikKelasAction extends Action
                 // Kalau tidak ada tahun ajaran aktif, blokir! (Suruh aktifkan dulu)
                 if (!$tahunAjaranAktif) {
                     return [
-                        Placeholder::make('no_ta')
+                        TextEntry::make('no_ta')
                             ->label('')
-                            ->content(new HtmlString(
+                            ->state(new HtmlString(
                                 '<div style="padding:14px;background:#fef2f2;border:1px solid #fca5a5;border-radius:10px;color:#991b1b;">
                                     <strong>⚠️ Tidak ada tahun ajaran yang sedang aktif!</strong><br><br>
                                     Aktifkan satu tahun ajaran di menu <strong>Tahun Ajaran</strong> terlebih dahulu.
@@ -124,9 +124,9 @@ class NaikKelasAction extends Action
                 // Kembalikan kotak-kotak tampilan form ke layar
                 return [
                     // ── BAGIAN A: PREVIEW KELAS AKTIF (Tabel Info) ─────────────────
-                    Placeholder::make('preview')
+                    TextEntry::make('preview')
                         ->label('')
-                        ->content(new HtmlString("
+                        ->state(new HtmlString("
                             <div style='margin-bottom:16px;'>
                                 <div style='font-weight:800;font-size:15px;color:#0f172a;margin-bottom:4px;'>📋 Kondisi Kelas Saat Ini</div>
                                 <div style='color:#64748b;font-size:12px;'>Tahun Ajaran Aktif: <strong>{$tahunAjaranAktif->nama}</strong> &nbsp;|&nbsp; Total siswa aktif: <strong>{$totalSiswa}</strong></div>
@@ -195,9 +195,9 @@ class NaikKelasAction extends Action
                         ->helperText('Sesuaikan dengan struktur kelas di sekolah Anda.'),
 
                     // Penjelasan tambahan kalau pilih mode "gabung_satu"
-                    Placeholder::make('info_gabung')
+                    TextEntry::make('info_gabung')
                         ->label('')
-                        ->content(new HtmlString(
+                        ->state(new HtmlString(
                             '<div style="padding:10px 14px;background:#f0fdf4;border:1px solid #86efac;border-radius:8px;font-size:12px;color:#166534;">
                                 <strong>ℹ️ Mode Gabung Satu Kelas:</strong><br>
                                 Cocok untuk sekolah yang menggabungkan semua siswa dari beberapa kelas pararel ke satu kelas di tingkat berikutnya
