@@ -39,4 +39,8 @@ Route::put('/portal-ortu/profil', [\App\Http\Controllers\PortalOrtuController::c
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin/cetak-rapor/{nilai}', [\App\Http\Controllers\RaporController::class, 'cetakAdmin'])
         ->name('admin.cetak-rapor');
+
+    // Cetak rekap nilai seluruh kelas
+    Route::get('/admin/cetak-rekap-kelas', [\App\Http\Controllers\RekapKelasController::class, 'cetak'])
+        ->name('admin.cetak-rekap-kelas');
 });

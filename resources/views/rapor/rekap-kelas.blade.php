@@ -464,5 +464,10 @@
 
     </div>{{-- end body-wrap --}}
 </div>{{-- end page --}}
+<script>
+    window.addEventListener('load', function () {
+        window.print();
+    });
+</script>
 </body>
 </html>

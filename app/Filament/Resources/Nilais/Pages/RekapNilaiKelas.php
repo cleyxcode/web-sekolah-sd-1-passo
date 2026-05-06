@@ -16,9 +16,9 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Schemas\Schema;
 use Filament\Pages\Page;
 use Filament\Resources\Pages\Page as ResourcePage;
+use Filament\Actions\Action;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
-use Torgodly\Html2Media\Actions\Html2MediaAction;
 
 class RekapNilaiKelas extends ResourcePage implements HasForms
 {
@@ -108,16 +108,17 @@ class RekapNilaiKelas extends ResourcePage implements HasForms
     public function getHeaderActions(): array
     {
         return [
-            Html2MediaAction::make('cetak_rekap')
+            Action::make('cetak_rekap')
                 ->label('🖨️ Cetak / Export PDF')
                 ->color('success')
-                ->print()
-                ->preview()
-                ->savePdf()
-                ->orientation('landscape')
-                ->format('a4')
-                ->filename(fn () => 'Rekap-Nilai-Kelas-' . ($this->getKelasData()?->nama_kelas ?? 'kelas') . '-Smt' . ($this->data['semester'] ?? ''))
-                ->content(fn () => $this->buildRekapContent()),
+                ->icon('heroicon-o-printer')
+                ->url(fn () => route('admin.cetak-rekap-kelas', [
+                    'kelas_id'       => $this->data['kelas_id'] ?? $this->kelas_id,
+                    'semester'       => $this->data['semester'] ?? $this->semester,
+                    'jenis_ujian'    => $this->data['jenis_ujian'] ?? $this->jenis_ujian,
+                    'tahun_ajaran_id' => $this->data['tahun_ajaran_id'] ?? $this->tahun_ajaran_id,
+                ]))
+                ->openUrlInNewTab(),
         ];
     }
 
