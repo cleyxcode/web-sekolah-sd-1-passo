@@ -6,18 +6,26 @@ use Spatie\Permission\Models\Permission;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
+/**
+ * PermissionPolicy
+ * 
+ * Kebijakan sistem yang SANGAT KETAT.
+ * Mengatur hak akses ke tabel Permission (Izin-izin tombol).
+ * Supaya tidak ada yang iseng mengubah izin sistem, semuanya DIKUNCI (Return False).
+ * Hanya Super Admin (yang bypass ini otomatis) yang bisa mengubahnya.
+ */
 class PermissionPolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Bolehkah melihat daftar izin?
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return false; // Ditolak
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Bolehkah melihat detail izin?
      */
     public function view(User $user, Permission $permission): bool
     {
@@ -25,7 +33,7 @@ class PermissionPolicy
     }
 
     /**
-     * Determine whether the user can create models.
+     * Bolehkah membuat izin baru?
      */
     public function create(User $user): bool
     {
@@ -33,7 +41,7 @@ class PermissionPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Bolehkah mengubah izin?
      */
     public function update(User $user, Permission $permission): bool
     {
@@ -41,7 +49,7 @@ class PermissionPolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Bolehkah menghapus izin?
      */
     public function delete(User $user, Permission $permission): bool
     {
@@ -49,7 +57,7 @@ class PermissionPolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Bolehkah memulihkan izin?
      */
     public function restore(User $user, Permission $permission): bool
     {
@@ -57,7 +65,7 @@ class PermissionPolicy
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Bolehkah menghapus permanen izin?
      */
     public function forceDelete(User $user, Permission $permission): bool
     {

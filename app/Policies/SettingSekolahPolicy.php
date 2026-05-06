@@ -6,10 +6,15 @@ use Illuminate\Auth\Access\Response;
 use App\Models\SettingSekolah;
 use App\Models\User;
 
+/**
+ * SettingSekolahPolicy
+ * 
+ * Mengatur hak akses untuk konfigurasi sistem dan informasi dasar sekolah (Nama, Alamat, Logo).
+ */
 class SettingSekolahPolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Siapa yang boleh melihat daftar pengaturan sekolah?
      */
     public function viewAny(User $user): bool
     {
@@ -17,7 +22,7 @@ class SettingSekolahPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Siapa yang boleh melihat detail pengaturan sekolah?
      */
     public function view(User $user, SettingSekolah $settingsekolah): bool
     {
@@ -25,7 +30,7 @@ class SettingSekolahPolicy
     }
 
     /**
-     * Determine whether the user can create models.
+     * Siapa yang boleh menambah pengaturan sekolah baru?
      */
     public function create(User $user): bool
     {
@@ -33,7 +38,7 @@ class SettingSekolahPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Siapa yang boleh MENGUBAH / MENGEDIT data sekolah (misal ganti logo/kepsek)?
      */
     public function update(User $user, SettingSekolah $settingsekolah): bool
     {
@@ -41,64 +46,43 @@ class SettingSekolahPolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Siapa yang boleh MENGHAPUS pengaturan sekolah?
      */
     public function delete(User $user, SettingSekolah $settingsekolah): bool
     {
         return $user->checkPermissionTo('delete SettingSekolah');
     }
 
-    /**
-     * Determine whether the user can delete any models.
-     */
     public function deleteAny(User $user): bool
     {
         return $user->checkPermissionTo('delete-any SettingSekolah');
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
     public function restore(User $user, SettingSekolah $settingsekolah): bool
     {
         return $user->checkPermissionTo('restore SettingSekolah');
     }
 
-    /**
-     * Determine whether the user can restore any models.
-     */
     public function restoreAny(User $user): bool
     {
         return $user->checkPermissionTo('restore-any SettingSekolah');
     }
 
-    /**
-     * Determine whether the user can replicate the model.
-     */
     public function replicate(User $user, SettingSekolah $settingsekolah): bool
     {
         return $user->checkPermissionTo('replicate SettingSekolah');
     }
 
-    /**
-     * Determine whether the user can reorder the models.
-     */
     public function reorder(User $user): bool
     {
         return $user->checkPermissionTo('reorder SettingSekolah');
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
     public function forceDelete(User $user, SettingSekolah $settingsekolah): bool
     {
         return $user->checkPermissionTo('force-delete SettingSekolah');
     }
 
-    /**
-     * Determine whether the user can permanently delete any models.
-     */
     public function forceDeleteAny(User $user): bool
     {
         return $user->checkPermissionTo('force-delete-any SettingSekolah');

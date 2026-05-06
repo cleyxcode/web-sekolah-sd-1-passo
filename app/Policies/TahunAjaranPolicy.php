@@ -6,10 +6,15 @@ use Illuminate\Auth\Access\Response;
 use App\Models\TahunAjaran;
 use App\Models\User;
 
+/**
+ * TahunAjaranPolicy
+ * 
+ * Mengatur akses ke menu pengaturan Tahun Ajaran & Semester aktif.
+ */
 class TahunAjaranPolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Bolehkah melihat daftar tahun ajaran?
      */
     public function viewAny(User $user): bool
     {
@@ -17,7 +22,7 @@ class TahunAjaranPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Bolehkah melihat detail tahun ajaran tertentu?
      */
     public function view(User $user, TahunAjaran $tahunajaran): bool
     {
@@ -25,7 +30,7 @@ class TahunAjaranPolicy
     }
 
     /**
-     * Determine whether the user can create models.
+     * Bolehkah membuat tahun ajaran baru?
      */
     public function create(User $user): bool
     {
@@ -33,7 +38,7 @@ class TahunAjaranPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Bolehkah mengubah (mengaktifkan/menonaktifkan) tahun ajaran?
      */
     public function update(User $user, TahunAjaran $tahunajaran): bool
     {
@@ -41,64 +46,43 @@ class TahunAjaranPolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Bolehkah menghapus tahun ajaran?
      */
     public function delete(User $user, TahunAjaran $tahunajaran): bool
     {
         return $user->checkPermissionTo('delete TahunAjaran');
     }
 
-    /**
-     * Determine whether the user can delete any models.
-     */
     public function deleteAny(User $user): bool
     {
         return $user->checkPermissionTo('delete-any TahunAjaran');
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
     public function restore(User $user, TahunAjaran $tahunajaran): bool
     {
         return $user->checkPermissionTo('restore TahunAjaran');
     }
 
-    /**
-     * Determine whether the user can restore any models.
-     */
     public function restoreAny(User $user): bool
     {
         return $user->checkPermissionTo('restore-any TahunAjaran');
     }
 
-    /**
-     * Determine whether the user can replicate the model.
-     */
     public function replicate(User $user, TahunAjaran $tahunajaran): bool
     {
         return $user->checkPermissionTo('replicate TahunAjaran');
     }
 
-    /**
-     * Determine whether the user can reorder the models.
-     */
     public function reorder(User $user): bool
     {
         return $user->checkPermissionTo('reorder TahunAjaran');
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
     public function forceDelete(User $user, TahunAjaran $tahunajaran): bool
     {
         return $user->checkPermissionTo('force-delete TahunAjaran');
     }
 
-    /**
-     * Determine whether the user can permanently delete any models.
-     */
     public function forceDeleteAny(User $user): bool
     {
         return $user->checkPermissionTo('force-delete-any TahunAjaran');

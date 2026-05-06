@@ -6,10 +6,16 @@ use Illuminate\Auth\Access\Response;
 use App\Models\DeskripsiKompetensi;
 use App\Models\User;
 
+/**
+ * DeskripsiKompetensiPolicy
+ * 
+ * Mengatur akses untuk tabel "Deskripsi Kompetensi".
+ * (Daftar keterangan tentang standar kelulusan atau kemampuan siswa dalam suatu mata pelajaran)
+ */
 class DeskripsiKompetensiPolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Bolehkah melihat daftar keseluruhan?
      */
     public function viewAny(User $user): bool
     {
@@ -17,7 +23,7 @@ class DeskripsiKompetensiPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Bolehkah melihat detail salah satu kompetensi?
      */
     public function view(User $user, DeskripsiKompetensi $deskripsikompetensi): bool
     {
@@ -25,7 +31,7 @@ class DeskripsiKompetensiPolicy
     }
 
     /**
-     * Determine whether the user can create models.
+     * Bolehkah menambah kompetensi baru?
      */
     public function create(User $user): bool
     {
@@ -33,7 +39,7 @@ class DeskripsiKompetensiPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Bolehkah mengedit kompetensi yang sudah ada?
      */
     public function update(User $user, DeskripsiKompetensi $deskripsikompetensi): bool
     {
@@ -41,7 +47,7 @@ class DeskripsiKompetensiPolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Bolehkah menghapus kompetensi?
      */
     public function delete(User $user, DeskripsiKompetensi $deskripsikompetensi): bool
     {
@@ -49,7 +55,7 @@ class DeskripsiKompetensiPolicy
     }
 
     /**
-     * Determine whether the user can delete any models.
+     * Bolehkah menghapus banyak kompetensi sekaligus?
      */
     public function deleteAny(User $user): bool
     {
@@ -57,7 +63,7 @@ class DeskripsiKompetensiPolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Bolehkah memulihkan kompetensi yang terhapus?
      */
     public function restore(User $user, DeskripsiKompetensi $deskripsikompetensi): bool
     {
@@ -65,7 +71,7 @@ class DeskripsiKompetensiPolicy
     }
 
     /**
-     * Determine whether the user can restore any models.
+     * Bolehkah memulihkan banyak kompetensi?
      */
     public function restoreAny(User $user): bool
     {
@@ -73,7 +79,7 @@ class DeskripsiKompetensiPolicy
     }
 
     /**
-     * Determine whether the user can replicate the model.
+     * Bolehkah menggandakan (duplikat) kompetensi?
      */
     public function replicate(User $user, DeskripsiKompetensi $deskripsikompetensi): bool
     {
@@ -81,7 +87,7 @@ class DeskripsiKompetensiPolicy
     }
 
     /**
-     * Determine whether the user can reorder the models.
+     * Bolehkah menyusun ulang urutannya?
      */
     public function reorder(User $user): bool
     {
@@ -89,7 +95,7 @@ class DeskripsiKompetensiPolicy
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Bolehkah menghapus kompetensi secara permanen (selamanya)?
      */
     public function forceDelete(User $user, DeskripsiKompetensi $deskripsikompetensi): bool
     {
@@ -97,7 +103,7 @@ class DeskripsiKompetensiPolicy
     }
 
     /**
-     * Determine whether the user can permanently delete any models.
+     * Bolehkah menghapus banyak kompetensi secara permanen?
      */
     public function forceDeleteAny(User $user): bool
     {

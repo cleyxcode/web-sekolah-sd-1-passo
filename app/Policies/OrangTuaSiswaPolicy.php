@@ -6,10 +6,16 @@ use Illuminate\Auth\Access\Response;
 use App\Models\OrangTuaSiswa;
 use App\Models\User;
 
+/**
+ * OrangTuaSiswaPolicy
+ * 
+ * Mengatur hak akses relasi/sambungan antara Orang Tua dan anak-anaknya (Siswa).
+ * (Menentukan anak mana terhubung ke ayah/ibu siapa).
+ */
 class OrangTuaSiswaPolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Bolehkah melihat daftar relasi orang tua dan anak?
      */
     public function viewAny(User $user): bool
     {
@@ -17,7 +23,7 @@ class OrangTuaSiswaPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Bolehkah melihat detail relasi tertentu?
      */
     public function view(User $user, OrangTuaSiswa $orangtuasiswa): bool
     {
@@ -25,7 +31,7 @@ class OrangTuaSiswaPolicy
     }
 
     /**
-     * Determine whether the user can create models.
+     * Bolehkah membuat relasi baru (menyambungkan ayah dengan anaknya)?
      */
     public function create(User $user): bool
     {
@@ -33,7 +39,7 @@ class OrangTuaSiswaPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Bolehkah mengedit/mengubah relasi tersebut?
      */
     public function update(User $user, OrangTuaSiswa $orangtuasiswa): bool
     {
@@ -41,7 +47,7 @@ class OrangTuaSiswaPolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Bolehkah memutuskan (menghapus) relasi orang tua dan anak?
      */
     public function delete(User $user, OrangTuaSiswa $orangtuasiswa): bool
     {
@@ -49,7 +55,7 @@ class OrangTuaSiswaPolicy
     }
 
     /**
-     * Determine whether the user can delete any models.
+     * Bolehkah memutuskan banyak relasi sekaligus?
      */
     public function deleteAny(User $user): bool
     {
@@ -57,23 +63,20 @@ class OrangTuaSiswaPolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Bolehkah memulihkan relasi yang terhapus sementara?
      */
     public function restore(User $user, OrangTuaSiswa $orangtuasiswa): bool
     {
         return $user->checkPermissionTo('restore OrangTuaSiswa');
     }
 
-    /**
-     * Determine whether the user can restore any models.
-     */
     public function restoreAny(User $user): bool
     {
         return $user->checkPermissionTo('restore-any OrangTuaSiswa');
     }
 
     /**
-     * Determine whether the user can replicate the model.
+     * Bolehkah menggandakan relasi?
      */
     public function replicate(User $user, OrangTuaSiswa $orangtuasiswa): bool
     {
@@ -81,7 +84,7 @@ class OrangTuaSiswaPolicy
     }
 
     /**
-     * Determine whether the user can reorder the models.
+     * Bolehkah menggeser/menyusun ulang urutannya?
      */
     public function reorder(User $user): bool
     {
@@ -89,16 +92,13 @@ class OrangTuaSiswaPolicy
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Bolehkah menghapus relasi selamanya?
      */
     public function forceDelete(User $user, OrangTuaSiswa $orangtuasiswa): bool
     {
         return $user->checkPermissionTo('force-delete OrangTuaSiswa');
     }
 
-    /**
-     * Determine whether the user can permanently delete any models.
-     */
     public function forceDeleteAny(User $user): bool
     {
         return $user->checkPermissionTo('force-delete-any OrangTuaSiswa');

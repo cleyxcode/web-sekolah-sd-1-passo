@@ -6,10 +6,16 @@ use Illuminate\Auth\Access\Response;
 use App\Models\ActivityLog;
 use App\Models\User;
 
+/**
+ * ActivityLogPolicy
+ * 
+ * Policy (Kebijakan) ini mengatur hak akses (siapa yang boleh melakukan apa)
+ * terhadap tabel log aktivitas (catatan sejarah perubahan di dalam sistem).
+ */
 class ActivityLogPolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Apakah pengguna boleh melihat daftar log aktivitas?
      */
     public function viewAny(User $user): bool
     {
@@ -17,7 +23,7 @@ class ActivityLogPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Apakah pengguna boleh melihat detail satu log aktivitas tertentu?
      */
     public function view(User $user, ActivityLog $activitylog): bool
     {
@@ -25,7 +31,7 @@ class ActivityLogPolicy
     }
 
     /**
-     * Determine whether the user can create models.
+     * Apakah pengguna boleh membuat log aktivitas manual?
      */
     public function create(User $user): bool
     {
@@ -33,7 +39,7 @@ class ActivityLogPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Apakah pengguna boleh mengubah/mengedit data log aktivitas?
      */
     public function update(User $user, ActivityLog $activitylog): bool
     {
@@ -41,7 +47,7 @@ class ActivityLogPolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Apakah pengguna boleh menghapus satu log aktivitas?
      */
     public function delete(User $user, ActivityLog $activitylog): bool
     {
@@ -49,7 +55,7 @@ class ActivityLogPolicy
     }
 
     /**
-     * Determine whether the user can delete any models.
+     * Apakah pengguna boleh menghapus banyak log sekaligus?
      */
     public function deleteAny(User $user): bool
     {
@@ -57,7 +63,7 @@ class ActivityLogPolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Apakah pengguna boleh mengembalikan log aktivitas yang sempat dihapus sementara (restore)?
      */
     public function restore(User $user, ActivityLog $activitylog): bool
     {
@@ -65,7 +71,7 @@ class ActivityLogPolicy
     }
 
     /**
-     * Determine whether the user can restore any models.
+     * Apakah pengguna boleh mengembalikan banyak log sekaligus?
      */
     public function restoreAny(User $user): bool
     {
@@ -73,7 +79,7 @@ class ActivityLogPolicy
     }
 
     /**
-     * Determine whether the user can replicate the model.
+     * Apakah pengguna boleh menduplikasi (replicate) data log?
      */
     public function replicate(User $user, ActivityLog $activitylog): bool
     {
@@ -81,7 +87,7 @@ class ActivityLogPolicy
     }
 
     /**
-     * Determine whether the user can reorder the models.
+     * Apakah pengguna boleh mengubah urutan daftar log?
      */
     public function reorder(User $user): bool
     {
@@ -89,7 +95,7 @@ class ActivityLogPolicy
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Apakah pengguna boleh menghapus log secara permanen (tidak bisa dikembalikan lagi)?
      */
     public function forceDelete(User $user, ActivityLog $activitylog): bool
     {
@@ -97,7 +103,7 @@ class ActivityLogPolicy
     }
 
     /**
-     * Determine whether the user can permanently delete any models.
+     * Apakah pengguna boleh menghapus banyak log secara permanen?
      */
     public function forceDeleteAny(User $user): bool
     {

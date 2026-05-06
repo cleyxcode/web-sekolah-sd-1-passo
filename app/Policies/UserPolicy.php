@@ -3,13 +3,18 @@
 namespace App\Policies;
 
 use Illuminate\Auth\Access\Response;
-
 use App\Models\User;
 
+/**
+ * UserPolicy
+ * 
+ * Mengatur hak akses ke menu Manajemen Pengguna (Tabel Accounts Login).
+ * (Siapa yang boleh buat akun, reset password, ganti role).
+ */
 class UserPolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Bolehkah melihat daftar semua pengguna sistem?
      */
     public function viewAny(User $user): bool
     {
@@ -17,7 +22,7 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Bolehkah melihat detail akun seseorang?
      */
     public function view(User $user, User $model): bool
     {
@@ -25,7 +30,7 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can create models.
+     * Bolehkah membuat akun baru manual?
      */
     public function create(User $user): bool
     {
@@ -33,7 +38,7 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Bolehkah mengedit data/password pengguna lain?
      */
     public function update(User $user, User $model): bool
     {
@@ -41,7 +46,7 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Bolehkah menghapus/memblokir akun pengguna?
      */
     public function delete(User $user, User $model): bool
     {
@@ -49,7 +54,7 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can delete any models.
+     * Bolehkah menghapus banyak akun sekaligus?
      */
     public function deleteAny(User $user): bool
     {
@@ -57,23 +62,20 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Bolehkah memulihkan akun yang terhapus?
      */
     public function restore(User $user, User $model): bool
     {
         return $user->checkPermissionTo('restore User');
     }
 
-    /**
-     * Determine whether the user can restore any models.
-     */
     public function restoreAny(User $user): bool
     {
         return $user->checkPermissionTo('restore-any User');
     }
 
     /**
-     * Determine whether the user can replicate the model.
+     * Bolehkah menyalin akun (duplikat user)?
      */
     public function replicate(User $user, User $model): bool
     {
@@ -81,7 +83,7 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can reorder the models.
+     * Bolehkah menyusun ulang urutan pengguna?
      */
     public function reorder(User $user): bool
     {
@@ -89,16 +91,13 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Bolehkah menghapus akun secara permanen (menghilangkan jejak)?
      */
     public function forceDelete(User $user, User $model): bool
     {
         return $user->checkPermissionTo('force-delete User');
     }
 
-    /**
-     * Determine whether the user can permanently delete any models.
-     */
     public function forceDeleteAny(User $user): bool
     {
         return $user->checkPermissionTo('force-delete-any User');

@@ -6,10 +6,15 @@ use Illuminate\Auth\Access\Response;
 use App\Models\Notifikasi;
 use App\Models\User;
 
+/**
+ * NotifikasiPolicy
+ * 
+ * Mengatur hak akses siapa saja yang boleh melihat atau mengelola tabel Notifikasi (pesan sistem).
+ */
 class NotifikasiPolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Siapa yang boleh melihat daftar notifikasi?
      */
     public function viewAny(User $user): bool
     {
@@ -17,7 +22,7 @@ class NotifikasiPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Siapa yang boleh membaca detail satu notifikasi?
      */
     public function view(User $user, Notifikasi $notifikasi): bool
     {
@@ -25,7 +30,7 @@ class NotifikasiPolicy
     }
 
     /**
-     * Determine whether the user can create models.
+     * Siapa yang boleh membuat/mengirim notifikasi manual?
      */
     public function create(User $user): bool
     {
@@ -33,7 +38,7 @@ class NotifikasiPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Siapa yang boleh mengedit isi notifikasi?
      */
     public function update(User $user, Notifikasi $notifikasi): bool
     {
@@ -41,7 +46,7 @@ class NotifikasiPolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Siapa yang boleh menghapus notifikasi?
      */
     public function delete(User $user, Notifikasi $notifikasi): bool
     {
@@ -49,7 +54,7 @@ class NotifikasiPolicy
     }
 
     /**
-     * Determine whether the user can delete any models.
+     * Siapa yang boleh menghapus banyak notifikasi?
      */
     public function deleteAny(User $user): bool
     {
@@ -57,23 +62,20 @@ class NotifikasiPolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Siapa yang boleh memulihkan notifikasi yang terhapus?
      */
     public function restore(User $user, Notifikasi $notifikasi): bool
     {
         return $user->checkPermissionTo('restore Notifikasi');
     }
 
-    /**
-     * Determine whether the user can restore any models.
-     */
     public function restoreAny(User $user): bool
     {
         return $user->checkPermissionTo('restore-any Notifikasi');
     }
 
     /**
-     * Determine whether the user can replicate the model.
+     * Siapa yang boleh menyalin (duplikat) notifikasi?
      */
     public function replicate(User $user, Notifikasi $notifikasi): bool
     {
@@ -81,7 +83,7 @@ class NotifikasiPolicy
     }
 
     /**
-     * Determine whether the user can reorder the models.
+     * Siapa yang boleh menyusun ulang urutan notifikasi?
      */
     public function reorder(User $user): bool
     {
@@ -89,16 +91,13 @@ class NotifikasiPolicy
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Siapa yang boleh menghapus permanen notifikasi?
      */
     public function forceDelete(User $user, Notifikasi $notifikasi): bool
     {
         return $user->checkPermissionTo('force-delete Notifikasi');
     }
 
-    /**
-     * Determine whether the user can permanently delete any models.
-     */
     public function forceDeleteAny(User $user): bool
     {
         return $user->checkPermissionTo('force-delete-any Notifikasi');

@@ -6,10 +6,15 @@ use Illuminate\Auth\Access\Response;
 use App\Models\Kelas;
 use App\Models\User;
 
+/**
+ * KelasPolicy
+ * 
+ * Mengatur hak akses ke menu pembagian Kelas & Rombongan Belajar.
+ */
 class KelasPolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Siapa yang boleh melihat daftar kelas?
      */
     public function viewAny(User $user): bool
     {
@@ -17,7 +22,7 @@ class KelasPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Siapa yang boleh melihat info satu kelas tertentu?
      */
     public function view(User $user, Kelas $kelas): bool
     {
@@ -25,7 +30,7 @@ class KelasPolicy
     }
 
     /**
-     * Determine whether the user can create models.
+     * Siapa yang boleh membuat ruangan/kelas baru?
      */
     public function create(User $user): bool
     {
@@ -33,7 +38,7 @@ class KelasPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Siapa yang boleh mengedit (misal: mengganti wali kelas)?
      */
     public function update(User $user, Kelas $kelas): bool
     {
@@ -41,7 +46,7 @@ class KelasPolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Siapa yang boleh menghapus kelas?
      */
     public function delete(User $user, Kelas $kelas): bool
     {
@@ -49,7 +54,7 @@ class KelasPolicy
     }
 
     /**
-     * Determine whether the user can delete any models.
+     * Siapa yang boleh menghapus banyak kelas sekaligus?
      */
     public function deleteAny(User $user): bool
     {
@@ -57,23 +62,20 @@ class KelasPolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Siapa yang boleh mengembalikan kelas yang terhapus?
      */
     public function restore(User $user, Kelas $kelas): bool
     {
         return $user->checkPermissionTo('restore Kelas');
     }
 
-    /**
-     * Determine whether the user can restore any models.
-     */
     public function restoreAny(User $user): bool
     {
         return $user->checkPermissionTo('restore-any Kelas');
     }
 
     /**
-     * Determine whether the user can replicate the model.
+     * Siapa yang boleh menyalin (duplikat) kelas?
      */
     public function replicate(User $user, Kelas $kelas): bool
     {
@@ -81,32 +83,26 @@ class KelasPolicy
     }
 
     /**
-     * Determine whether the user can reorder the models.
+     * Siapa yang boleh menyusun ulang urutan kelas?
      */
     public function reorder(User $user): bool
     {
         return $user->checkPermissionTo('reorder Kelas');
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
     public function forceDelete(User $user, Kelas $kelas): bool
     {
         return $user->checkPermissionTo('force-delete Kelas');
     }
 
-    /**
-     * Determine whether the user can permanently delete any models.
-     */
     public function forceDeleteAny(User $user): bool
     {
         return $user->checkPermissionTo('force-delete-any Kelas');
     }
 
     /**
-     * Determine whether the user can process kenaikan kelas otomatis.
-     * Hanya Super Admin & Kepala Sekolah yang berhak.
+     * FITUR KHUSUS: Siapa yang boleh menggunakan tombol "Kenaikan Kelas Otomatis"?
+     * Hanya Admin Utama atau Kepala Sekolah yang diperbolehkan!
      */
     public function naikKelas(User $user): bool
     {

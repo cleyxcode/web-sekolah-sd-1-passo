@@ -6,10 +6,15 @@ use Illuminate\Auth\Access\Response;
 use App\Models\OrangTua;
 use App\Models\User;
 
+/**
+ * OrangTuaPolicy
+ * 
+ * Kebijakan akses untuk mengelola akun dan data Orang Tua wali murid.
+ */
 class OrangTuaPolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Bolehkah melihat daftar Orang Tua?
      */
     public function viewAny(User $user): bool
     {
@@ -17,7 +22,7 @@ class OrangTuaPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Bolehkah melihat detail biodata satu Orang Tua?
      */
     public function view(User $user, OrangTua $orangtua): bool
     {
@@ -25,7 +30,7 @@ class OrangTuaPolicy
     }
 
     /**
-     * Determine whether the user can create models.
+     * Bolehkah membuat/mendaftarkan akun Orang Tua baru?
      */
     public function create(User $user): bool
     {
@@ -33,7 +38,7 @@ class OrangTuaPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Bolehkah mengedit data/password Orang Tua?
      */
     public function update(User $user, OrangTua $orangtua): bool
     {
@@ -41,7 +46,7 @@ class OrangTuaPolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Bolehkah menghapus data Orang Tua?
      */
     public function delete(User $user, OrangTua $orangtua): bool
     {
@@ -49,7 +54,7 @@ class OrangTuaPolicy
     }
 
     /**
-     * Determine whether the user can delete any models.
+     * Bolehkah menghapus banyak data Orang Tua sekaligus?
      */
     public function deleteAny(User $user): bool
     {
@@ -57,23 +62,20 @@ class OrangTuaPolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Bolehkah memulihkan data yang tak sengaja terhapus?
      */
     public function restore(User $user, OrangTua $orangtua): bool
     {
         return $user->checkPermissionTo('restore OrangTua');
     }
 
-    /**
-     * Determine whether the user can restore any models.
-     */
     public function restoreAny(User $user): bool
     {
         return $user->checkPermissionTo('restore-any OrangTua');
     }
 
     /**
-     * Determine whether the user can replicate the model.
+     * Bolehkah menggandakan (duplikat) data Orang Tua?
      */
     public function replicate(User $user, OrangTua $orangtua): bool
     {
@@ -81,7 +83,7 @@ class OrangTuaPolicy
     }
 
     /**
-     * Determine whether the user can reorder the models.
+     * Bolehkah menyusun ulang urutan?
      */
     public function reorder(User $user): bool
     {
@@ -89,16 +91,13 @@ class OrangTuaPolicy
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Bolehkah menghapus data Orang Tua selamanya (permanen)?
      */
     public function forceDelete(User $user, OrangTua $orangtua): bool
     {
         return $user->checkPermissionTo('force-delete OrangTua');
     }
 
-    /**
-     * Determine whether the user can permanently delete any models.
-     */
     public function forceDeleteAny(User $user): bool
     {
         return $user->checkPermissionTo('force-delete-any OrangTua');

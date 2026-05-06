@@ -6,10 +6,15 @@ use Illuminate\Auth\Access\Response;
 use App\Models\MataPelajaran;
 use App\Models\User;
 
+/**
+ * MataPelajaranPolicy
+ * 
+ * Mengatur hak akses ke menu Mata Pelajaran.
+ */
 class MataPelajaranPolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Siapa yang boleh melihat daftar mata pelajaran?
      */
     public function viewAny(User $user): bool
     {
@@ -17,7 +22,7 @@ class MataPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Siapa yang boleh melihat detail spesifik mata pelajaran?
      */
     public function view(User $user, MataPelajaran $matapelajaran): bool
     {
@@ -25,7 +30,7 @@ class MataPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can create models.
+     * Siapa yang boleh membuat/menambahkan mata pelajaran baru?
      */
     public function create(User $user): bool
     {
@@ -33,7 +38,7 @@ class MataPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Siapa yang boleh mengedit mata pelajaran?
      */
     public function update(User $user, MataPelajaran $matapelajaran): bool
     {
@@ -41,7 +46,7 @@ class MataPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Siapa yang boleh menghapus mata pelajaran?
      */
     public function delete(User $user, MataPelajaran $matapelajaran): bool
     {
@@ -49,7 +54,7 @@ class MataPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can delete any models.
+     * Siapa yang boleh menghapus banyak mata pelajaran sekaligus?
      */
     public function deleteAny(User $user): bool
     {
@@ -57,23 +62,20 @@ class MataPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Siapa yang boleh memulihkan mata pelajaran yang terhapus?
      */
     public function restore(User $user, MataPelajaran $matapelajaran): bool
     {
         return $user->checkPermissionTo('restore MataPelajaran');
     }
 
-    /**
-     * Determine whether the user can restore any models.
-     */
     public function restoreAny(User $user): bool
     {
         return $user->checkPermissionTo('restore-any MataPelajaran');
     }
 
     /**
-     * Determine whether the user can replicate the model.
+     * Siapa yang boleh menggandakan (duplikat) mata pelajaran?
      */
     public function replicate(User $user, MataPelajaran $matapelajaran): bool
     {
@@ -81,7 +83,7 @@ class MataPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can reorder the models.
+     * Siapa yang boleh mengubah urutan daftar mata pelajaran?
      */
     public function reorder(User $user): bool
     {
@@ -89,16 +91,13 @@ class MataPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Siapa yang boleh menghapus mata pelajaran secara permanen?
      */
     public function forceDelete(User $user, MataPelajaran $matapelajaran): bool
     {
         return $user->checkPermissionTo('force-delete MataPelajaran');
     }
 
-    /**
-     * Determine whether the user can permanently delete any models.
-     */
     public function forceDeleteAny(User $user): bool
     {
         return $user->checkPermissionTo('force-delete-any MataPelajaran');

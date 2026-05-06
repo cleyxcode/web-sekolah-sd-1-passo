@@ -6,10 +6,15 @@ use Illuminate\Auth\Access\Response;
 use App\Models\UploadDaftarHadir;
 use App\Models\User;
 
+/**
+ * UploadDaftarHadirPolicy
+ * 
+ * Kebijakan akses untuk mengelola unggahan bukti absensi (misal guru mengunggah foto daftar hadir manual).
+ */
 class UploadDaftarHadirPolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Bolehkah melihat daftar unggahan?
      */
     public function viewAny(User $user): bool
     {
@@ -17,7 +22,7 @@ class UploadDaftarHadirPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Bolehkah melihat detail unggahan/fotonya?
      */
     public function view(User $user, UploadDaftarHadir $uploaddaftarhadir): bool
     {
@@ -25,7 +30,7 @@ class UploadDaftarHadirPolicy
     }
 
     /**
-     * Determine whether the user can create models.
+     * Bolehkah mengunggah bukti daftar hadir baru?
      */
     public function create(User $user): bool
     {
@@ -33,7 +38,7 @@ class UploadDaftarHadirPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Bolehkah mengedit/mengubah file unggahan?
      */
     public function update(User $user, UploadDaftarHadir $uploaddaftarhadir): bool
     {
@@ -41,7 +46,7 @@ class UploadDaftarHadirPolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Bolehkah menghapus file yang diunggah?
      */
     public function delete(User $user, UploadDaftarHadir $uploaddaftarhadir): bool
     {
@@ -49,7 +54,7 @@ class UploadDaftarHadirPolicy
     }
 
     /**
-     * Determine whether the user can delete any models.
+     * Bolehkah menghapus banyak unggahan sekaligus?
      */
     public function deleteAny(User $user): bool
     {
@@ -57,23 +62,20 @@ class UploadDaftarHadirPolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Bolehkah memulihkan unggahan yang terhapus?
      */
     public function restore(User $user, UploadDaftarHadir $uploaddaftarhadir): bool
     {
         return $user->checkPermissionTo('restore UploadDaftarHadir');
     }
 
-    /**
-     * Determine whether the user can restore any models.
-     */
     public function restoreAny(User $user): bool
     {
         return $user->checkPermissionTo('restore-any UploadDaftarHadir');
     }
 
     /**
-     * Determine whether the user can replicate the model.
+     * Bolehkah menggandakan (duplikat) unggahan?
      */
     public function replicate(User $user, UploadDaftarHadir $uploaddaftarhadir): bool
     {
@@ -81,7 +83,7 @@ class UploadDaftarHadirPolicy
     }
 
     /**
-     * Determine whether the user can reorder the models.
+     * Bolehkah mengurutkan ulang daftar unggahan?
      */
     public function reorder(User $user): bool
     {
@@ -89,16 +91,13 @@ class UploadDaftarHadirPolicy
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Bolehkah menghapus permanen file unggahan daftar hadir?
      */
     public function forceDelete(User $user, UploadDaftarHadir $uploaddaftarhadir): bool
     {
         return $user->checkPermissionTo('force-delete UploadDaftarHadir');
     }
 
-    /**
-     * Determine whether the user can permanently delete any models.
-     */
     public function forceDeleteAny(User $user): bool
     {
         return $user->checkPermissionTo('force-delete-any UploadDaftarHadir');

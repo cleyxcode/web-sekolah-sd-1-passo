@@ -6,10 +6,15 @@ use Illuminate\Auth\Access\Response;
 use App\Models\JadwalPelajaran;
 use App\Models\User;
 
+/**
+ * JadwalPelajaranPolicy
+ * 
+ * Mengatur hak akses ke data Jadwal Pelajaran (siapa mengajar di kelas mana, jam berapa).
+ */
 class JadwalPelajaranPolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Bolehkah melihat daftar jadwal?
      */
     public function viewAny(User $user): bool
     {
@@ -17,7 +22,7 @@ class JadwalPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Bolehkah melihat detail satu jadwal?
      */
     public function view(User $user, JadwalPelajaran $jadwalpelajaran): bool
     {
@@ -25,7 +30,7 @@ class JadwalPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can create models.
+     * Bolehkah membuat jadwal baru?
      */
     public function create(User $user): bool
     {
@@ -33,7 +38,7 @@ class JadwalPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Bolehkah mengedit jadwal?
      */
     public function update(User $user, JadwalPelajaran $jadwalpelajaran): bool
     {
@@ -41,7 +46,7 @@ class JadwalPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Bolehkah menghapus jadwal?
      */
     public function delete(User $user, JadwalPelajaran $jadwalpelajaran): bool
     {
@@ -49,7 +54,7 @@ class JadwalPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can delete any models.
+     * Bolehkah menghapus banyak jadwal sekaligus?
      */
     public function deleteAny(User $user): bool
     {
@@ -57,7 +62,7 @@ class JadwalPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Bolehkah memulihkan jadwal yang dihapus?
      */
     public function restore(User $user, JadwalPelajaran $jadwalpelajaran): bool
     {
@@ -65,7 +70,7 @@ class JadwalPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can restore any models.
+     * Bolehkah memulihkan banyak jadwal?
      */
     public function restoreAny(User $user): bool
     {
@@ -73,7 +78,7 @@ class JadwalPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can replicate the model.
+     * Bolehkah menggandakan (duplikat) jadwal?
      */
     public function replicate(User $user, JadwalPelajaran $jadwalpelajaran): bool
     {
@@ -81,7 +86,7 @@ class JadwalPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can reorder the models.
+     * Bolehkah mengubah urutan tampil jadwal?
      */
     public function reorder(User $user): bool
     {
@@ -89,7 +94,7 @@ class JadwalPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Bolehkah menghapus permanen jadwal?
      */
     public function forceDelete(User $user, JadwalPelajaran $jadwalpelajaran): bool
     {
@@ -97,7 +102,7 @@ class JadwalPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can permanently delete any models.
+     * Bolehkah menghapus permanen banyak jadwal?
      */
     public function forceDeleteAny(User $user): bool
     {

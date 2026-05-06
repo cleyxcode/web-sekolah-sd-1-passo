@@ -6,10 +6,16 @@ use Illuminate\Auth\Access\Response;
 use App\Models\GuruMataPelajaran;
 use App\Models\User;
 
+/**
+ * GuruMataPelajaranPolicy
+ * 
+ * Mengatur hak akses untuk data pembagian tugas mengajar guru.
+ * (Guru A mengajar pelajaran apa saja di kelas mana saja)
+ */
 class GuruMataPelajaranPolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Siapa yang boleh melihat daftar tugas mengajar?
      */
     public function viewAny(User $user): bool
     {
@@ -17,7 +23,7 @@ class GuruMataPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Siapa yang boleh melihat detail tugas mengajar tertentu?
      */
     public function view(User $user, GuruMataPelajaran $gurumatapelajaran): bool
     {
@@ -25,7 +31,7 @@ class GuruMataPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can create models.
+     * Siapa yang boleh membagikan tugas mengajar baru?
      */
     public function create(User $user): bool
     {
@@ -33,7 +39,7 @@ class GuruMataPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Siapa yang boleh mengubah pembagian tugas mengajar?
      */
     public function update(User $user, GuruMataPelajaran $gurumatapelajaran): bool
     {
@@ -41,7 +47,7 @@ class GuruMataPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Siapa yang boleh menghapus tugas mengajar seorang guru?
      */
     public function delete(User $user, GuruMataPelajaran $gurumatapelajaran): bool
     {
@@ -49,7 +55,7 @@ class GuruMataPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can delete any models.
+     * Siapa yang boleh menghapus banyak tugas sekaligus?
      */
     public function deleteAny(User $user): bool
     {
@@ -57,7 +63,7 @@ class GuruMataPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Siapa yang boleh mengembalikan data tugas mengajar yang terhapus?
      */
     public function restore(User $user, GuruMataPelajaran $gurumatapelajaran): bool
     {
@@ -65,7 +71,7 @@ class GuruMataPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can restore any models.
+     * Siapa yang boleh mengembalikan banyak data tugas?
      */
     public function restoreAny(User $user): bool
     {
@@ -73,7 +79,7 @@ class GuruMataPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can replicate the model.
+     * Siapa yang boleh menyalin (duplikat) tugas mengajar?
      */
     public function replicate(User $user, GuruMataPelajaran $gurumatapelajaran): bool
     {
@@ -81,7 +87,7 @@ class GuruMataPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can reorder the models.
+     * Siapa yang boleh menyusun ulang urutan tugas?
      */
     public function reorder(User $user): bool
     {
@@ -89,7 +95,7 @@ class GuruMataPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Siapa yang boleh menghapus permanen tugas mengajar?
      */
     public function forceDelete(User $user, GuruMataPelajaran $gurumatapelajaran): bool
     {
@@ -97,7 +103,7 @@ class GuruMataPelajaranPolicy
     }
 
     /**
-     * Determine whether the user can permanently delete any models.
+     * Siapa yang boleh menghapus permanen banyak tugas sekaligus?
      */
     public function forceDeleteAny(User $user): bool
     {
