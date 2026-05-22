@@ -144,7 +144,7 @@ class HomeController extends Controller
             return redirect()->route('home')->with('error', 'Pendaftaran belum dibuka.');
         }
 
-        // Jika pendaftaran dibuka, tampilkan halamannya
-        return view('pages.pendaftaran.index', compact('pendaftaran'));
+        // Jika pendaftaran dibuka, arahkan pengunjung LANGSUNG ke link URL Google Form / formulirnya
+        return redirect()->away($pendaftaran->link_pendaftaran);
     }
 }

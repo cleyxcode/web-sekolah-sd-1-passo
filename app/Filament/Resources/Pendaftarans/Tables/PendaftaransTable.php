@@ -56,7 +56,11 @@ class PendaftaransTable
                 //
             ])
             ->recordActions([
-                ViewAction::make(),
+                \Filament\Tables\Actions\Action::make('view')
+                    ->label('Lihat Link')
+                    ->icon('heroicon-o-eye')
+                    ->url(fn ($record) => $record->link_pendaftaran)
+                    ->openUrlInNewTab(),
                 EditAction::make(),
             ])
             ->toolbarActions([
