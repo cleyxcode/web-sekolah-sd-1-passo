@@ -17,8 +17,8 @@
 @section('schema_json')
 <script type="application/ld+json">
 {
-    "@context": "https://schema.org",
-    "@type": "NewsArticle",
+    "@@context": "https://schema.org",
+    "@@type": "NewsArticle",
     "headline": "{{ $berita->judul }}",
     "description": "{{ Str::limit(strip_tags($berita->isi), 155) }}",
     "url": "{{ url('/berita/' . $berita->slug) }}",
@@ -26,49 +26,49 @@
     "dateModified": "{{ \Carbon\Carbon::parse($berita->updated_at ?? $berita->published_at)->toIso8601String() }}",
     @if($berita->foto)
     "image": {
-        "@type": "ImageObject",
+        "@@type": "ImageObject",
         "url": "{{ asset(Storage::url($berita->foto)) }}",
         "width": 1200,
         "height": 630
     },
     @endif
     "author": {
-        "@type": "Organization",
+        "@@type": "Organization",
         "name": "SD Negeri 1 Passo",
         "url": "{{ url('/') }}"
     },
     "publisher": {
-        "@type": "Organization",
+        "@@type": "Organization",
         "name": "SD Negeri 1 Passo",
         "url": "{{ url('/') }}",
         "logo": {
-            "@type": "ImageObject",
+            "@@type": "ImageObject",
             "url": "{{ asset('images/og-sdn1passo.jpg') }}"
         }
     },
     "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "{{ url('/berita/' . $berita->slug) }}"
+        "@@type": "WebPage",
+        "@@id": "{{ url('/berita/' . $berita->slug) }}"
     },
     "articleSection": "{{ $berita->kategori ?? 'Berita Sekolah' }}",
     "inLanguage": "id-ID",
     "breadcrumb": {
-        "@type": "BreadcrumbList",
+        "@@type": "BreadcrumbList",
         "itemListElement": [
             {
-                "@type": "ListItem",
+                "@@type": "ListItem",
                 "position": 1,
                 "name": "Beranda",
                 "item": "{{ url('/') }}"
             },
             {
-                "@type": "ListItem",
+                "@@type": "ListItem",
                 "position": 2,
                 "name": "Berita",
                 "item": "{{ url('/berita') }}"
             },
             {
-                "@type": "ListItem",
+                "@@type": "ListItem",
                 "position": 3,
                 "name": "{{ Str::limit($berita->judul, 50) }}",
                 "item": "{{ url('/berita/' . $berita->slug) }}"

@@ -53,15 +53,15 @@
     @else
     <script type="application/ld+json">
     {
-        "@context": "https://schema.org",
-        "@type": "ElementarySchool",
+        "@@context": "https://schema.org",
+        "@@type": "ElementarySchool",
         "name": "SD Negeri 1 Passo",
         "alternateName": ["SDN 1 Passo", "SD 1 Passo", "Sekolah Dasar Negeri 1 Passo"],
         "url": "{{ url('/') }}",
         "logo": "{{ asset('images/og-sdn1passo.jpg') }}",
         "description": "Sekolah Dasar Negeri 1 Passo adalah sekolah dasar unggulan yang berkomitmen mewujudkan pendidikan berkualitas, berkarakter, dan berprestasi di Kota Ambon, Maluku.",
         "address": {
-            "@type": "PostalAddress",
+            "@@type": "PostalAddress",
             "streetAddress": "Jl. Pendidikan No. 1, Passo",
             "addressLocality": "Passo",
             "addressRegion": "Kota Ambon",

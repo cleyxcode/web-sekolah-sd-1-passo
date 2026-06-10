@@ -13,30 +13,30 @@
 @section('schema_json')
 <script type="application/ld+json">
 {
-    "@context": "https://schema.org",
-    "@graph": [
+    "@@context": "https://schema.org",
+    "@@graph": [
         {
-            "@type": "WebSite",
-            "@id": "{{ url('/') }}/#website",
+            "@@type": "WebSite",
+            "@@id": "{{ url('/') }}/#website",
             "name": "SD Negeri 1 Passo",
             "url": "{{ url('/') }}",
             "description": "Website resmi SD Negeri 1 Passo, Kota Ambon, Maluku",
             "inLanguage": "id-ID",
             "potentialAction": {
-                "@type": "SearchAction",
+                "@@type": "SearchAction",
                 "target": "{{ url('/berita') }}?q={search_term_string}",
                 "query-input": "required name=search_term_string"
             }
         },
         {
-            "@type": "ElementarySchool",
-            "@id": "{{ url('/') }}/#school",
+            "@@type": "ElementarySchool",
+            "@@id": "{{ url('/') }}/#school",
             "name": "SD Negeri 1 Passo",
             "alternateName": ["SDN 1 Passo", "SD 1 Passo", "Sekolah Dasar Negeri 1 Passo", "SD Passo"],
             "url": "{{ url('/') }}",
             "description": "Sekolah Dasar Negeri 1 Passo adalah sekolah dasar unggulan berkomitmen mewujudkan pendidikan berkualitas, berkarakter, dan berprestasi di Kota Ambon, Maluku.",
             "address": {
-                "@type": "PostalAddress",
+                "@@type": "PostalAddress",
                 "streetAddress": "Jl. Pendidikan No. 1, Passo",
                 "addressLocality": "Passo",
                 "addressRegion": "Kota Ambon",
@@ -46,7 +46,7 @@
             "email": "{{ $settings->email ?? 'info@sdn1passo.sch.id' }}",
             "hasMap": "https://www.google.com/maps/search/SD+Negeri+1+Passo+Ambon",
             "areaServed": {
-                "@type": "Place",
+                "@@type": "Place",
                 "name": "Passo, Kota Ambon, Maluku, Indonesia"
             }
         }
