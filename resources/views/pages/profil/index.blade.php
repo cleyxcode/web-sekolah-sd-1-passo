@@ -1,7 +1,14 @@
 @extends('layouts.frontend')
 
-@section('title', 'Profil Sekolah - SD Negeri 1 Passo')
-@section('meta_description', 'Profil lengkap SD Negeri 1 Passo, termasuk visi, misi, dan sejarah sekolah.')
+{{-- ============================================================ --}}
+{{-- SEO HALAMAN PROFIL SEKOLAH                                   --}}
+{{-- ============================================================ --}}
+@section('title', 'Profil SD Negeri 1 Passo - Visi, Misi & Sejarah Sekolah | Ambon, Maluku')
+@section('meta_description', 'Profil lengkap SD Negeri 1 Passo Ambon. Sekolah dasar negeri akreditasi A dengan visi mewujudkan pendidikan berkualitas, berkarakter, dan berprestasi di Passo, Kota Ambon, Maluku.')
+@section('meta_keywords', 'profil SD Negeri 1 Passo, visi misi SDN 1 Passo, sejarah SD 1 Passo, akreditasi SD Passo Ambon, sekolah dasar terbaik Ambon')
+@section('canonical', url('/profil'))
+@section('og_title', 'Profil SD Negeri 1 Passo - Visi, Misi & Sejarah Sekolah')
+@section('og_description', 'Kenali lebih dalam SD Negeri 1 Passo: visi misi, sejarah berdirinya sekolah, akreditasi, dan komitmen pendidikan berkualitas di Kota Ambon, Maluku.')
 
 @push('styles')
 <style>

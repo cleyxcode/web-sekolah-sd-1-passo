@@ -1,7 +1,14 @@
 @extends('layouts.frontend')
 
-@section('title', 'Galeri Kegiatan - SD Negeri 1 Passo')
-@section('meta_description', 'Koleksi foto dan dokumentasi kegiatan siswa-siswi SD Negeri 1 Passo.')
+{{-- ============================================================ --}}
+{{-- SEO HALAMAN GALERI                                           --}}
+{{-- ============================================================ --}}
+@section('title', 'Galeri Kegiatan SD Negeri 1 Passo - Foto & Dokumentasi Sekolah Ambon')
+@section('meta_description', 'Galeri foto dan video dokumentasi kegiatan siswa-siswi SD Negeri 1 Passo, Kota Ambon. Lihat foto kegiatan belajar mengajar, ekstrakurikuler, dan prestasi sekolah.')
+@section('meta_keywords', 'galeri SD Negeri 1 Passo, foto kegiatan SDN 1 Passo, dokumentasi SD Passo Ambon, foto siswa SD 1 Passo')
+@section('canonical', url('/galeri'))
+@section('og_title', 'Galeri Kegiatan SD Negeri 1 Passo - Foto & Dokumentasi Sekolah')
+@section('og_description', 'Galeri foto dan video dokumentasi kegiatan siswa-siswi SD Negeri 1 Passo, Kota Ambon, Maluku.')
 
 @push('styles')
 <style>

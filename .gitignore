@@ -20,4 +20,6 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
-.env\n.env.backup\n.env.production
+.env
+.env.backup
+.env.production

@@ -3,10 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Sistem Informasi Sekolah')</title>
-    <meta name="description" content="@yield('meta_description', 'Sistem Informasi Akademik dan Portal Resmi SD Negeri 1 Passo.')">
+
+    {{-- ===================================================== --}}
+    {{-- SEO: Title & Meta Description                          --}}
+    {{-- ===================================================== --}}
+    <title>@yield('title', 'SD Negeri 1 Passo - Unggul, Berkarakter & Berprestasi | Ambon, Maluku')</title>
+    <meta name="description" content="@yield('meta_description', 'Website resmi SD Negeri 1 Passo, Kota Ambon, Maluku. Informasi akademik, berita, galeri, dan portal orang tua siswa. Sekolah unggulan berkarakter di Passo Ambon.')">
+    <meta name="keywords" content="@yield('meta_keywords', 'SD Negeri 1 Passo, SDN 1 Passo, sekolah dasar Passo, SD Passo Ambon, sekolah dasar Ambon, sekolah dasar Maluku, SD 1 Passo, sekolah unggulan Passo')">
+    <meta name="author" content="SD Negeri 1 Passo">
+    <meta name="google-site-verification" content="jtl1lClMUIf12ep8J0hRd0DIHNDtub32QGhK0GolTiI" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="language" content="Indonesian">
+    <meta name="geo.region" content="ID-MA">
+    <meta name="geo.placename" content="Passo, Kota Ambon, Maluku">
+
+    {{-- ===================================================== --}}
+    {{-- SEO: Canonical URL (mencegah duplikasi konten)         --}}
+    {{-- ===================================================== --}}
+    <link rel="canonical" href="@yield('canonical', url()->current())">
+
+    {{-- ===================================================== --}}
+    {{-- SEO: Open Graph (preview saat dishare di FB/WA/dll)   --}}
+    {{-- ===================================================== --}}
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:title" content="@yield('og_title', 'SD Negeri 1 Passo - Unggul, Berkarakter & Berprestasi')">
+    <meta property="og:description" content="@yield('og_description', 'Website resmi SD Negeri 1 Passo, Kota Ambon, Maluku. Informasi akademik, berita, galeri, dan portal orang tua siswa.')">
+    <meta property="og:url" content="@yield('canonical', url()->current())">
+    <meta property="og:site_name" content="SD Negeri 1 Passo">
+    <meta property="og:locale" content="id_ID">
+    <meta property="og:image" content="@yield('og_image', asset('images/og-sdn1passo.jpg'))">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="SD Negeri 1 Passo - Kota Ambon, Maluku">
+
+    {{-- ===================================================== --}}
+    {{-- SEO: Twitter / X Card                                  --}}
+    {{-- ===================================================== --}}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@yield('og_title', 'SD Negeri 1 Passo - Unggul, Berkarakter & Berprestasi')">
+    <meta name="twitter:description" content="@yield('og_description', 'Website resmi SD Negeri 1 Passo, Kota Ambon, Maluku.')">
+    <meta name="twitter:image" content="@yield('og_image', asset('images/og-sdn1passo.jpg'))">
+
+    {{-- ===================================================== --}}
+    {{-- SEO: JSON-LD Schema.org (Structured Data)             --}}
+    {{-- Memberi tahu Google bahwa ini adalah website sekolah  --}}
+    {{-- ===================================================== --}}
+    @hasSection('schema_json')
+        @yield('schema_json')
+    @else
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ElementarySchool",
+        "name": "SD Negeri 1 Passo",
+        "alternateName": ["SDN 1 Passo", "SD 1 Passo", "Sekolah Dasar Negeri 1 Passo"],
+        "url": "{{ url('/') }}",
+        "logo": "{{ asset('images/og-sdn1passo.jpg') }}",
+        "description": "Sekolah Dasar Negeri 1 Passo adalah sekolah dasar unggulan yang berkomitmen mewujudkan pendidikan berkualitas, berkarakter, dan berprestasi di Kota Ambon, Maluku.",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Jl. Pendidikan No. 1, Passo",
+            "addressLocality": "Passo",
+            "addressRegion": "Kota Ambon",
+            "addressCountry": "ID",
+            "postalCode": "97232"
+        },
+        "telephone": "{{ $settings->telepon ?? '' }}",
+        "email": "{{ $settings->email ?? 'info@sdn1passo.sch.id' }}",
+        "sameAs": [],
+        "hasMap": "https://www.google.com/maps/search/SD+Negeri+1+Passo+Ambon"
+    }
+    </script>
+    @endif
+
+    {{-- Assets CSS & JS --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+
     <script>
         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.setAttribute('data-theme', 'dark');
@@ -15,6 +88,7 @@
         }
     </script>
     <style>
+
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
 

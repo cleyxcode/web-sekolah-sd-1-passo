@@ -1,7 +1,14 @@
 @extends('layouts.frontend')
 
-@section('title', 'Berita & Pengumuman - SD Negeri 1 Passo')
-@section('meta_description', 'Berita terbaru, pengumuman resmi, dan informasi prestasi dari SD Negeri 1 Passo.')
+{{-- ============================================================ --}}
+{{-- SEO HALAMAN BERITA & PENGUMUMAN                              --}}
+{{-- ============================================================ --}}
+@section('title', 'Berita & Pengumuman SD Negeri 1 Passo - Informasi Terbaru Sekolah')
+@section('meta_description', 'Berita terbaru, pengumuman resmi, dan informasi prestasi dari SD Negeri 1 Passo, Kota Ambon, Maluku. Dapatkan update kegiatan akademik dan non-akademik sekolah.')
+@section('meta_keywords', 'berita SD Negeri 1 Passo, pengumuman SDN 1 Passo, berita sekolah Passo Ambon, informasi SD 1 Passo, prestasi sekolah Passo')
+@section('canonical', url('/berita'))
+@section('og_title', 'Berita & Pengumuman SD Negeri 1 Passo')
+@section('og_description', 'Berita terbaru, pengumuman resmi, dan informasi prestasi dari SD Negeri 1 Passo, Kota Ambon, Maluku.')
 
 @push('styles')
 <style>

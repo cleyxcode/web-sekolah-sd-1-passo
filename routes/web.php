@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 // Mengimpor Controller untuk mengatur logika tampilan publik website
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SitemapController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +45,10 @@ Route::get('/storage/{folder}/{filename}', function ($folder, $filename) {
 // ==========================================
 // 2. HALAMAN UTAMA / PUBLIK (Dilihat oleh Semua Orang)
 // ==========================================
+
+// Sitemap XML - peta website untuk mesin pencari Google
+// URL: /sitemap.xml
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 
 // Jika pengunjung membuka halaman depan website (Contoh: webskolah.com/)
 Route::get('/', [HomeController::class, 'index'])->name('home');

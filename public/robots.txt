@@ -1,2 +1,11 @@
 User-agent: *
-Disallow:
+Allow: /
+
+# Blokir halaman admin & area privat agar tidak terindeks Google
+Disallow: /admin/
+Disallow: /admin
+Disallow: /portal-ortu/
+Disallow: /api/
+
+# Sitemap XML - peta website untuk mesin pencari Google
+Sitemap: https://sdnegeri1passo.site/sitemap.xml
