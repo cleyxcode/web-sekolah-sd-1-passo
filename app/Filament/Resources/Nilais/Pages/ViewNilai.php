@@ -6,9 +6,9 @@ use App\Filament\Resources\Nilais\NilaiResource;
 use App\Models\Nilai;
 use App\Models\SettingSekolah;
 
+use Filament\Actions\Action;
 use Filament\Actions\EditAction;
 use Filament\Resources\Pages\ViewRecord;
-use Torgodly\Html2Media\Actions\Html2MediaAction;
 
 class ViewNilai extends ViewRecord
 {
@@ -16,11 +16,12 @@ class ViewNilai extends ViewRecord
 
     protected function getHeaderActions(): array
     {
-        return [
+        $actions = [
             EditAction::make(),
+        ];
 
-            // 📄 Cetak E-Rapor per Siswa dari halaman view
-            Html2MediaAction::make('cetak_rapor')
+        if (class_exists(\Torgodly\Html2Media\Actions\Html2MediaAction::class)) {
+            $actions[] = \Torgodly\Html2Media\Actions\Html2MediaAction::make('cetak_rapor')
                 ->label('🖨️ Cetak E-Rapor')
                 ->color('success')
                 ->print()
@@ -32,8 +33,16 @@ class ViewNilai extends ViewRecord
                     . '_Smt' . $this->record->semester
                     . '_' . $this->record->jenis_ujian
                 )
-                ->content(fn () => $this->buildRaporContent()),
-        ];
+                ->content(fn () => $this->buildRaporContent());
+        } else {
+            $actions[] = Action::make('cetak_rapor')
+                ->label('🖨️ Cetak E-Rapor')
+                ->color('success')
+                ->url(fn () => route('admin.cetak-rapor', ['nilai' => $this->record->id]))
+                ->openUrlInNewTab();
+        }
+
+        return $actions;
     }
 
     private function buildRaporContent(): \Illuminate\Contracts\View\View
