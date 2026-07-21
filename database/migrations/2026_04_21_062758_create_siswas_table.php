@@ -18,7 +18,6 @@ return new class extends Migration
             $table->enum('jenis_kelamin', ['L', 'P']);
             $table->date('tanggal_lahir')->nullable();
             $table->text('alamat')->nullable();
-            $table->string('foto')->nullable();
             $table->foreignId('kelas_id')->nullable()->constrained('kelas')->nullOnDelete();
             $table->foreignId('tahun_ajaran_id')->nullable()->constrained('tahun_ajarans')->nullOnDelete();
             $table->enum('status', ['aktif', 'lulus', 'pindah'])->default('aktif');

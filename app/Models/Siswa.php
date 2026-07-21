@@ -125,24 +125,6 @@ class Siswa extends Model
         return $query->where('status', 'aktif');
     }
 
-    // ─── HELPERS ───────────────────────────────────────────
-
-    /**
-     * ACCESSOR: Menghasilkan URL lengkap foto siswa
-     * Accessor adalah properti "virtual" yang bisa dipanggil seperti kolom biasa
-     *
-     * Cara pakai: $siswa->foto_url → URL lengkap foto
-     * Jika tidak ada foto, akan mengembalikan null
-     */
-    public function getFotoUrlAttribute(): ?string
-    {
-        // Jika kolom 'foto' kosong/null, langsung kembalikan null
-        if (!$this->foto) return null;
-
-        // Ubah path relatif di storage menjadi URL yang bisa diakses browser
-        return \Illuminate\Support\Facades\Storage::url($this->foto);
-    }
-
     /**
      * HELPER: Menghitung rata-rata nilai siswa dengan filter opsional
      *

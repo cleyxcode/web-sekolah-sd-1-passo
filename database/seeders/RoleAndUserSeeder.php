@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use App\Models\Guru;
-use App\Models\Kelas;
 
 class RoleAndUserSeeder extends Seeder
 {
@@ -173,21 +171,5 @@ class RoleAndUserSeeder extends Seeder
             ['name' => 'Admin Konten Website', 'password' => Hash::make('password')]
         );
         if (!$userAdminKonten->hasRole('Admin Konten')) $userAdminKonten->assignRole('Admin Konten');
-
-        // Pastikan akun guru memiliki profil di tabel Guru
-        $guruProfile = Guru::firstOrCreate(
-            ['user_id' => $userGuru->id],
-            [
-                'nip'           => '198001012010011001',
-                'nama'          => 'Budi Santoso, S.Pd',
-                'jenis_kelamin' => 'L',
-                'no_telepon'    => '081234567890',
-            ]
-        );
-
-        $kelas = Kelas::first();
-        if ($kelas) {
-            $kelas->update(['wali_kelas_id' => $guruProfile->id]);
-        }
     }
 }

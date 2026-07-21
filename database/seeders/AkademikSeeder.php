@@ -103,12 +103,12 @@ class AkademikSeeder extends Seeder
         // ============================================================
         $kelasConfig = [
             // [nama_kelas, tingkat, guru_index]
-            ['1A', 1, 0],  ['1B', 1, 1],
-            ['2A', 2, 2],  ['2B', 2, 3],
-            ['3A', 3, 4],  ['3B', 3, 5],
-            ['4A', 4, 6],  ['4B', 4, 7],
-            ['5A', 5, 8],  ['5B', 5, 9],
-            ['6A', 6, 10], ['6B', 6, 11],
+            ['1A', 1, 1],  ['1B', 1, 2],
+            ['2A', 2, 3],  ['2B', 2, 4],
+            ['3A', 3, 5],  ['3B', 3, 6],
+            ['4A', 4, 7],  ['4B', 4, 8],
+            ['5A', 5, 9],  ['5B', 5, 10],
+            ['6A', 6, 11], ['6B', 6, 11],
         ];
 
         $kelasList = [];
@@ -271,6 +271,24 @@ class AkademikSeeder extends Seeder
             $ortuBersama->siswas()->syncWithoutDetaching([$sibling1->id, $sibling2->id]);
         }
 
-        $this->command->info('✅ AkademikSeeder selesai: 12 kelas (1A-6B), ' . Siswa::count() . ' siswa total.');
+        // ============================================================
+        // 7. PASTIKAN SEMUA SISWA AKTIF MEMILIKI KELAS 1A–6B
+        // ============================================================
+        $allKelas = array_values($kelasList);
+        $siswaTanpaKelas = Siswa::query()
+            ->where('status', 'aktif')
+            ->whereNull('kelas_id')
+            ->orderBy('id')
+            ->get();
+
+        foreach ($siswaTanpaKelas as $index => $siswa) {
+            $kelas = $allKelas[$index % count($allKelas)];
+            $siswa->update([
+                'kelas_id'        => $kelas->id,
+                'tahun_ajaran_id' => $tahunAjaran->id,
+            ]);
+        }
+
+        $this->command->info('✅ AkademikSeeder selesai: 12 kelas (1A-6B), ' . Siswa::count() . ' siswa total, ' . Siswa::whereNotNull('kelas_id')->count() . ' siswa sudah memiliki kelas.');
     }
 }

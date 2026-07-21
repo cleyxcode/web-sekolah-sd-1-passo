@@ -42,9 +42,6 @@ class SiswaForm
                 Textarea::make('alamat')
                     ->columnSpanFull(), // Lebar penuh
                 
-                // Kotak untuk link/path foto (mungkin bisa diubah jadi FileUpload nanti)
-                TextInput::make('foto'),
-                
                 // Drop-down Pilihan Kelas
                 Select::make('kelas_id')
                     ->relationship('kelas', 'nama_kelas') // Ambil otomatis dari tabel kelas
