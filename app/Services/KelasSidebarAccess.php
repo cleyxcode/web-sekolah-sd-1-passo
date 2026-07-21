@@ -7,13 +7,14 @@ namespace App\Services;
 use App\Models\Guru;
 use App\Models\Kelas;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
 /**
- * Menentukan pintasan sidebar Kelas 1–6 berdasarkan role pengguna.
+ * Menentukan pintasan sidebar per rombongan belajar (nama_kelas).
  *
- * - Super Admin & Kepala Sekolah: semua tingkat 1–6
- * - Guru (wali kelas): hanya tingkat kelas yang diwalikan
+ * - Super Admin & Kepala Sekolah: semua kelas yang ada di sistem
+ * - Guru (wali kelas): hanya kelas yang diwalikan
  * - Role lain: tidak ada akses
  */
 final class KelasSidebarAccess
@@ -26,65 +27,69 @@ final class KelasSidebarAccess
      */
     public function canAccessSidebar(User $user): bool
     {
-        return $this->accessibleTingkats($user)->isNotEmpty();
+        return $this->accessibleKelas($user)->isNotEmpty();
     }
 
     /**
-     * Apakah user boleh membuka halaman tingkat tertentu.
+     * Apakah user boleh membuka halaman rombongan belajar tertentu.
      */
-    public function canAccessTingkat(User $user, int $tingkat): bool
+    public function canAccessKelas(User $user, Kelas|int $kelas): bool
     {
-        if (! in_array($tingkat, self::TINGKAT_SEMUA, true)) {
-            return false;
-        }
+        $kelasId = $kelas instanceof Kelas ? $kelas->id : $kelas;
 
-        return $this->accessibleTingkats($user)->contains($tingkat);
+        return $this->accessibleKelas($user)->contains('id', $kelasId);
     }
 
     /**
-     * Daftar tingkat (1–6) yang boleh muncul di sidebar untuk user ini.
-     *
-     * @return Collection<int, int>
-     */
-    public function accessibleTingkats(User $user): Collection
-    {
-        if ($user->hasRole(['Super Admin', 'Kepala Sekolah'])) {
-            return collect(self::TINGKAT_SEMUA);
-        }
-
-        if (! $user->hasRole('Guru')) {
-            return collect();
-        }
-
-        $guru = Guru::query()->where('user_id', $user->id)->first();
-
-        if ($guru === null) {
-            return collect();
-        }
-
-        return Kelas::query()
-            ->where('wali_kelas_id', $guru->id)
-            ->whereIn('tingkat', self::TINGKAT_SEMUA)
-            ->orderBy('tingkat')
-            ->pluck('tingkat')
-            ->unique()
-            ->values()
-            ->map(fn ($tingkat): int => (int) $tingkat);
-    }
-
-    /**
-     * Ambil record kelas untuk suatu tingkat, dibatasi hak akses user.
+     * Daftar rombongan belajar yang boleh muncul di sidebar.
      *
      * @return Collection<int, Kelas>
      */
-    public function kelasForTingkat(User $user, int $tingkat): Collection
+    public function accessibleKelas(User $user): Collection
     {
-        if (! $this->canAccessTingkat($user, $tingkat)) {
-            return collect();
-        }
+        return $this->baseKelasQuery($user)->get();
+    }
 
+    /**
+     * Query dasar kelas sesuai hak akses user.
+     *
+     * @return Builder<Kelas>
+     */
+    public function baseKelasQuery(User $user): Builder
+    {
         $query = Kelas::query()
             ->with(['waliKelas', 'tahunAjaran'])
+            ->withCount('siswasAktif as siswas_count')
+            ->orderBy('tingkat')
+            ->orderBy('nama_kelas');
+
+        if ($user->hasRole(['Super Admin', 'Kepala Sekolah'])) {
+            return $query;
+        }
+
+        if ($user->hasRole('Guru')) {
+            $guru = Guru::query()->where('user_id', $user->id)->first();
+
+            if ($guru === null) {
+                return $query->whereRaw('0 = 1');
+            }
+
+            return $query->where('wali_kelas_id', $guru->id);
+        }
+
+        return $query->whereRaw('0 = 1');
+    }
+
+    /**
+     * Ambil satu kelas beserta relasi & counter, jika user punya akses.
+     */
+    public function resolveKelas(User $user, Kelas|int $kelas): ?Kelas
+    {
+        $kelasId = $kelas instanceof Kelas ? $kelas->id : $kelas;
+
+        /** @var Kelas|null $record */
+        $record = $this->baseKelasQuery($user)
+            ->whereKey($kelasId)
             ->withCount([
                 'siswasAktif as siswas_count',
                 'nilais',
@@ -92,19 +97,8 @@ final class KelasSidebarAccess
                 'tugas',
                 'jadwalPelajarans',
             ])
-            ->where('tingkat', $tingkat)
-            ->orderBy('nama_kelas');
+            ->first();
 
-        if ($user->hasRole('Guru') && ! $user->hasRole(['Super Admin', 'Kepala Sekolah'])) {
-            $guru = Guru::query()->where('user_id', $user->id)->first();
-
-            if ($guru === null) {
-                return collect();
-            }
-
-            $query->where('wali_kelas_id', $guru->id);
-        }
-
-        return $query->get();
+        return $record;
     }
 }

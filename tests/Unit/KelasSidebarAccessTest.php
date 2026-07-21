@@ -30,28 +30,24 @@ class KelasSidebarAccessTest extends TestCase
         }
     }
 
-    public function test_super_admin_dapat_semua_tingkat_1_sampai_6(): void
+    public function test_super_admin_melihat_semua_rombongan_belajar(): void
     {
         $user = User::factory()->create();
         $user->assignRole('Super Admin');
 
-        $tingkat = $this->access->accessibleTingkats($user)->all();
-
-        $this->assertSame([1, 2, 3, 4, 5, 6], $tingkat);
         $this->assertTrue($this->access->canAccessSidebar($user));
-        $this->assertTrue($this->access->canAccessTingkat($user, 3));
-        $this->assertFalse($this->access->canAccessTingkat($user, 7));
+        $this->assertGreaterThanOrEqual(1, $this->access->accessibleKelas($user)->count());
     }
 
-    public function test_kepala_sekolah_dapat_semua_tingkat(): void
+    public function test_kepala_sekolah_melihat_semua_rombongan_belajar(): void
     {
         $user = User::factory()->create();
         $user->assignRole('Kepala Sekolah');
 
-        $this->assertSame([1, 2, 3, 4, 5, 6], $this->access->accessibleTingkats($user)->all());
+        $this->assertTrue($this->access->canAccessSidebar($user));
     }
 
-    public function test_guru_hanya_melihat_tingkat_kelas_yang_diwalikan(): void
+    public function test_guru_hanya_melihat_kelas_yang_diwalikan(): void
     {
         $user = User::factory()->create();
         $user->assignRole('Guru');
@@ -63,32 +59,28 @@ class KelasSidebarAccessTest extends TestCase
             'jenis_kelamin' => 'L',
         ]);
 
-        $tahunAjaran = TahunAjaran::query()->first()
-            ?? TahunAjaran::query()->create([
-                'nama' => '2025/2026',
-                'semester' => '1',
-                'is_active' => true,
-            ]);
+        $tahunAjaran = $this->tahunAjaran();
 
-        Kelas::query()->create([
-            'nama_kelas' => '4U',
+        $anya = Kelas::query()->create([
+            'nama_kelas' => 'Anya',
             'tingkat' => 4,
             'wali_kelas_id' => $guru->id,
             'tahun_ajaran_id' => $tahunAjaran->id,
         ]);
 
         Kelas::query()->create([
-            'nama_kelas' => '5U',
-            'tingkat' => 5,
-            'wali_kelas_id' => $guru->id,
+            'nama_kelas' => '4Z',
+            'tingkat' => 4,
+            'wali_kelas_id' => null,
             'tahun_ajaran_id' => $tahunAjaran->id,
         ]);
 
-        $tingkat = $this->access->accessibleTingkats($user)->all();
+        $list = $this->access->accessibleKelas($user);
 
-        $this->assertSame([4, 5], $tingkat);
-        $this->assertTrue($this->access->canAccessTingkat($user, 4));
-        $this->assertFalse($this->access->canAccessTingkat($user, 1));
+        $this->assertCount(1, $list);
+        $this->assertTrue($list->first()->is($anya));
+        $this->assertTrue($this->access->canAccessKelas($user, $anya));
+        $this->assertFalse($this->access->canAccessKelas($user, Kelas::query()->where('nama_kelas', '4Z')->first()));
     }
 
     public function test_guru_tanpa_kelas_perwalian_tidak_punya_akses_sidebar(): void
@@ -103,7 +95,7 @@ class KelasSidebarAccessTest extends TestCase
             'jenis_kelamin' => 'P',
         ]);
 
-        $this->assertTrue($this->access->accessibleTingkats($user)->isEmpty());
+        $this->assertTrue($this->access->accessibleKelas($user)->isEmpty());
         $this->assertFalse($this->access->canAccessSidebar($user));
     }
 
@@ -113,69 +105,37 @@ class KelasSidebarAccessTest extends TestCase
         $user->assignRole('Admin Konten');
 
         $this->assertFalse($this->access->canAccessSidebar($user));
-        $this->assertSame([], $this->access->accessibleTingkats($user)->all());
+        $this->assertSame(0, $this->access->accessibleKelas($user)->count());
     }
 
-    public function test_kelas_for_tingkat_super_admin_melihat_semua_rombongan(): void
+    public function test_resolve_kelas_mengembalikan_counter_lengkap(): void
     {
         $user = User::factory()->create();
         $user->assignRole('Super Admin');
 
-        $tahunAjaran = TahunAjaran::query()->first()
-            ?? TahunAjaran::query()->create([
-                'nama' => '2025/2026-UT',
-                'semester' => '1',
-                'is_active' => true,
-            ]);
+        $tahunAjaran = $this->tahunAjaran('2025/2026-UT');
 
-        Kelas::query()->create([
+        $kelas = Kelas::query()->create([
             'nama_kelas' => '2X',
             'tingkat' => 2,
             'wali_kelas_id' => null,
             'tahun_ajaran_id' => $tahunAjaran->id,
         ]);
 
-        $list = $this->access->kelasForTingkat($user, 2);
+        $resolved = $this->access->resolveKelas($user, $kelas);
 
-        $this->assertTrue($list->contains(fn (Kelas $k): bool => $k->nama_kelas === '2X'));
+        $this->assertNotNull($resolved);
+        $this->assertSame('2X', $resolved->nama_kelas);
+        $this->assertNotNull($resolved->siswas_count);
     }
 
-    public function test_kelas_for_tingkat_guru_hanya_kelas_sendiri(): void
+    private function tahunAjaran(string $nama = '2025/2026'): TahunAjaran
     {
-        $user = User::factory()->create();
-        $user->assignRole('Guru');
-
-        $guru = Guru::query()->create([
-            'user_id' => $user->id,
-            'nip' => '199901012020011003',
-            'nama' => 'Guru Filter Kelas',
-            'jenis_kelamin' => 'L',
-        ]);
-
-        $tahunAjaran = TahunAjaran::query()->first()
+        return TahunAjaran::query()->first()
             ?? TahunAjaran::query()->create([
-                'nama' => '2025/2026-UT2',
+                'nama' => $nama,
                 'semester' => '1',
                 'is_active' => true,
             ]);
-
-        $milikGuru = Kelas::query()->create([
-            'nama_kelas' => '3G',
-            'tingkat' => 3,
-            'wali_kelas_id' => $guru->id,
-            'tahun_ajaran_id' => $tahunAjaran->id,
-        ]);
-
-        Kelas::query()->create([
-            'nama_kelas' => '3Z',
-            'tingkat' => 3,
-            'wali_kelas_id' => null,
-            'tahun_ajaran_id' => $tahunAjaran->id,
-        ]);
-
-        $list = $this->access->kelasForTingkat($user, 3);
-
-        $this->assertCount(1, $list);
-        $this->assertTrue($list->first()->is($milikGuru));
     }
 }
