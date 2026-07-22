@@ -77,7 +77,12 @@
     @endif
 
     {{-- Assets CSS & JS --}}
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @if (file_exists(public_path('build/manifest.json')))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @else
+        {{-- Fallback jika folder build belum di-upload ke production --}}
+        <script src="https://cdn.tailwindcss.com"></script>
+    @endif
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
 
     <script>
