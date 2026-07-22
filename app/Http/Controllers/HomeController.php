@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 
 // Mengimpor kelas Request untuk menangani input dari pengguna (seperti dari form atau URL)
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 
 // Mengimpor model-model database yang dibutuhkan
 use App\Models\Berita;        // Model untuk mengambil data berita
@@ -19,6 +21,34 @@ use App\Models\Galeri;        // Model untuk foto-foto galeri
  */
 class HomeController extends Controller
 {
+    /**
+     * Ambil data profil guru dengan fallback aman untuk production.
+     * Mencegah error 500 jika kolom tambahan belum ada di server.
+     */
+    private function getProfilGuruForHome()
+    {
+        try {
+            $query = \App\Models\Guru::query();
+
+            if (Schema::hasColumn('gurus', 'tampil_di_website')) {
+                $query->where('tampil_di_website', true);
+            }
+
+            if (Schema::hasColumn('gurus', 'urutan_tampil')) {
+                $query->orderBy('urutan_tampil');
+            }
+
+            return $query->orderBy('nama')->get();
+        } catch (\Throwable $e) {
+            Log::error('Gagal memuat profil guru untuk beranda', [
+                'message' => $e->getMessage(),
+            ]);
+
+            // Fallback terakhir: tetap tampilkan data guru dasar jika memungkinkan.
+            return \App\Models\Guru::orderBy('nama')->get();
+        }
+    }
+
     /**
      * Menampilkan halaman Beranda (Home) utama
      */
@@ -49,10 +79,7 @@ class HomeController extends Controller
         // 5. Ambil data guru/staf untuk ditampilkan di bagian "Profil Guru" (slideshow)
         // Hanya ambil guru yang diset tampil di website (tampil_di_website = true)
         // Diurutkan berdasarkan 'urutan_tampil', lalu berdasarkan abjad 'nama'
-        $profil_guru = \App\Models\Guru::where('tampil_di_website', true)
-            ->orderBy('urutan_tampil')
-            ->orderBy('nama')
-            ->get();
+        $profil_guru = $this->getProfilGuruForHome();
         
         // Kembalikan tampilan halaman (file blade) 'pages.home.index'
         // compact() digunakan untuk mengirimkan variabel-variabel di atas ke dalam tampilan (view) HTML
