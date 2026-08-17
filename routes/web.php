@@ -108,3 +108,10 @@ Route::middleware(['auth'])->group(function () {
         ->name('admin.cetak-rekap-kelas');
 
 });
+
+// ==========================================
+// 5. FALLBACK LOGIN ROUTE (untuk middleware auth)
+// ==========================================
+Route::get('/login', function () {
+    return redirect()->route('home')->with('error', 'Silakan login melalui panel admin atau portal orang tua.');
+})->name('login');
