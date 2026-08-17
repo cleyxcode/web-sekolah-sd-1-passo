@@ -2,37 +2,29 @@
 
 // Mendeklarasikan bahwa file ini menggunakan PHP
 // Namespace adalah alamat/lokasi file ini dalam project
+
 namespace App\Models;
 
 // Mengimpor kelas UserFactory untuk membuat data User palsu saat testing
-use Database\Factories\UserFactory;
-
-// Fillable = atribut yang boleh diisi secara massal (mass assignment)
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-
-// Hidden = atribut yang disembunyikan saat data ditampilkan ke publik (JSON)
-use Illuminate\Database\Eloquent\Attributes\Hidden;
-
-// HasFactory = memungkinkan model ini menggunakan Factory untuk membuat data dummy
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-
-// Authenticatable = kelas dasar Laravel untuk model yang bisa login
-use Illuminate\Foundation\Auth\User as Authenticatable;
-
-// Notifiable = memungkinkan model ini menerima notifikasi (email, SMS, dll)
-use Illuminate\Notifications\Notifiable;
-
-// FilamentUser = kontrak agar model ini bisa masuk ke panel admin Filament
-use Filament\Models\Contracts\FilamentUser;
-
-// Panel = representasi panel admin di Filament
-use Filament\Panel;
-
-// HasRoles = trait dari Spatie untuk mengelola peran (role) pengguna
-use Spatie\Permission\Traits\HasRoles;
-
-// HasSuperAdmin = trait tambahan agar Super Admin bisa melewati semua permission
 use Althinect\FilamentSpatieRolesPermissions\Concerns\HasSuperAdmin;
+// Fillable = atribut yang boleh diisi secara massal (mass assignment)
+use Database\Factories\UserFactory;
+// Hidden = atribut yang disembunyikan saat data ditampilkan ke publik (JSON)
+use Filament\Models\Contracts\FilamentUser;
+// HasFactory = memungkinkan model ini menggunakan Factory untuk membuat data dummy
+use Filament\Panel;
+// Authenticatable = kelas dasar Laravel untuk model yang bisa login
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+// Notifiable = memungkinkan model ini menerima notifikasi (email, SMS, dll)
+use Illuminate\Database\Eloquent\Attributes\Hidden;
+// FilamentUser = kontrak agar model ini bisa masuk ke panel admin Filament
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+// Panel = representasi panel admin di Filament
+use Illuminate\Foundation\Auth\User as Authenticatable;
+// HasRoles = trait dari Spatie untuk mengelola peran (role) pengguna
+use Illuminate\Notifications\Notifiable;
+// HasSuperAdmin = trait tambahan agar Super Admin bisa melewati semua permission
+use Spatie\Permission\Traits\HasRoles;
 
 // Daftar kolom di tabel 'users' yang boleh diisi dari luar (form, API, dll)
 // name = nama pengguna, email = alamat email, password = kata sandi, is_active = status aktif

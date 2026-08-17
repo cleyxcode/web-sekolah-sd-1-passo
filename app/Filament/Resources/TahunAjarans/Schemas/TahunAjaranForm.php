@@ -1,6 +1,7 @@
 <?php
 
 // Alamat folder tempat file ini berada
+
 namespace App\Filament\Resources\TahunAjarans\Schemas;
 
 // Mengimpor elemen-elemen untuk menyusun formulir
@@ -12,8 +13,8 @@ use Filament\Schemas\Schema;
 
 /**
  * TahunAjaranForm
- * 
- * Kelas ini mengatur bentuk kotak-kotak isian (Form) 
+ *
+ * Kelas ini mengatur bentuk kotak-kotak isian (Form)
  * saat admin membuat atau mengedit data Tahun Ajaran.
  */
 class TahunAjaranForm
@@ -23,7 +24,7 @@ class TahunAjaranForm
         return $schema
             // ->components() digunakan untuk meletakkan komponen/kotak isian
             ->components([
-                
+
                 // Kotak teks biasa untuk nama tahun ajaran
                 TextInput::make('nama')
                     ->label('Nama Tahun Ajaran') // Judul di atas kotak
@@ -35,8 +36,8 @@ class TahunAjaranForm
                     ->label('Semester')
                     // Pilihan yang tersedia: angka 1 (ditampilkan sebagai '1') dan '2'
                     ->options([
-                        1 => 'Ganjil (1)', 
-                        2 => 'Genap (2)'
+                        1 => 'Ganjil (1)',
+                        2 => 'Genap (2)',
                     ])
                     ->required(),
 

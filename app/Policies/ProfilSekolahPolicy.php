@@ -2,13 +2,12 @@
 
 namespace App\Policies;
 
-use Illuminate\Auth\Access\Response;
 use App\Models\ProfilSekolah;
 use App\Models\User;
 
 /**
  * ProfilSekolahPolicy
- * 
+ *
  * Mengatur hak akses ke menu Profil Sekolah (Sejarah, Visi, Misi).
  */
 class ProfilSekolahPolicy

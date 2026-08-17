@@ -1,6 +1,7 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\Galeris\Tables;
 
 // Tombol & Kolom
@@ -13,7 +14,7 @@ use Filament\Tables\Table;
 
 /**
  * GalerisTable
- * 
+ *
  * Mengatur kolom daftar galeri dokumentasi sekolah.
  */
 class GalerisTable
@@ -22,29 +23,29 @@ class GalerisTable
     {
         return $table
             ->columns([
-                
+
                 // Judul Gambar
                 TextColumn::make('judul')
                     ->label('Judul')
                     ->searchable(),
-                
+
                 // Jenis (Foto / Video)
                 TextColumn::make('jenis')
                     ->label('Jenis')
                     ->badge() // Bentuk lencana
                     // Warnai biru untuk foto, hijau untuk video
                     ->color(fn (string $state): string => match ($state) {
-                        'foto'  => 'info',
+                        'foto' => 'info',
                         'video' => 'success',
                         default => 'gray',
                     }),
-                
+
                 // Pembuat (Nama admin yang upload)
                 TextColumn::make('user.name')
                     ->label('Pembuat')
                     ->sortable()
                     ->searchable(),
-                
+
                 TextColumn::make('created_at')
                     ->label('Dibuat')
                     ->dateTime('d M Y')

@@ -7,7 +7,7 @@ use App\Models\User;
 
 /**
  * GaleriPolicy
- * 
+ *
  * Mengatur hak akses foto-foto dan video dokumentasi (Galeri) sekolah.
  */
 class GaleriPolicy
@@ -21,6 +21,7 @@ class GaleriPolicy
         if ($user->hasRole(['Orang Tua', 'Kepala Sekolah', 'Guru'])) {
             return true;
         }
+
         return $user->checkPermissionTo('view-any Galeri');
     }
 
@@ -33,6 +34,7 @@ class GaleriPolicy
         if ($user->hasRole(['Orang Tua', 'Kepala Sekolah', 'Guru'])) {
             return true;
         }
+
         return $user->checkPermissionTo('view Galeri');
     }
 
@@ -45,6 +47,7 @@ class GaleriPolicy
         if ($user->hasRole('Orang Tua')) {
             return false;
         }
+
         return $user->checkPermissionTo('create Galeri');
     }
 
@@ -57,6 +60,7 @@ class GaleriPolicy
         if ($user->hasRole('Orang Tua')) {
             return false;
         }
+
         return $user->checkPermissionTo('update Galeri');
     }
 
@@ -69,6 +73,7 @@ class GaleriPolicy
         if ($user->hasRole('Orang Tua')) {
             return false;
         }
+
         return $user->checkPermissionTo('delete Galeri');
     }
 
@@ -80,6 +85,7 @@ class GaleriPolicy
         if ($user->hasRole('Orang Tua')) {
             return false;
         }
+
         return $user->checkPermissionTo('delete-any Galeri');
     }
 

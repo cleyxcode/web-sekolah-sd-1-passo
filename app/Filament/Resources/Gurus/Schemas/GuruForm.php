@@ -1,22 +1,22 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\Gurus\Schemas;
 
 // Elemen form
-use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
+use Filament\Resources\Pages\CreateRecord;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 /**
  * GuruForm
- * 
+ *
  * Mengatur susunan kotak isian saat Admin menambahkan data guru baru.
  * Otomatis juga berfungsi ganda untuk membuatkan akun Users.
  */
@@ -26,14 +26,14 @@ class GuruForm
     {
         return $schema
             ->components([
-                
+
                 // Bagian 1: Akun Login
                 Section::make('Akun Login')
                     ->description('Data akun untuk login ke sistem.')
                     ->icon('heroicon-o-lock-closed')
                     ->schema([
                         Grid::make(2)->schema([
-                            
+
                             // Email (User)
                             TextInput::make('email')
                                 ->label('Email Akun')
@@ -41,14 +41,14 @@ class GuruForm
                                 ->required()
                                 // Email harus unik, dicek ke tabel 'users' bukan tabel 'gurus'
                                 ->unique(table: 'users', column: 'email', ignorable: fn ($record) => $record?->user),
-                            
+
                             // Password (User)
                             TextInput::make('password')
                                 ->label('Password Akun')
                                 ->password()
                                 ->revealable()
                                 // Hanya wajib diisi saat baru buat pertama kali
-                                ->required(fn ($livewire) => $livewire instanceof \Filament\Resources\Pages\CreateRecord)
+                                ->required(fn ($livewire) => $livewire instanceof CreateRecord)
                                 ->minLength(6)
                                 ->dehydrated(fn ($state) => filled($state))
                                 ->helperText('Kosongkan saat edit jika tidak ingin mengubah password.'),
@@ -61,38 +61,38 @@ class GuruForm
                     ->icon('heroicon-o-user')
                     ->schema([
                         Grid::make(2)->schema([
-                            
+
                             // NIP
                             TextInput::make('nip')
                                 ->label('NIP')
                                 ->helperText('Nomor Induk Pegawai (opsional).'),
-                            
+
                             // Nama Asli
                             TextInput::make('nama')
                                 ->label('Nama Lengkap')
                                 ->required(),
                         ]),
                         Grid::make(2)->schema([
-                            
+
                             // Jenis Kelamin
                             Select::make('jenis_kelamin')
                                 ->label('Jenis Kelamin')
                                 ->options(['L' => 'Laki-laki', 'P' => 'Perempuan'])
                                 ->required()
                                 ->native(false),
-                            
+
                             // Telepon
                             TextInput::make('no_telepon')
                                 ->label('No. Telepon')
                                 ->tel(),
                         ]),
-                        
+
                         // Jabatan
                         TextInput::make('jabatan')
                             ->label('Jabatan')
                             ->placeholder('Contoh: Kepala Sekolah, Wali Kelas 1A, Guru Matematika')
                             ->helperText('Jabatan yang akan ditampilkan di website sekolah.'),
-                        
+
                         // FITUR CANGGIH: Foto Guru
                         FileUpload::make('foto')
                             ->label('Foto Profil')
@@ -114,13 +114,13 @@ class GuruForm
                     ->icon('heroicon-o-globe-alt')
                     ->schema([
                         Grid::make(2)->schema([
-                            
+
                             // Tampilkan / Sembunyikan
                             Toggle::make('tampil_di_website')
                                 ->label('Tampilkan di Website')
                                 ->helperText('Aktifkan agar foto dan profil tampil di halaman publik sekolah.')
                                 ->default(true),
-                            
+
                             // Angka antrian
                             TextInput::make('urutan_tampil')
                                 ->label('Urutan Tampil')

@@ -1,6 +1,7 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\MataPelajarans\Tables;
 
 // Tombol & Kolom
@@ -12,7 +13,7 @@ use Filament\Tables\Table;
 
 /**
  * MataPelajaransTable
- * 
+ *
  * Mengatur daftar kolom tabel pada halaman Mata Pelajaran.
  */
 class MataPelajaransTable
@@ -21,30 +22,30 @@ class MataPelajaransTable
     {
         return $table
             ->columns([
-                
+
                 // Menampilkan nama pelajaran
                 TextColumn::make('nama')
                     ->label('Nama Mata Pelajaran')
                     ->searchable(),
-                
+
                 // Menampilkan kode (singkatan)
                 TextColumn::make('kode')
                     ->label('Kode')
                     ->badge() // Bentuk lencana
                     ->searchable(),
-                
+
                 // Menampilkan tingkat kelas
                 TextColumn::make('tingkat_kelas')
                     ->label('Khusus Kelas')
                     ->numeric()
                     ->sortable()
                     ->placeholder('Semua Kelas'), // Kalau kosong di database, tampilkan teks ini
-                
+
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                
+
                 TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()

@@ -2,13 +2,12 @@
 
 namespace App\Policies;
 
-use Illuminate\Auth\Access\Response;
 use App\Models\MataPelajaran;
 use App\Models\User;
 
 /**
  * MataPelajaranPolicy
- * 
+ *
  * Mengatur hak akses ke menu Mata Pelajaran.
  */
 class MataPelajaranPolicy

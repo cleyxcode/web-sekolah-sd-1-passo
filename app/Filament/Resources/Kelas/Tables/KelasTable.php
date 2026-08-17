@@ -1,20 +1,20 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\Kelas\Tables;
 
 // Tombol & Kolom
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 /**
  * KelasTable
- * 
+ *
  * Mengatur kolom daftar kelas, termasuk bisa menghitung otomatis
  * ada berapa siswa di dalam masing-masing kelas tersebut.
  */
@@ -24,11 +24,11 @@ class KelasTable
     {
         return $table
             ->columns([
-                
+
                 // Menampilkan angka tingkat kelas dalam bentuk lencana (badge)
                 TextColumn::make('tingkat')
                     ->label('Tingkat')
-                    ->formatStateUsing(fn ($state) => 'Kelas ' . $state) // Mengubah tampilan dari '1' jadi 'Kelas 1'
+                    ->formatStateUsing(fn ($state) => 'Kelas '.$state) // Mengubah tampilan dari '1' jadi 'Kelas 1'
                     ->badge()
                     ->color('primary')
                     ->sortable(),
@@ -70,7 +70,7 @@ class KelasTable
             ])
             // Tabel otomatis diurutkan dari Kelas 1 sampai Kelas 6
             ->defaultSort('tingkat')
-            
+
             // Filter berdasarkan Tingkat Kelas
             ->filters([
                 SelectFilter::make('tingkat')

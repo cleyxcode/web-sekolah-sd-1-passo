@@ -7,7 +7,7 @@ use App\Models\User;
 
 /**
  * KalenderAkademikPolicy
- * 
+ *
  * Mengatur hak akses fitur Kalender Akademik (pengumuman hari libur, ujian, acara sekolah).
  */
 class KalenderAkademikPolicy
@@ -21,6 +21,7 @@ class KalenderAkademikPolicy
         if ($user->hasRole(['Orang Tua', 'Kepala Sekolah', 'Guru'])) {
             return true;
         }
+
         return $user->checkPermissionTo('view-any KalenderAkademik');
     }
 
@@ -32,6 +33,7 @@ class KalenderAkademikPolicy
         if ($user->hasRole(['Orang Tua', 'Kepala Sekolah', 'Guru'])) {
             return true;
         }
+
         return $user->checkPermissionTo('view KalenderAkademik');
     }
 
@@ -44,6 +46,7 @@ class KalenderAkademikPolicy
         if ($user->hasRole('Orang Tua')) {
             return false;
         }
+
         return $user->checkPermissionTo('create KalenderAkademik');
     }
 
@@ -55,6 +58,7 @@ class KalenderAkademikPolicy
         if ($user->hasRole('Orang Tua')) {
             return false;
         }
+
         return $user->checkPermissionTo('update KalenderAkademik');
     }
 
@@ -66,6 +70,7 @@ class KalenderAkademikPolicy
         if ($user->hasRole('Orang Tua')) {
             return false;
         }
+
         return $user->checkPermissionTo('delete KalenderAkademik');
     }
 
@@ -74,6 +79,7 @@ class KalenderAkademikPolicy
         if ($user->hasRole('Orang Tua')) {
             return false;
         }
+
         return $user->checkPermissionTo('delete-any KalenderAkademik');
     }
 

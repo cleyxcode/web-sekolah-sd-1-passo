@@ -1,6 +1,7 @@
 <?php
 
 // Alamat folder tempat file ini berada
+
 namespace App\Filament\Resources\TahunAjarans\Tables;
 
 // Mengimpor elemen tombol aksi dan penyusun tabel
@@ -13,7 +14,7 @@ use Filament\Tables\Table;
 
 /**
  * TahunAjaransTable
- * 
+ *
  * Kelas ini mengatur daftar kolom yang akan ditampilkan
  * pada halaman tabel "Daftar Tahun Ajaran".
  */
@@ -24,14 +25,14 @@ class TahunAjaransTable
         return $table
             // ->columns() mengatur kolom apa saja yang akan muncul
             ->columns([
-                
+
                 // Menampilkan nama tahun ajaran (contoh: 2024/2025)
                 TextColumn::make('nama')
                     ->label('Nama Tahun Ajaran')
                     ->searchable() // Bisa dicari dari kotak pencarian
                     ->sortable()   // Bisa diklik untuk mengurutkan (A-Z)
                     ->weight('bold'), // Teks ditebalkan
-                
+
                 // Menampilkan angka semester
                 TextColumn::make('semester')
                     ->label('Semester')

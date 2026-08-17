@@ -14,6 +14,7 @@ class CreateBerita extends CreateRecord
         if (empty($data['user_id'])) {
             $data['user_id'] = auth()->id();
         }
+
         return $data;
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\MataPelajarans;
 
 // Halaman
@@ -21,7 +22,7 @@ use Filament\Tables\Table;
 
 /**
  * MataPelajaranResource
- * 
+ *
  * Mengatur halaman menu "Mata Pelajaran".
  * Di sini Admin bisa mendata daftar pelajaran yang ada di sekolah (Matematika, IPA, dll).
  */
@@ -31,12 +32,13 @@ class MataPelajaranResource extends Resource
 
     // Ikon buku terbuka
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBookOpen;
-    
+
     // Dimasukkan ke menu Akademik
     protected static string|\UnitEnum|null $navigationGroup = 'Akademik';
-    
+
     // Label nama
     protected static ?string $modelLabel = 'Mata Pelajaran';
+
     protected static ?string $pluralModelLabel = 'Mata Pelajaran';
 
     public static function form(Schema $schema): Schema

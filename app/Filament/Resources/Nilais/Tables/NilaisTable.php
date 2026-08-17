@@ -1,28 +1,27 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\Nilais\Tables;
 
 // Model
 use App\Models\Guru;
 use App\Models\Kelas;
-use App\Models\MataPelajaran;
 use App\Models\Nilai;
 use App\Models\Siswa;
-use App\Models\TahunAjaran;
 // Tombol dan Kolom
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 /**
  * NilaisTable
- * 
+ *
  * Mengatur kolom yang ditampilkan pada halaman daftar Nilai Siswa.
  */
 class NilaisTable
@@ -31,14 +30,14 @@ class NilaisTable
     {
         return $table
             ->columns([
-                
+
                 // Nama Siswa beserta tulisan kelas kecil di bawahnya
                 TextColumn::make('siswa.nama')
                     ->label('Nama Siswa')
                     ->searchable()
                     ->sortable()
                     ->description(fn ($record) => $record->kelas?->nama_kelas
-                        ? 'Kelas: ' . $record->kelas->nama_kelas
+                        ? 'Kelas: '.$record->kelas->nama_kelas
                         : null),
 
                 // Nama Kelas
@@ -77,14 +76,14 @@ class NilaisTable
                     ->numeric(decimalPlaces: 1) // Tampilkan 1 angka di belakang koma (contoh: 80.0)
                     ->sortable()
                     ->badge() // Berbentuk lencana
-                    // Warnanya berubah otomatis: 
+                    // Warnanya berubah otomatis:
                     // Lebih dari 85 = Hijau (Bagus)
                     // Lebih dari 70 = Kuning (Cukup)
                     // Kurang dari 70 = Merah (Kurang/Gagal)
                     ->color(fn ($state): string => match (true) {
                         $state >= 85 => 'success',
                         $state >= 70 => 'warning',
-                        default      => 'danger',
+                        default => 'danger',
                     }),
 
                 // Nama Guru Penginput
@@ -104,14 +103,14 @@ class NilaisTable
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            
+
             // --- DAFTAR FITUR FILTER / PENYARING ---
             ->filters([
-                
+
                 // 1. Filter Berdasarkan Kelas (Hanya munculkan kelas yang diajar)
                 SelectFilter::make('kelas_id')
                     // Memastikan kita memfilter berdasarkan kolom 'kelas_id' pada tabel 'nilais'
-                    ->attribute('nilais.kelas_id') 
+                    ->attribute('nilais.kelas_id')
                     ->label('Filter Kelas')
                     ->options(function () {
                         $user = auth()->user();
@@ -153,7 +152,7 @@ class NilaisTable
                     ->searchable()
                     ->preload(),
             ])
-            
+
             // --- DAFTAR TOMBOL AKSI DI KANAN ---
             ->recordActions([
                 ViewAction::make(),
@@ -170,7 +169,7 @@ class NilaisTable
                     ->openUrlInNewTab() // Buka tab baru agar dashboard tidak tertutup
                     ->tooltip('Buka halaman cetak E-Rapor siswa ini'),
             ])
-            
+
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),

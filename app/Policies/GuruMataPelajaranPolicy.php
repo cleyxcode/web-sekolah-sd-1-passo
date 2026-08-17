@@ -2,13 +2,12 @@
 
 namespace App\Policies;
 
-use Illuminate\Auth\Access\Response;
 use App\Models\GuruMataPelajaran;
 use App\Models\User;
 
 /**
  * GuruMataPelajaranPolicy
- * 
+ *
  * Mengatur hak akses untuk data pembagian tugas mengajar guru.
  * (Guru A mengajar pelajaran apa saja di kelas mana saja)
  */

@@ -1,18 +1,19 @@
 <?php
 
 // Namespace letak folder untuk Controller ini
+
 namespace App\Http\Controllers;
 
-use App\Models\Nilai;            // Untuk mengambil data nilai siswa
-use App\Models\SettingSekolah;   // Untuk mengambil info profil sekolah
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; // Mengecek siapa yang sedang login
-use App\Models\Guru;             // Untuk mengambil profil guru (termasuk wali kelas)
-use App\Models\Kelas;            // Untuk informasi kelas
+use App\Models\Guru;            // Untuk mengambil data nilai siswa
+use App\Models\Kelas;   // Untuk mengambil info profil sekolah
+use App\Models\Nilai;
+use App\Models\SettingSekolah; // Mengecek siapa yang sedang login
+use Illuminate\Http\Request;             // Untuk mengambil profil guru (termasuk wali kelas)
+use Illuminate\Support\Facades\Auth;            // Untuk informasi kelas
 
 /**
  * RaporController
- * 
+ *
  * Mengatur logika untuk mencetak Rapor Siswa secara perorangan (PDF/Print).
  * File ini digunakan oleh pihak internal sekolah (Admin dan Guru).
  */
@@ -22,8 +23,8 @@ class RaporController extends Controller
      * Mencetak E-Rapor dari panel Admin/Guru.
      * Hanya bisa diakses oleh admin/guru yang sudah login.
      * Terdapat sistem keamanan untuk mencegah guru dari kelas lain mencetak rapor kelas yang bukan miliknya.
-     * 
-     * @param Nilai $nilai (Ini otomatis mencari satu baris nilai yang di-klik user)
+     *
+     * @param  Nilai  $nilai  (Ini otomatis mencari satu baris nilai yang di-klik user)
      */
     public function cetakAdmin(Nilai $nilai)
     {
@@ -31,49 +32,49 @@ class RaporController extends Controller
         $user = Auth::user();
 
         // Jika yang klik ternyata tidak login, tolak akses (Error 403 Forbidden)
-        if (!$user) {
+        if (! $user) {
             abort(403, 'Silakan login terlebih dahulu.');
         }
 
         // 2. Sistem Hak Akses (Otorisasi)
         // Cek apakah yang login adalah orang berjabatan tinggi (Boleh cetak rapor apa saja)
         $isSuperAdmin = $user->hasRole('Super Admin');
-        $isKepsek     = $user->hasRole('Kepala Sekolah');
+        $isKepsek = $user->hasRole('Kepala Sekolah');
 
         // Jika BUKAN Super Admin dan BUKAN Kepala Sekolah (berarti dia Guru/Staff biasa)
-        if (!$isSuperAdmin && !$isKepsek) {
+        if (! $isSuperAdmin && ! $isKepsek) {
             // Cari data Guru yang nyambung dengan akun login (User) ini
             $guru = Guru::where('user_id', $user->id)->first();
-            
+
             // Kalau data gurunya tidak ada, berarti akun bermasalah/bukan guru
-            if (!$guru) {
+            if (! $guru) {
                 abort(403, 'Anda tidak memiliki akses untuk mencetak rapor ini.');
             }
 
             // Cari ID kelas apa saja yang mana guru ini bertugas sebagai wali kelas
             $kelasIds = Kelas::where('wali_kelas_id', $guru->id)->pluck('id');
-            
+
             // Cek apakah nilai siswa ini berasal dari kelas perwaliannya?
             // Jika kelas_id dari $nilai tidak ada di dalam $kelasIds milik si guru, tolak
-            if (!$kelasIds->contains($nilai->kelas_id)) {
+            if (! $kelasIds->contains($nilai->kelas_id)) {
                 abort(403, 'Anda hanya bisa mencetak rapor siswa di kelas yang Anda wali.');
             }
         }
 
         // 3. Persiapan Data untuk Tampilan Rapor (PDF)
-        
+
         // Ambil data siswa dari nilai yang diklik
-        $siswa       = $nilai->siswa;
+        $siswa = $nilai->siswa;
         // Ambil kelas siswa
-        $kelas       = $nilai->kelas;
+        $kelas = $nilai->kelas;
         // Ambil jenis semester (Ganjil/Genap)
-        $semester    = $nilai->semester;
+        $semester = $nilai->semester;
         // Ambil jenis ujian (misal: UTS atau UAS)
-        $jenisUjian  = $nilai->jenis_ujian;
+        $jenisUjian = $nilai->jenis_ujian;
         // Ambil tahun ajaran
         $tahunAjaran = $nilai->tahunAjaran;
 
-        // 4. Proses pengambilan SEMUA nilai milik si siswa ini, 
+        // 4. Proses pengambilan SEMUA nilai milik si siswa ini,
         // tapi hanya nilai pada semester, ujian, kelas, dan tahun yang sama!
         // Ini memastikan semua mata pelajaran muncul di rapor
         $nilais = Nilai::with('mataPelajaran') // Sertakan detail mata pelajaran sekalian

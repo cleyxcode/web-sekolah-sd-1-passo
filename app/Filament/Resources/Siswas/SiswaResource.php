@@ -1,6 +1,7 @@
 <?php
 
 // Lokasi folder tempat file ini berada
+
 namespace App\Filament\Resources\Siswas;
 
 // Mengimpor file-file halaman khusus siswa
@@ -21,10 +22,11 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * SiswaResource
- * 
+ *
  * Kelas induk penghubung untuk mengelola data "Siswa" di panel Admin Filament.
  */
 class SiswaResource extends Resource
@@ -34,12 +36,13 @@ class SiswaResource extends Resource
 
     // Ikon topi wisuda di sidebar
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedAcademicCap;
-    
+
     // Kelompok menu Akademik
     protected static string|\UnitEnum|null $navigationGroup = 'Akademik';
-    
+
     // Penamaan data di tombol / judul
     protected static ?string $modelLabel = 'Siswa';
+
     protected static ?string $pluralModelLabel = 'Siswa';
 
     /**
@@ -64,10 +67,10 @@ class SiswaResource extends Resource
      * FUNGSI FILTER DATA (Keamanan & Hak Akses)
      * Mengatur data siswa siapa saja yang boleh dilihat oleh pengguna yang login.
      */
-    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery();
-        $user  = auth()->user();
+        $user = auth()->user();
 
         // 1. Super Admin & Kepala Sekolah bisa melihat SEMUA data siswa dari seluruh kelas
         if ($user->hasRole('Super Admin') || $user->hasRole('Kepala Sekolah')) {
@@ -99,10 +102,10 @@ class SiswaResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => ListSiswas::route('/'),              // Halaman awal daftar tabel
+            'index' => ListSiswas::route('/'),              // Halaman awal daftar tabel
             'create' => CreateSiswa::route('/create'),      // Halaman tambah data
-            'view'   => ViewSiswa::route('/{record}'),      // Halaman lihat detail (ReadOnly)
-            'edit'   => EditSiswa::route('/{record}/edit'), // Halaman ubah data
+            'view' => ViewSiswa::route('/{record}'),      // Halaman lihat detail (ReadOnly)
+            'edit' => EditSiswa::route('/{record}/edit'), // Halaman ubah data
         ];
     }
 }

@@ -9,14 +9,19 @@ use Illuminate\Support\Facades\Auth;
 class NilaiChartWidget extends ChartWidget
 {
     protected ?string $heading = 'Grafik Rata-rata Nilai Per Mata Pelajaran';
+
     protected static ?int $sort = 3;
-    protected int | string | array $columnSpan = 'full';
+
+    protected int|string|array $columnSpan = 'full';
 
     // Widget grafik nilai: Super Admin & Kepala Sekolah (data sensitif akademik)
     public static function canView(): bool
     {
         $user = Auth::user();
-        if (!$user) return false;
+        if (! $user) {
+            return false;
+        }
+
         return $user->hasRole('Super Admin') || $user->can('view_dashboard_chart');
     }
 
@@ -31,23 +36,28 @@ class NilaiChartWidget extends ChartWidget
             ->get();
 
         $labels = $nilais->map(fn ($n) => $n->mataPelajaran?->nama ?? 'N/A')->toArray();
-        $data   = $nilais->map(fn ($n) => round($n->rata_rata, 1))->toArray();
+        $data = $nilais->map(fn ($n) => round($n->rata_rata, 1))->toArray();
 
         // Warna dinamis berdasarkan nilai rata-rata
         $backgroundColors = $nilais->map(function ($n) {
             $rata = $n->rata_rata;
-            if ($rata >= 85) return 'rgba(34, 197, 94, 0.7)';  // hijau
-            if ($rata >= 70) return 'rgba(234, 179, 8, 0.7)';  // kuning
+            if ($rata >= 85) {
+                return 'rgba(34, 197, 94, 0.7)';
+            }  // hijau
+            if ($rata >= 70) {
+                return 'rgba(234, 179, 8, 0.7)';
+            }  // kuning
+
             return 'rgba(239, 68, 68, 0.7)';                   // merah
         })->toArray();
 
         return [
             'datasets' => [
                 [
-                    'label'           => 'Rata-rata Nilai',
-                    'data'            => $data,
+                    'label' => 'Rata-rata Nilai',
+                    'data' => $data,
                     'backgroundColor' => $backgroundColors,
-                    'borderRadius'    => 6,
+                    'borderRadius' => 6,
                 ],
             ],
             'labels' => $labels,
@@ -65,8 +75,8 @@ class NilaiChartWidget extends ChartWidget
             'scales' => [
                 'y' => [
                     'beginAtZero' => false,
-                    'min'         => 50,
-                    'max'         => 100,
+                    'min' => 50,
+                    'max' => 100,
                 ],
             ],
             'plugins' => [

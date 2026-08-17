@@ -2,13 +2,12 @@
 
 namespace App\Policies;
 
-use Illuminate\Auth\Access\Response;
 use App\Models\JadwalPelajaran;
 use App\Models\User;
 
 /**
  * JadwalPelajaranPolicy
- * 
+ *
  * Mengatur hak akses ke data Jadwal Pelajaran (siapa mengajar di kelas mana, jam berapa).
  */
 class JadwalPelajaranPolicy

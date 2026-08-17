@@ -1,6 +1,7 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\KalenderAkademiks\Tables;
 
 // Tombol & Kolom
@@ -13,7 +14,7 @@ use Filament\Tables\Table;
 
 /**
  * KalenderAkademiksTable
- * 
+ *
  * Mengatur kolom daftar acara pada Kalender Akademik.
  */
 class KalenderAkademiksTable
@@ -22,29 +23,29 @@ class KalenderAkademiksTable
     {
         return $table
             ->columns([
-                
+
                 // Judul Kegiatan
                 TextColumn::make('judul')
                     ->label('Judul Kegiatan')
                     ->searchable(),
-                
+
                 // Tanggal Mulai
                 TextColumn::make('tanggal_mulai')
                     ->label('Tanggal Mulai')
                     ->date('d M Y') // Format jadi rapi, misal: 12 Jan 2024
                     ->sortable(),
-                
+
                 // Tanggal Selesai
                 TextColumn::make('tanggal_selesai')
                     ->label('Tanggal Selesai')
                     ->date('d M Y')
                     ->sortable(),
-                
+
                 // Tahun Ajaran
                 TextColumn::make('tahunAjaran.nama')
                     ->label('Tahun Ajaran')
                     ->searchable(),
-                
+
                 TextColumn::make('created_at')
                     ->label('Dibuat')
                     ->dateTime()

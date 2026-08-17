@@ -7,7 +7,7 @@ use App\Models\User;
 
 /**
  * PresensiPolicy
- * 
+ *
  * Mengatur hak akses ke data Absensi / Presensi Siswa.
  */
 class PresensiPolicy

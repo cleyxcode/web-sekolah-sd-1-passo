@@ -7,7 +7,7 @@ use App\Models\User;
 
 /**
  * BeritaPolicy
- * 
+ *
  * Kebijakan hak akses untuk tabel Berita.
  * Mengatur siapa saja yang boleh membuat, mengedit, atau menghapus berita di website.
  */
@@ -22,6 +22,7 @@ class BeritaPolicy
         if ($user->hasRole(['Orang Tua', 'Kepala Sekolah', 'Guru'])) {
             return true;
         }
+
         // Jika bukan ketiga role di atas, cek izin khusus miliknya
         return $user->checkPermissionTo('view-any Berita');
     }
@@ -35,6 +36,7 @@ class BeritaPolicy
         if ($user->hasRole(['Orang Tua', 'Kepala Sekolah', 'Guru'])) {
             return true;
         }
+
         return $user->checkPermissionTo('view Berita');
     }
 
@@ -47,6 +49,7 @@ class BeritaPolicy
         if ($user->hasRole('Orang Tua')) {
             return false;
         }
+
         return $user->checkPermissionTo('create Berita');
     }
 
@@ -59,6 +62,7 @@ class BeritaPolicy
         if ($user->hasRole('Orang Tua')) {
             return false;
         }
+
         return $user->checkPermissionTo('update Berita');
     }
 
@@ -71,6 +75,7 @@ class BeritaPolicy
         if ($user->hasRole('Orang Tua')) {
             return false;
         }
+
         return $user->checkPermissionTo('delete Berita');
     }
 
@@ -82,6 +87,7 @@ class BeritaPolicy
         if ($user->hasRole('Orang Tua')) {
             return false;
         }
+
         return $user->checkPermissionTo('delete-any Berita');
     }
 

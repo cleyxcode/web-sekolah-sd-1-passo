@@ -2,12 +2,12 @@
 
 namespace App\Policies;
 
-use App\Models\User;
 use App\Models\CatatanPerkembangan;
+use App\Models\User;
 
 /**
  * CatatanPerkembanganPolicy
- * 
+ *
  * Mengatur hak akses untuk catatan yang ditulis oleh wali kelas tentang perkembangan siswanya.
  */
 class CatatanPerkembanganPolicy

@@ -2,24 +2,27 @@
 
 namespace App\Filament\Widgets;
 
+use App\Models\Berita;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
 use Illuminate\Database\Eloquent\Builder;
-use App\Models\Berita;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\BadgeColumn;
 use Illuminate\Support\Facades\Auth;
 
 class RecentBeritaWidget extends TableWidget
 {
     protected static ?string $heading = 'Berita Terbaru';
+
     protected static ?int $sort = 5;
 
     // Widget berita terbaru: semua role + Admin Konten
     public static function canView(): bool
     {
         $user = Auth::user();
-        if (!$user) return false;
+        if (! $user) {
+            return false;
+        }
+
         return $user->hasRole('Super Admin') || $user->can('view_dashboard_recent');
     }
 
@@ -37,8 +40,8 @@ class RecentBeritaWidget extends TableWidget
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'published' => 'success',
-                        'draft'     => 'warning',
-                        default     => 'gray',
+                        'draft' => 'warning',
+                        default => 'gray',
                     }),
                 TextColumn::make('published_at')
                     ->label('Tanggal Publish')

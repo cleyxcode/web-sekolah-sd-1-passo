@@ -1,13 +1,14 @@
 <?php
 
 // Namespace menunjukkan lokasi file ini dalam struktur folder project
+
 namespace App\Models;
 
 // Mengimpor Authenticatable agar OrangTua bisa login ke portal orang tua
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
 // Notifiable memungkinkan model ini menerima notifikasi (email, dll)
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Model OrangTua
@@ -81,10 +82,12 @@ class OrangTua extends Authenticatable
     public function getFotoUrlAttribute(): ?string
     {
         // Cek apakah kolom foto ada dan tidak kosong
-        if (!isset($this->foto) || !$this->foto) return null;
+        if (! isset($this->foto) || ! $this->foto) {
+            return null;
+        }
 
         // Ubah path relatif di storage menjadi URL yang bisa diakses browser
-        return \Illuminate\Support\Facades\Storage::url($this->foto);
+        return Storage::url($this->foto);
     }
 
     /**

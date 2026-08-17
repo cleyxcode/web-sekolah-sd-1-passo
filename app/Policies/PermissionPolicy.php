@@ -2,13 +2,12 @@
 
 namespace App\Policies;
 
-use Spatie\Permission\Models\Permission;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
+use Spatie\Permission\Models\Permission;
 
 /**
  * PermissionPolicy
- * 
+ *
  * Kebijakan sistem yang SANGAT KETAT.
  * Mengatur hak akses ke tabel Permission (Izin-izin tombol).
  * Supaya tidak ada yang iseng mengubah izin sistem, semuanya DIKUNCI (Return False).

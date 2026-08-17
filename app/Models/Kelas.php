@@ -1,6 +1,7 @@
 <?php
 
 // Namespace menunjukkan lokasi file ini dalam struktur folder project
+
 namespace App\Models;
 
 // Mengimpor kelas Model dari Laravel sebagai induk dari model ini
@@ -132,7 +133,7 @@ class Kelas extends Model
     public function getLabelAttribute(): string
     {
         // Gabungkan nama kelas dengan tingkat jika ada
-        return "Kelas {$this->nama_kelas}" . ($this->tingkat ? " (Tingkat {$this->tingkat})" : '');
+        return "Kelas {$this->nama_kelas}".($this->tingkat ? " (Tingkat {$this->tingkat})" : '');
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\ProfilSekolahs;
 
 // Halaman-halaman
@@ -20,7 +21,7 @@ use Filament\Tables\Table;
 
 /**
  * ProfilSekolahResource
- * 
+ *
  * Mengatur halaman konten informasi sekolah, seperti:
  * Sejarah, Visi, Misi, dan Kata Sambutan Kepala Sekolah.
  * Konten ini akan ditampilkan di website publik sekolah.
@@ -31,12 +32,13 @@ class ProfilSekolahResource extends Resource
 
     // Ikon bangunan kantor
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingOffice2;
-    
+
     // Dimasukkan ke dalam menu "Konten & Informasi"
     protected static string|\UnitEnum|null $navigationGroup = 'Konten & Informasi';
-    
+
     // Label tombol dan judul halaman
     protected static ?string $modelLabel = 'Profil Sekolah';
+
     protected static ?string $pluralModelLabel = 'Profil Sekolah';
 
     public static function form(Schema $schema): Schema

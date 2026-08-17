@@ -1,6 +1,7 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\CatatanPerkembangans;
 
 // Halaman-halaman
@@ -22,13 +23,14 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
 /**
  * CatatanPerkembanganResource
- * 
+ *
  * Mengatur halaman menu "Catatan Perkembangan".
- * Menu ini digunakan oleh guru untuk menulis catatan perilaku atau 
+ * Menu ini digunakan oleh guru untuk menulis catatan perilaku atau
  * perkembangan siswa yang nantinya bisa dibaca oleh orang tua di portal mereka.
  */
 class CatatanPerkembanganResource extends Resource
@@ -37,12 +39,13 @@ class CatatanPerkembanganResource extends Resource
 
     // Ikon balon obrolan teks
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChatBubbleBottomCenterText;
-    
+
     // Dimasukkan ke menu Akademik
     protected static string|\UnitEnum|null $navigationGroup = 'Akademik';
-    
+
     // Label tombol dan nama menu
     protected static ?string $modelLabel = 'Catatan Perkembangan';
+
     protected static ?string $pluralModelLabel = 'Catatan Perkembangan';
 
     protected static ?string $recordTitleAttribute = 'predikat';
@@ -67,10 +70,10 @@ class CatatanPerkembanganResource extends Resource
      * Guru HANYA boleh melihat catatan siswa di kelas yang ia walikan.
      * Super Admin & Kepala Sekolah boleh melihat semuanya.
      */
-    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery();
-        $user  = Auth::user();
+        $user = Auth::user();
 
         // 1. Super Admin & Kepala Sekolah: lihat semua catatan
         if ($user->hasRole('Super Admin') || $user->hasRole('Kepala Sekolah')) {
@@ -92,7 +95,7 @@ class CatatanPerkembanganResource extends Resource
     }
 
     /**
-     * Guru diizinkan untuk membuat catatan. 
+     * Guru diizinkan untuk membuat catatan.
      * (Nanti pemilihan siswanya akan dikunci hanya untuk muridnya sendiri di dalam form).
      */
     public static function canCreate(): bool

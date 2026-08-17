@@ -2,13 +2,12 @@
 
 namespace App\Policies;
 
-use Illuminate\Auth\Access\Response;
 use App\Models\RiwayatKelas;
 use App\Models\User;
 
 /**
  * RiwayatKelasPolicy
- * 
+ *
  * Mengatur hak akses siapa saja yang boleh melihat rekam jejak
  * historis siswa (tahun lalu dia kelas berapa, dll).
  */

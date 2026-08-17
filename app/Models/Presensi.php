@@ -1,10 +1,12 @@
 <?php
 
 // Namespace menunjukkan lokasi file ini dalam struktur folder project
+
 namespace App\Models;
 
 // Mengimpor kelas Model dari Laravel sebagai induk dari model ini
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Model Presensi
@@ -41,7 +43,7 @@ class Presensi extends Model
          */
         static::creating(function ($presensi) {
             // Cek apakah kelas_id belum terisi DAN siswa_id sudah ada
-            if (empty($presensi->kelas_id) && !empty($presensi->siswa_id)) {
+            if (empty($presensi->kelas_id) && ! empty($presensi->siswa_id)) {
                 // Ambil data siswa: coba dari relasi yang sudah dimuat, atau query ulang ke database
                 $siswa = $presensi->siswa ?? Siswa::find($presensi->siswa_id);
 
@@ -123,9 +125,11 @@ class Presensi extends Model
     public function getFotoAbsenUrlAttribute(): ?string
     {
         // Jika tidak ada foto, langsung kembalikan null
-        if (!$this->foto_absen) return null;
+        if (! $this->foto_absen) {
+            return null;
+        }
 
         // Ubah path relatif di storage menjadi URL yang bisa diakses browser
-        return \Illuminate\Support\Facades\Storage::url($this->foto_absen);
+        return Storage::url($this->foto_absen);
     }
 }

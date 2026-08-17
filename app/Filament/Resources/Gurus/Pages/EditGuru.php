@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Gurus\Pages;
 use App\Filament\Resources\Gurus\GuruResource;
 use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Support\Facades\Hash;
 
 class EditGuru extends EditRecord
 {
@@ -23,6 +24,7 @@ class EditGuru extends EditRecord
         if ($guru->user) {
             $data['email'] = $guru->user->email;
         }
+
         return $data;
     }
 
@@ -35,8 +37,8 @@ class EditGuru extends EditRecord
                 'email' => $data['email'],
             ];
 
-            if (!empty($data['password'])) {
-                $userData['password'] = \Illuminate\Support\Facades\Hash::make($data['password']);
+            if (! empty($data['password'])) {
+                $userData['password'] = Hash::make($data['password']);
             }
 
             $guru->user->update($userData);

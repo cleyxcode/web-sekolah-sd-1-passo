@@ -2,24 +2,29 @@
 
 namespace App\Filament\Widgets;
 
+use App\Models\Kelas;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Filament\Widgets\TableWidget;
 use Illuminate\Database\Eloquent\Builder;
-use App\Models\Kelas;
-use Filament\Tables\Columns\TextColumn;
 use Illuminate\Support\Facades\Auth;
 
 class KelasOverviewWidget extends TableWidget
 {
     protected static ?string $heading = 'Ringkasan Data Kelas';
+
     protected static ?int $sort = 4;
-    protected int | string | array $columnSpan = 'full';
+
+    protected int|string|array $columnSpan = 'full';
 
     // Widget ringkasan kelas: Super Admin, Kepala Sekolah, Guru
     public static function canView(): bool
     {
         $user = Auth::user();
-        if (!$user) return false;
+        if (! $user) {
+            return false;
+        }
+
         return $user->hasRole('Super Admin') || $user->can('view_dashboard_chart');
     }
 
@@ -52,7 +57,7 @@ class KelasOverviewWidget extends TableWidget
                     ->color(fn ($state) => match (true) {
                         $state >= 30 => 'success',
                         $state >= 20 => 'warning',
-                        default      => 'danger',
+                        default => 'danger',
                     }),
             ])
             ->paginated(false);

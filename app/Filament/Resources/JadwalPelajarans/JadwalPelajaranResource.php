@@ -1,6 +1,7 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\JadwalPelajarans;
 
 // Halaman-halaman
@@ -21,7 +22,7 @@ use Filament\Tables\Table;
 
 /**
  * JadwalPelajaranResource
- * 
+ *
  * Mengatur halaman menu "Jadwal Pelajaran".
  * Berfungsi untuk menentukan di hari apa, jam berapa, guru siapa
  * yang mengajar pelajaran tertentu di suatu kelas.
@@ -32,12 +33,13 @@ class JadwalPelajaranResource extends Resource
 
     // Ikon kalender dinding
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendar;
-    
+
     // Dimasukkan ke menu Akademik
     protected static string|\UnitEnum|null $navigationGroup = 'Akademik';
-    
+
     // Nama menu dan judul
     protected static ?string $modelLabel = 'Jadwal Pelajaran';
+
     protected static ?string $pluralModelLabel = 'Jadwal Pelajaran';
 
     public static function form(Schema $schema): Schema

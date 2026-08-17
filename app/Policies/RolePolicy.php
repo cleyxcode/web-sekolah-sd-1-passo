@@ -2,12 +2,12 @@
 
 namespace App\Policies;
 
-use Spatie\Permission\Models\Role;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 /**
  * RolePolicy
- * 
+ *
  * Mengatur hak akses ke tabel Role (Jabatan/Peran seperti Admin, Guru, Kepsek).
  */
 class RolePolicy

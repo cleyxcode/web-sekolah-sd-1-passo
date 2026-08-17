@@ -7,7 +7,7 @@ use App\Models\User;
 
 /**
  * SiswaPolicy
- * 
+ *
  * Mengatur hak akses penuh terhadap data Siswa.
  */
 class SiswaPolicy
@@ -21,6 +21,7 @@ class SiswaPolicy
         if ($user->hasRole(['Orang Tua', 'Kepala Sekolah'])) {
             return true;
         }
+
         return $user->checkPermissionTo('view-any Siswa');
     }
 
@@ -32,6 +33,7 @@ class SiswaPolicy
         if ($user->hasRole(['Orang Tua', 'Kepala Sekolah'])) {
             return true;
         }
+
         return $user->checkPermissionTo('view Siswa');
     }
 
@@ -48,6 +50,7 @@ class SiswaPolicy
         if ($user->hasRole('Orang Tua')) {
             return false;
         }
+
         return $user->checkPermissionTo('create Siswa');
     }
 
@@ -59,6 +62,7 @@ class SiswaPolicy
         if ($user->hasRole('Orang Tua')) {
             return false;
         }
+
         return $user->checkPermissionTo('update Siswa');
     }
 
@@ -70,6 +74,7 @@ class SiswaPolicy
         if ($user->hasRole('Orang Tua')) {
             return false;
         }
+
         return $user->checkPermissionTo('delete Siswa');
     }
 
@@ -78,6 +83,7 @@ class SiswaPolicy
         if ($user->hasRole('Orang Tua')) {
             return false;
         }
+
         return $user->checkPermissionTo('delete-any Siswa');
     }
 

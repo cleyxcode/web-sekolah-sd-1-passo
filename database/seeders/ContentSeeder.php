@@ -7,6 +7,7 @@ use App\Models\Berita;
 use App\Models\Galeri;
 use App\Models\ProfilSekolah;
 use App\Models\SettingSekolah;
+use App\Models\Pendaftaran;
 use Faker\Factory as Faker;
 use Illuminate\Support\Str;
 
@@ -79,5 +80,16 @@ class ContentSeeder extends Seeder
                 ]
             );
         }
+
+        // Pendaftaran
+        Pendaftaran::firstOrCreate(
+            ['id' => 1],
+            [
+                'judul' => 'Pendaftaran Siswa Baru TA 2026/2027',
+                'deskripsi' => '<p>Pendaftaran siswa baru untuk tahun ajaran 2026/2027 sudah dibuka. Silakan isi formulir pendaftaran melalui link di bawah ini.</p>',
+                'link_pendaftaran' => 'https://forms.gle/example-pendaftaran-siswa',
+                'is_active' => true,
+            ]
+        );
     }
 }

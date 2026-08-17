@@ -2,13 +2,12 @@
 
 namespace App\Policies;
 
-use Illuminate\Auth\Access\Response;
 use App\Models\ActivityLog;
 use App\Models\User;
 
 /**
  * ActivityLogPolicy
- * 
+ *
  * Policy (Kebijakan) ini mengatur hak akses (siapa yang boleh melakukan apa)
  * terhadap tabel log aktivitas (catatan sejarah perubahan di dalam sistem).
  */

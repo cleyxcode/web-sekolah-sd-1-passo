@@ -2,13 +2,12 @@
 
 namespace App\Policies;
 
-use Illuminate\Auth\Access\Response;
 use App\Models\UploadDaftarHadir;
 use App\Models\User;
 
 /**
  * UploadDaftarHadirPolicy
- * 
+ *
  * Kebijakan akses untuk mengelola unggahan bukti absensi (misal guru mengunggah foto daftar hadir manual).
  */
 class UploadDaftarHadirPolicy

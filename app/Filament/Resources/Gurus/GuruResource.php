@@ -1,6 +1,7 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\Gurus;
 
 // Halaman
@@ -21,7 +22,7 @@ use Filament\Tables\Table;
 
 /**
  * GuruResource
- * 
+ *
  * Mengatur halaman menu "Guru".
  * Di sini Admin mendaftarkan data pribadi para guru
  * sekaligus membuatkan akun login mereka untuk masuk ke dashboard ini.
@@ -32,12 +33,13 @@ class GuruResource extends Resource
 
     // Ikon kumpulan orang banyak
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUserGroup;
-    
+
     // Dimasukkan ke kelompok Akademik
     protected static string|\UnitEnum|null $navigationGroup = 'Akademik';
-    
+
     // Penamaan
     protected static ?string $modelLabel = 'Guru';
+
     protected static ?string $pluralModelLabel = 'Guru';
 
     public static function form(Schema $schema): Schema

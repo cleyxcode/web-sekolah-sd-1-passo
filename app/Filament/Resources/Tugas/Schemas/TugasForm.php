@@ -1,6 +1,7 @@
 <?php
 
 // Alamat folder tempat file ini berada
+
 namespace App\Filament\Resources\Tugas\Schemas;
 
 // Mengimpor model database
@@ -9,11 +10,11 @@ use App\Models\Kelas;
 // Mengimpor elemen-elemen untuk menyusun form
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Hidden;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -21,7 +22,7 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * TugasForm
- * 
+ *
  * Kelas ini mengatur susunan kolom isian (Form) saat menambahkan atau mengedit Tugas.
  */
 class TugasForm
@@ -58,14 +59,16 @@ class TugasForm
                                 // JIKA YANG LOGIN ADALAH GURU:
                                 if ($user?->hasRole('Guru')) {
                                     $guru = Guru::where('user_id', $user->id)->first();
-                                    if (!$guru) return []; // Kalau error, kembalikan kosong
-                                    
+                                    if (! $guru) {
+                                        return [];
+                                    } // Kalau error, kembalikan kosong
+
                                     // Hanya tampilkan kelas yang dia ajar / wali-kan
                                     return Kelas::where('wali_kelas_id', $guru->id)
                                         ->orderBy('tingkat')
                                         ->get()
-                                        ->mapWithKeys(fn($k) => [
-                                            $k->id => "Kelas {$k->nama_kelas} (Tingkat {$k->tingkat})"
+                                        ->mapWithKeys(fn ($k) => [
+                                            $k->id => "Kelas {$k->nama_kelas} (Tingkat {$k->tingkat})",
                                         ]);
                                 }
 
@@ -75,12 +78,12 @@ class TugasForm
                                     ->orderBy('tingkat')
                                     ->orderBy('nama_kelas')
                                     ->get()
-                                    ->mapWithKeys(fn($k) => [
-                                        $k->id => "Kelas {$k->nama_kelas} — Wali: " . ($k->waliKelas->nama ?? 'Belum ada')
+                                    ->mapWithKeys(fn ($k) => [
+                                        $k->id => "Kelas {$k->nama_kelas} — Wali: ".($k->waliKelas->nama ?? 'Belum ada'),
                                     ]);
                             })
                             // Teks petunjuk kecil di bawah kotak pilihan
-                            ->helperText(fn() => Auth::user()?->hasRole('Guru')
+                            ->helperText(fn () => Auth::user()?->hasRole('Guru')
                                 ? 'Hanya menampilkan kelas yang Anda wali.'
                                 : 'Pilih kelas yang akan menerima tugas ini.'),
 
@@ -97,6 +100,7 @@ class TugasForm
                                 if ($user?->hasRole('Guru')) {
                                     return Guru::where('user_id', $user->id)->value('id');
                                 }
+
                                 return null;
                             })
                             ->helperText('Otomatis terisi jika login sebagai Guru.'),
@@ -121,9 +125,9 @@ class TugasForm
                         Select::make('status')
                             ->label('Status Tugas')
                             ->options([
-                                'aktif'       => '🟢 Aktif',
-                                'selesai'     => '✅ Selesai',
-                                'dibatalkan'  => '❌ Dibatalkan',
+                                'aktif' => '🟢 Aktif',
+                                'selesai' => '✅ Selesai',
+                                'dibatalkan' => '❌ Dibatalkan',
                             ])
                             ->default('aktif') // Status bawaan saat pertama bikin adalah "Aktif"
                             ->required()
@@ -167,7 +171,7 @@ class TugasForm
                             ->maxFiles(5)
                             ->maxSize(5120) // 5MB
                             ->helperText('Format: PDF, Word (Maks 5 file, per file maks 5MB).'),
-                    ])
+                    ]),
                 ]),
 
             // Membuat Kotak Bagian (Section) ketiga untuk menambah pesan komentar
@@ -176,7 +180,7 @@ class TugasForm
                 ->icon('heroicon-o-chat-bubble-left-ellipsis')
                 ->collapsed() // Ditutup secara bawaan
                 ->schema([
-                    // Repeater = Elemen yang bisa diulang-ulang. 
+                    // Repeater = Elemen yang bisa diulang-ulang.
                     // Digunakan untuk menambahkan banyak komentar sekaligus.
                     Repeater::make('komentars')
                         ->relationship('komentars') // Tersambung ke tabel anak 'komentar_tugas'
@@ -189,7 +193,7 @@ class TugasForm
                                 ->required()
                                 ->rows(3)
                                 ->placeholder('Contoh: "Mohon untuk siswa yang belum mengumpulkan segera diselesaikan..."'),
-                            
+
                             // Kotak isian tersembunyi (Hidden) untuk menyimpan ID siapa guru yang komentar
                             Hidden::make('guru_id')
                                 ->default(function () {
@@ -197,8 +201,9 @@ class TugasForm
                                     if ($user?->hasRole('Guru')) {
                                         return Guru::where('user_id', $user->id)->value('id');
                                     }
+
                                     return null;
-                                })
+                                }),
                         ])
                         ->defaultItems(0) // Awal mula kotak ini kosong (0 kotak form komentar)
                         ->itemLabel(fn (array $state): ?string => $state['komentar'] ?? null) // Tampilkan tulisan komentar sebagai judul saat ditutup

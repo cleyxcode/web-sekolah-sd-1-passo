@@ -1,6 +1,7 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\SettingSekolahs\Tables;
 
 use Filament\Actions\BulkActionGroup;
@@ -11,9 +12,9 @@ use Filament\Tables\Table;
 
 /**
  * SettingSekolahsTable
- * 
+ *
  * Karena SettingSekolahResource dibuat langsung diarahkan ke halaman Edit (Index diarahkan ke Edit),
- * file tabel ini sebenarnya jarang tereksekusi. Namun tetap disiapkan sebagai cadangan jika 
+ * file tabel ini sebenarnya jarang tereksekusi. Namun tetap disiapkan sebagai cadangan jika
  * pengaturan sekolah ingin ditampilkan dalam format daftar tabel.
  */
 class SettingSekolahsTable

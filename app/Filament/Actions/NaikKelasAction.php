@@ -8,17 +8,15 @@ use App\Models\Siswa;
 use App\Models\TahunAjaran;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Checkbox;
-use Filament\Infolists\Components\TextEntry;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Section;
-use Filament\Forms\Components\Repeater;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\HtmlString;
 
 /**
  * NaikKelasAction
- * 
+ *
  * Ini adalah tombol ajaib (Aksi) di pojok atas yang jika ditekan
  * akan menaikkan kelas SEMUA siswa secara serentak.
  * Contoh: Siswa kelas 1 naik ke kelas 2, kelas 6 otomatis jadi Alumni/Lulus.
@@ -61,7 +59,7 @@ class NaikKelasAction extends Action
                 $tahunAjaranAktif = TahunAjaran::where('is_active', true)->first();
 
                 // Kalau tidak ada tahun ajaran aktif, blokir! (Suruh aktifkan dulu)
-                if (!$tahunAjaranAktif) {
+                if (! $tahunAjaranAktif) {
                     return [
                         TextEntry::make('no_ta')
                             ->label('')
@@ -91,21 +89,21 @@ class NaikKelasAction extends Action
 
                 // 4. Susun bentuk tabel informasi HTML-nya
                 $previewRows = '';
-                $totalSiswa  = 0;
-                $tingkatMax  = $kelasGroups->keys()->max() ?? 6; // Cari tahu kelas tertingginya (Biasanya 6)
+                $totalSiswa = 0;
+                $tingkatMax = $kelasGroups->keys()->max() ?? 6; // Cari tahu kelas tertingginya (Biasanya 6)
 
                 foreach ($kelasGroups as $tingkat => $kelasList) {
                     foreach ($kelasList as $kelas) {
                         $jml = $siswaPerKelas[$kelas->id] ?? 0;
                         $totalSiswa += $jml;
-                        
+
                         // Kalau dia sudah di kelas tertinggi (misal Kelas 6), tuliskan Lulus / Alumni
                         if ($tingkat >= $tingkatMax) {
                             $tujuanLabel = '<span style="color:#dc2626;font-weight:700;">Lulus / Alumni</span>';
                         } else {
-                            $tujuanLabel = '<span style="color:#2563eb;font-weight:600;">Tingkat ' . ($tingkat + 1) . '</span>';
+                            $tujuanLabel = '<span style="color:#2563eb;font-weight:600;">Tingkat '.($tingkat + 1).'</span>';
                         }
-                        
+
                         $previewRows .= "
                             <tr style='border-bottom:1px solid #f1f5f9;'>
                                 <td style='padding:8px 12px;font-weight:600;'>Tingkat {$tingkat}</td>
@@ -158,7 +156,7 @@ class NaikKelasAction extends Action
                         ->label('Mode Kenaikan Kelas')
                         ->options([
                             'same_tahun_ajaran' => '🔄 Naik kelas dalam tahun ajaran yang SAMA (pindah tingkat)',
-                            'new_tahun_ajaran'  => '📅 Naik kelas ke tahun ajaran BARU',
+                            'new_tahun_ajaran' => '📅 Naik kelas ke tahun ajaran BARU',
                         ])
                         ->default('same_tahun_ajaran')
                         ->required()
@@ -184,9 +182,9 @@ class NaikKelasAction extends Action
                     Select::make('strategi_mapping')
                         ->label('Strategi Penentuan Kelas Tujuan')
                         ->options([
-                            'auto_first'   => '🤖 Otomatis — ambil kelas pertama di tingkat berikutnya',
-                            'auto_suffix'  => '🔤 Otomatis — cocokkan huruf akhir kelas (1A ke 2A, 1B ke 2B)',
-                            'gabung_satu'  => '🔀 Gabung ke Satu Kelas — semua siswa pararel digabung ke 1 kelas',
+                            'auto_first' => '🤖 Otomatis — ambil kelas pertama di tingkat berikutnya',
+                            'auto_suffix' => '🔤 Otomatis — cocokkan huruf akhir kelas (1A ke 2A, 1B ke 2B)',
+                            'gabung_satu' => '🔀 Gabung ke Satu Kelas — semua siswa pararel digabung ke 1 kelas',
                         ])
                         ->default('auto_first')
                         ->required()
@@ -218,29 +216,31 @@ class NaikKelasAction extends Action
             ->modalSubmitActionLabel('✅ Proses Naik Kelas Sekarang')
             // Tombol Abu-abu
             ->modalCancelActionLabel('Batal')
-            
+
             // --- APA YANG TERJADI KETIKA TOMBOL "Proses Naik Kelas" DITEKAN? ---
             ->action(function (array $data): void {
-                
+
                 // Pastikan masih ada Tahun Ajaran Aktif
                 $tahunAjaranAktif = TahunAjaran::where('is_active', true)->first();
-                if (!$tahunAjaranAktif) {
+                if (! $tahunAjaranAktif) {
                     Notification::make()->title('Gagal')->body('Tidak ada tahun ajaran aktif.')->danger()->send();
+
                     return;
                 }
 
                 // Ambil semua isian dari kotak pilihan tadi
-                $mode            = $data['mode'] ?? 'same_tahun_ajaran';
-                $strategi        = $data['strategi_mapping'] ?? 'auto_first';
-                
+                $mode = $data['mode'] ?? 'same_tahun_ajaran';
+                $strategi = $data['strategi_mapping'] ?? 'auto_first';
+
                 // Tentukan Tahun Ajaran tujuan. Kalau mode "sama", ya pakai TA saat ini
-                $tahunTujuanId   = $mode === 'new_tahun_ajaran'
+                $tahunTujuanId = $mode === 'new_tahun_ajaran'
                     ? (int) $data['tahun_ajaran_baru_id']
                     : $tahunAjaranAktif->id;
 
                 // Cegah kebodohan: Mode nya Tahun Baru, tapi milih tahun yang sama dengan yang aktif
                 if ($mode === 'new_tahun_ajaran' && $tahunTujuanId === $tahunAjaranAktif->id) {
                     Notification::make()->title('Gagal')->body('Tahun ajaran tujuan tidak boleh sama dengan yang aktif.')->danger()->send();
+
                     return;
                 }
 
@@ -248,12 +248,12 @@ class NaikKelasAction extends Action
                 // Jika di tengah jalan tiba-tiba internet mati / error, semua data di-Batal-kan!
                 // Mencegah ada murid yang tertinggal separuh.
                 DB::transaction(function () use ($tahunAjaranAktif, $tahunTujuanId, $strategi) {
-                    
+
                     // Ambil seluruh kelas dari tingkat tertingi sampai terendah
                     // MENGAPA DARI TERTINGGI (Misal kelas 6 duluan)?
                     // Agar kelas 6 kosong dulu, baru kemudian diisi oleh anak kelas 5 yang naik.
                     $kelasAktif = Kelas::where('tahun_ajaran_id', $tahunAjaranAktif->id)
-                        ->orderBy('tingkat', 'desc') 
+                        ->orderBy('tingkat', 'desc')
                         ->orderBy('nama_kelas')
                         ->get();
 
@@ -267,60 +267,63 @@ class NaikKelasAction extends Action
                         ->groupBy('tingkat');
 
                     // Variabel penghitung statistik akhir
-                    $totalNaik          = 0;
-                    $totalLulus         = 0;
-                    $totalTanpaKelas    = 0;
+                    $totalNaik = 0;
+                    $totalLulus = 0;
+                    $totalTanpaKelas = 0;
 
                     // == LOOP 1: PROSES SETIAP KELAS ==
                     foreach ($kelasAktif as $kelas) {
-                        
+
                         // Ambil daftar siswanya (hanya yang statusnya masih AKTIF)
                         $siswas = Siswa::where('kelas_id', $kelas->id)
                             ->where('status', 'aktif')
                             ->get();
 
                         // Kalau kelas ini kosong/tidak ada muridnya, lewati! Lanjut ke kelas lain.
-                        if ($siswas->isEmpty()) continue;
+                        if ($siswas->isEmpty()) {
+                            continue;
+                        }
 
                         // ── KONDISI 1: JIKA INI KELAS TERTINGGI (Misal Kelas 6) ───────────────────
                         if ($kelas->tingkat >= $tingkatMax) {
-                            
+
                             // Luluskan semua anak di kelas ini
                             foreach ($siswas as $siswa) {
                                 // 1. Catat ke tabel riwayat, anak ini sudah "Lulus" dari kelas 6
                                 RiwayatKelas::create([
-                                    'siswa_id'        => $siswa->id,
-                                    'kelas_id'        => $kelas->id,
+                                    'siswa_id' => $siswa->id,
+                                    'kelas_id' => $kelas->id,
                                     'tahun_ajaran_id' => $tahunAjaranAktif->id,
-                                    'status'          => 'lulus',
+                                    'status' => 'lulus',
                                 ]);
-                                
+
                                 // 2. Update status utama siswa jadi "Lulus", copot ID Kelasnya (null)
                                 $siswa->update([
-                                    'status'          => 'lulus',
-                                    'kelas_id'        => null,
+                                    'status' => 'lulus',
+                                    'kelas_id' => null,
                                     'tahun_ajaran_id' => $tahunTujuanId,
                                 ]);
                                 $totalLulus++;
                             }
+
                             // Stop sampai sini untuk kelas tertinggi. Lanjut kelas selanjutnya.
                             continue;
                         }
 
                         // ── KONDISI 2: JIKA INI KELAS BAWAH (KELAS 1 SD 5) NAIK TINGKAT ────────────
-                        $tingkatBaru    = $kelas->tingkat + 1; // Contoh: asalnya tingkat 2 + 1 = mau ke tingkat 3
-                        $kandidatKelas  = $kelasTujuanPerTingkat[$tingkatBaru] ?? collect(); // Daftar kelas 3 apa saja
+                        $tingkatBaru = $kelas->tingkat + 1; // Contoh: asalnya tingkat 2 + 1 = mau ke tingkat 3
+                        $kandidatKelas = $kelasTujuanPerTingkat[$tingkatBaru] ?? collect(); // Daftar kelas 3 apa saja
 
                         $kelasTujuan = null; // Ini "keranjang" tujuan tempat kita lempar murid-murid ini
 
                         // CARI KELAS TUJUANNYA BERDASARKAN STRATEGI TADI
                         if ($kandidatKelas->isNotEmpty()) {
-                            
+
                             // Strategi: Cocokkan huruf abjad akhir (Misal kelas awal 2B, berarti cari 3B)
                             if ($strategi === 'auto_suffix') {
                                 // Ambil huruf di ujung namanya. "2B" diambil "B" nya saja.
                                 $suffix = self::extractSuffix($kelas->nama_kelas);
-                                
+
                                 if ($suffix !== '') {
                                     // Cari kelas di tingkat 3 yang huruf belakangnya "B" juga
                                     $kelasTujuan = $kandidatKelas->first(function ($k) use ($suffix) {
@@ -328,7 +331,7 @@ class NaikKelasAction extends Action
                                     });
                                 }
                                 // Kalau "3B" itu gak ketemu, tapi ada "Tiga B", coba cari yang ada tulisan B nya
-                                if (!$kelasTujuan) {
+                                if (! $kelasTujuan) {
                                     $kelasTujuan = $kandidatKelas->first(function ($k) use ($suffix) {
                                         return $suffix !== '' && str_contains(strtolower($k->nama_kelas), strtolower($suffix));
                                     });
@@ -337,27 +340,27 @@ class NaikKelasAction extends Action
 
                             // Kalau strateginya auto_first atau gabung_satu ATAU auto_suffix tadi nggak nemu pasangannya,
                             // Langsung masukkan saja ke kelas pertama yang tersedia di tingkat tersebut.
-                            if (!$kelasTujuan) {
+                            if (! $kelasTujuan) {
                                 $kelasTujuan = $kandidatKelas->first();
                             }
                         }
 
                         // SETELAH KETEMU KELAS TUJUANNYA, PINDAHKAN MURIDNYA SATU-SATU
                         foreach ($siswas as $siswa) {
-                            
+
                             // 1. Simpan rekam jejak, kalau siswa ini berhasil "Naik" dari kelas lamanya.
                             RiwayatKelas::create([
-                                'siswa_id'        => $siswa->id,
-                                'kelas_id'        => $kelas->id,
+                                'siswa_id' => $siswa->id,
+                                'kelas_id' => $kelas->id,
                                 'tahun_ajaran_id' => $tahunAjaranAktif->id,
-                                'status'          => 'naik',
+                                'status' => 'naik',
                             ]);
 
                             // 2. Timpa data lama dengan kelas yang baru. (Kalau gak ketemu kelasnya, null dulu)
                             $siswa->update([
-                                'kelas_id'        => $kelasTujuan?->id,
+                                'kelas_id' => $kelasTujuan?->id,
                                 'tahun_ajaran_id' => $tahunTujuanId,
-                                'status'          => 'aktif', // Status SELALU aktif meski kelasnya kosong
+                                'status' => 'aktif', // Status SELALU aktif meski kelasnya kosong
                             ]);
 
                             // 3. Tambah skor laporan
@@ -366,13 +369,14 @@ class NaikKelasAction extends Action
                     }
 
                     // ── MUNCULKAN NOTIFIKASI LAPORAN (SUKSES/GAGAL) KETIKA SELESAI ─────────────────
-                    
+
                     // Kalau ternyata semua kosong, nggak ada yang dinaikkan
                     if ($totalNaik === 0 && $totalLulus === 0 && $totalTanpaKelas === 0) {
                         Notification::make()
                             ->title('Tidak Ada Perubahan')
                             ->body('Tidak ada siswa aktif di kelas manapun.')
                             ->warning()->send();
+
                         return;
                     }
 
@@ -414,10 +418,10 @@ class NaikKelasAction extends Action
     {
         // Hilangkan angka, spasi, tanda strip di awal kata
         $stripped = preg_replace('/^[\d\s\-\.]+/', '', $namaKelas);
-        
+
         // Cuma sisakan murni huruf abjadnya saja
-        $letters  = preg_replace('/[^a-zA-Z]/', '', $stripped);
-        
+        $letters = preg_replace('/[^a-zA-Z]/', '', $stripped);
+
         return $letters;
     }
 }

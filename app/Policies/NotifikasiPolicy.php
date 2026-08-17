@@ -2,13 +2,12 @@
 
 namespace App\Policies;
 
-use Illuminate\Auth\Access\Response;
 use App\Models\Notifikasi;
 use App\Models\User;
 
 /**
  * NotifikasiPolicy
- * 
+ *
  * Mengatur hak akses siapa saja yang boleh melihat atau mengelola tabel Notifikasi (pesan sistem).
  */
 class NotifikasiPolicy

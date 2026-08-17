@@ -1,11 +1,13 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\CatatanPerkembangans\Tables;
 
 // Model
-use App\Models\Kelas;
+use App\Models\Guru;
 // Tombol dan Kolom
+use App\Models\Kelas;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -13,10 +15,11 @@ use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * CatatanPerkembangansTable
- * 
+ *
  * Mengatur tampilan kolom di halaman daftar catatan.
  */
 class CatatanPerkembangansTable
@@ -25,14 +28,14 @@ class CatatanPerkembangansTable
     {
         return $table
             ->columns([
-                
+
                 // Nama Siswa dan tulisan kelas kecil di bawahnya
                 TextColumn::make('siswa.nama')
                     ->label('Nama Siswa')
                     ->searchable()
                     ->sortable()
                     ->description(fn ($record) => $record->siswa?->kelas?->nama_kelas
-                        ? 'Kelas: ' . $record->siswa->kelas->nama_kelas
+                        ? 'Kelas: '.$record->siswa->kelas->nama_kelas
                         : null),
 
                 // Kelas
@@ -48,11 +51,11 @@ class CatatanPerkembangansTable
                     ->badge() // Berbentuk lencana
                     // Ganti warna otomatis berdasarkan isi teks
                     ->color(fn (string $state): string => match ($state) {
-                        'Sangat Baik'     => 'success', // Hijau
-                        'Baik'            => 'info',    // Biru muda
-                        'Berkembang'      => 'warning', // Kuning
+                        'Sangat Baik' => 'success', // Hijau
+                        'Baik' => 'info',    // Biru muda
+                        'Berkembang' => 'warning', // Kuning
                         'Perlu Bimbingan' => 'danger',  // Merah
-                        default           => 'gray',
+                        default => 'gray',
                     }),
 
                 // Isi tulisan catatan
@@ -73,25 +76,26 @@ class CatatanPerkembangansTable
                     ->date('d M Y')
                     ->sortable(),
             ])
-            
+
             // --- DAFTAR FILTER ---
             ->filters([
-                
+
                 // Filter Berdasarkan Kelas
                 SelectFilter::make('kelas')
                     ->label('Filter Kelas')
                     ->options(function () {
                         // Secara otomatis menyesuaikan jika guru login, cuma muncul opsi kelas yang dia walikan
-                        $user = \Illuminate\Support\Facades\Auth::user();
+                        $user = Auth::user();
                         $query = Kelas::orderBy('tingkat')->orderBy('nama_kelas');
                         if ($user?->hasRole('Guru')) {
-                            $guru = \App\Models\Guru::where('user_id', $user->id)->first();
+                            $guru = Guru::where('user_id', $user->id)->first();
                             if ($guru) {
                                 $query->where('wali_kelas_id', $guru->id);
                             } else {
                                 return [];
                             }
                         }
+
                         return $query->get()->mapWithKeys(fn ($k) => [$k->id => "Kelas {$k->nama_kelas}"]);
                     })
                     // Fungsi pencarian SQL rumit: "Cari catatan milik siswa yang ID Kelasnya sama dengan yang dipilih di atas"
@@ -103,9 +107,9 @@ class CatatanPerkembangansTable
                 SelectFilter::make('predikat')
                     ->label('Predikat')
                     ->options([
-                        'Sangat Baik'     => 'Sangat Baik',
-                        'Baik'            => 'Baik',
-                        'Berkembang'      => 'Mulai Berkembang',
+                        'Sangat Baik' => 'Sangat Baik',
+                        'Baik' => 'Baik',
+                        'Berkembang' => 'Mulai Berkembang',
                         'Perlu Bimbingan' => 'Perlu Bimbingan',
                     ]),
 

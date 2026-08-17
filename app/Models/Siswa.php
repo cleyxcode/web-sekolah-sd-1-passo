@@ -1,6 +1,7 @@
 <?php
 
 // Namespace menunjukkan lokasi file ini dalam struktur folder project
+
 namespace App\Models;
 
 // Mengimpor kelas Model dari Laravel, sebagai induk dari semua model
@@ -128,9 +129,9 @@ class Siswa extends Model
     /**
      * HELPER: Menghitung rata-rata nilai siswa dengan filter opsional
      *
-     * @param string|null $semester      Filter semester (contoh: '1' atau '2')
-     * @param string|null $jenisUjian    Filter jenis ujian (contoh: 'UTS' atau 'UAS')
-     * @param int|null    $tahunAjaranId Filter tahun ajaran tertentu
+     * @param  string|null  $semester  Filter semester (contoh: '1' atau '2')
+     * @param  string|null  $jenisUjian  Filter jenis ujian (contoh: 'UTS' atau 'UAS')
+     * @param  int|null  $tahunAjaranId  Filter tahun ajaran tertentu
      * @return float Rata-rata nilai (angka desimal), 0 jika belum ada nilai
      *
      * Cara pakai: $siswa->getRataRataNilai('1', 'UTS', 5)
@@ -141,13 +142,19 @@ class Siswa extends Model
         $query = $this->nilais();
 
         // Jika ada filter semester, tambahkan kondisi where
-        if ($semester)      $query->where('semester', $semester);
+        if ($semester) {
+            $query->where('semester', $semester);
+        }
 
         // Jika ada filter jenis ujian, tambahkan kondisi where
-        if ($jenisUjian)    $query->where('jenis_ujian', $jenisUjian);
+        if ($jenisUjian) {
+            $query->where('jenis_ujian', $jenisUjian);
+        }
 
         // Jika ada filter tahun ajaran, tambahkan kondisi where
-        if ($tahunAjaranId) $query->where('tahun_ajaran_id', $tahunAjaranId);
+        if ($tahunAjaranId) {
+            $query->where('tahun_ajaran_id', $tahunAjaranId);
+        }
 
         // Hitung rata-rata kolom nilai_angka, bulatkan 1 desimal
         // ?? 0 = jika hasilnya null (belum ada nilai), gunakan 0

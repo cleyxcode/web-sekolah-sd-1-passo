@@ -7,7 +7,7 @@ use App\Models\User;
 
 /**
  * PendaftaranPolicy
- * 
+ *
  * Mengatur hak akses ke menu Pengumuman Pendaftaran (Link Formulir Siswa Baru).
  */
 class PendaftaranPolicy
@@ -21,6 +21,7 @@ class PendaftaranPolicy
         if ($user->hasRole(['Orang Tua', 'Kepala Sekolah', 'Guru'])) {
             return true;
         }
+
         return $user->checkPermissionTo('view-any Pendaftaran');
     }
 
@@ -32,6 +33,7 @@ class PendaftaranPolicy
         if ($user->hasRole(['Orang Tua', 'Kepala Sekolah', 'Guru'])) {
             return true;
         }
+
         return $user->checkPermissionTo('view Pendaftaran');
     }
 

@@ -1,6 +1,7 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\KalenderAkademiks;
 
 // Halaman
@@ -23,7 +24,7 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * KalenderAkademikResource
- * 
+ *
  * Mengatur halaman menu "Kalender Akademik".
  * Di sini admin mencatat hari-hari penting seperti hari libur, ujian,
  * atau acara sekolah lainnya yang nanti bisa dilihat oleh siswa/orang tua di portal.
@@ -34,12 +35,13 @@ class KalenderAkademikResource extends Resource
 
     // Ikon kalender hari
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendarDays;
-    
+
     // Dimasukkan ke menu Sistem
     protected static string|\UnitEnum|null $navigationGroup = 'Sistem';
-    
+
     // Label tombol dan judul halaman
     protected static ?string $modelLabel = 'Kalender Akademik';
+
     protected static ?string $pluralModelLabel = 'Kalender Akademik';
 
     /**
@@ -48,7 +50,7 @@ class KalenderAkademikResource extends Resource
      */
     public static function canAccess(): bool
     {
-        return !Auth::user()?->hasRole('Guru');
+        return ! Auth::user()?->hasRole('Guru');
     }
 
     public static function form(Schema $schema): Schema
@@ -71,10 +73,10 @@ class KalenderAkademikResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => ListKalenderAkademiks::route('/'),
+            'index' => ListKalenderAkademiks::route('/'),
             'create' => CreateKalenderAkademik::route('/create'),
-            'view'   => ViewKalenderAkademik::route('/{record}'),
-            'edit'   => EditKalenderAkademik::route('/{record}/edit'),
+            'view' => ViewKalenderAkademik::route('/{record}'),
+            'edit' => EditKalenderAkademik::route('/{record}/edit'),
         ];
     }
 }

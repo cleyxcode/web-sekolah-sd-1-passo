@@ -1,11 +1,11 @@
 <?php
 
 // Namespace menunjukkan lokasi file ini dalam struktur folder project
+
 namespace App\Models;
 
 // Mengimpor HasFactory untuk membuat data dummy saat testing
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
 // Mengimpor kelas Model dari Laravel sebagai induk dari model ini
 use Illuminate\Database\Eloquent\Model;
 

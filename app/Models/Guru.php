@@ -1,10 +1,12 @@
 <?php
 
 // Namespace menunjukkan lokasi file ini dalam struktur folder project
+
 namespace App\Models;
 
 // Mengimpor kelas Model dari Laravel sebagai induk dari model ini
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Model Guru
@@ -137,6 +139,7 @@ class Guru extends Model
 
     /**
      * HELPER: Mengecek apakah guru ini sedang menjadi wali kelas
+     *
      * @return bool true jika guru adalah wali kelas, false jika tidak
      *
      * Cara pakai: $guru->isWaliKelas() → true atau false
@@ -156,9 +159,11 @@ class Guru extends Model
     public function getFotoUrlAttribute(): ?string
     {
         // Jika kolom 'foto' kosong/null, langsung kembalikan null
-        if (!$this->foto) return null;
+        if (! $this->foto) {
+            return null;
+        }
 
         // Ubah path relatif di storage menjadi URL yang bisa diakses browser
-        return \Illuminate\Support\Facades\Storage::url($this->foto);
+        return Storage::url($this->foto);
     }
 }

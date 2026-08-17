@@ -1,6 +1,7 @@
 <?php
 
 // Namespace menunjukkan lokasi file ini dalam struktur folder project
+
 namespace App\Models;
 
 // Mengimpor kelas Model dari Laravel sebagai induk dari model ini

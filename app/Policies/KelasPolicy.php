@@ -2,13 +2,12 @@
 
 namespace App\Policies;
 
-use Illuminate\Auth\Access\Response;
 use App\Models\Kelas;
 use App\Models\User;
 
 /**
  * KelasPolicy
- * 
+ *
  * Mengatur hak akses ke menu pembagian Kelas & Rombongan Belajar.
  */
 class KelasPolicy

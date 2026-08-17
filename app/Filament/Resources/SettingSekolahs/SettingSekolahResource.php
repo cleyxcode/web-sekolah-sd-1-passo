@@ -1,12 +1,11 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\SettingSekolahs;
 
 // Halaman-halaman
-use App\Filament\Resources\SettingSekolahs\Pages\CreateSettingSekolah;
 use App\Filament\Resources\SettingSekolahs\Pages\EditSettingSekolah;
-use App\Filament\Resources\SettingSekolahs\Pages\ListSettingSekolahs;
 // Form dan Tabel
 use App\Filament\Resources\SettingSekolahs\Schemas\SettingSekolahForm;
 use App\Filament\Resources\SettingSekolahs\Tables\SettingSekolahsTable;
@@ -20,7 +19,7 @@ use Filament\Tables\Table;
 
 /**
  * SettingSekolahResource
- * 
+ *
  * Mengatur halaman konfigurasi dasar sekolah (Nama, Logo, Alamat, dll).
  * Biasanya tabel ini hanya berisi SATU baris data saja.
  */
@@ -30,12 +29,13 @@ class SettingSekolahResource extends Resource
 
     // Ikon gerigi (pengaturan)
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCog8Tooth;
-    
+
     // Dimasukkan ke grup Sistem
     protected static string|\UnitEnum|null $navigationGroup = 'Sistem';
-    
+
     // Label nama menu
     protected static ?string $modelLabel = 'Setting Sekolah';
+
     protected static ?string $pluralModelLabel = 'Setting Sekolah';
 
     public static function form(Schema $schema): Schema
@@ -56,7 +56,7 @@ class SettingSekolahResource extends Resource
     }
 
     /**
-     * Karena pengaturan sekolah hanya 1 data, 
+     * Karena pengaturan sekolah hanya 1 data,
      * kita langsung arahkan halaman utamanya ke Edit (bukan daftar tabel)
      */
     public static function getPages(): array

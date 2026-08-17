@@ -2,12 +2,11 @@
 
 namespace App\Policies;
 
-use Illuminate\Auth\Access\Response;
 use App\Models\User;
 
 /**
  * UserPolicy
- * 
+ *
  * Mengatur hak akses ke menu Manajemen Pengguna (Tabel Accounts Login).
  * (Siapa yang boleh buat akun, reset password, ganti role).
  */

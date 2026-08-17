@@ -3,8 +3,8 @@
 namespace App\Filament\Resources\Nilais\Pages;
 
 use App\Filament\Resources\Nilais\NilaiResource;
-use Filament\Actions\CreateAction;
 use Filament\Actions\Action;
+use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 
 class ListNilais extends ListRecords

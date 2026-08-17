@@ -1,18 +1,19 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\Pendaftarans\Schemas;
 
 // Elemen Form
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 /**
  * PendaftaranForm
- * 
+ *
  * Mengatur bentuk kotak isian saat membuat pengumuman Pendaftaran Baru.
  */
 class PendaftaranForm

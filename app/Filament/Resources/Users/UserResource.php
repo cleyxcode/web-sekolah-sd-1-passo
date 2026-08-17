@@ -1,6 +1,7 @@
 <?php
 
 // Menentukan alamat folder tempat file ini berada
+
 namespace App\Filament\Resources\Users;
 
 // Mengimpor file-file kelas halaman (Pages) untuk resource User ini
@@ -21,8 +22,8 @@ use Filament\Tables\Table;
 
 /**
  * UserResource
- * 
- * Kelas ini adalah penghubung utama antara database tabel 'users' 
+ *
+ * Kelas ini adalah penghubung utama antara database tabel 'users'
  * dengan tampilan antarmuka (Dashboard) Filament Admin.
  */
 class UserResource extends Resource
@@ -32,13 +33,13 @@ class UserResource extends Resource
 
     // Menentukan ikon menu yang muncul di sidebar sebelah kiri (Heroicon Outlined Users)
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUsers;
-    
+
     // Mengelompokkan menu ini ke dalam grup "Pengaturan Pengguna" di sidebar
     protected static string|\UnitEnum|null $navigationGroup = 'Pengaturan Pengguna';
-    
+
     // Label tunggal untuk data ini (misal di tombol: "Tambah Admin")
     protected static ?string $modelLabel = 'Admin';
-    
+
     // Label jamak untuk daftar data ini (misal judul halaman: "Admin")
     protected static ?string $pluralModelLabel = 'Admin';
 

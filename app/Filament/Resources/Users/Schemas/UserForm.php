@@ -1,17 +1,18 @@
 <?php
 
 // Menentukan alamat folder tempat file ini berada
+
 namespace App\Filament\Resources\Users\Schemas;
 
 // Mengimpor elemen-elemen formulir dari sistem Filament (seperti kotak teks, tombol on/off)
-use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 
 /**
  * UserForm
- * 
+ *
  * Kelas ini mengatur susunan dan aturan pada kotak-kotak isian (Form)
  * saat menambahkan atau mengedit data Admin/Pengguna.
  */
@@ -25,7 +26,7 @@ class UserForm
         return $schema
             // ->components() digunakan untuk memasukkan komponen apa saja ke dalam form
             ->components([
-                
+
                 // Membuat kotak isian untuk teks biasa (untuk kolom 'name')
                 TextInput::make('name')
                     ->label('Nama Lengkap') // Tulisan label yang muncul di atas kotak isian
@@ -56,7 +57,7 @@ class UserForm
 
                 // Membuat kotak isian pilihan drop-down untuk Peran (Role)
                 // Diambil dari plugin Filament Spatie Roles & Permissions
-                \Filament\Forms\Components\Select::make('roles')
+                Select::make('roles')
                     ->label('Peran (Role)')
                     ->multiple()            // Satu pengguna boleh punya banyak peran (Admin, Guru, dll)
                     ->relationship('roles', 'name') // Mengambil daftar pilihan otomatis dari relasi tabel 'roles'

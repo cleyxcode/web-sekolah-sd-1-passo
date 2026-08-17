@@ -1,6 +1,7 @@
 <?php
 
 // Alamat folder
+
 namespace App\Filament\Resources\Siswas\Tables;
 
 // Impor model
@@ -21,7 +22,7 @@ use Illuminate\Support\Facades\DB;
 
 /**
  * SiswasTable
- * 
+ *
  * Mengatur kolom tabel dan tombol khusus "Naik Kelas" pada data Siswa.
  */
 class SiswasTable
@@ -33,11 +34,11 @@ class SiswasTable
                 TextColumn::make('nis')
                     ->label('NIS')
                     ->searchable(),
-                
+
                 TextColumn::make('nama')
                     ->label('Nama Siswa')
                     ->searchable(),
-                
+
                 // Menampilkan nama kelas (contoh: 1A, 2B)
                 TextColumn::make('kelas.nama_kelas')
                     ->label('Kelas')
@@ -45,7 +46,7 @@ class SiswasTable
                     ->color('primary') // Warna biru
                     ->placeholder('—') // Tampilkan garis jika belum ada kelas
                     ->sortable(),
-                
+
                 // Menampilkan tingkat kelas (contoh: Kelas 1)
                 TextColumn::make('kelas.tingkat')
                     ->label('Tingkat')
@@ -53,22 +54,22 @@ class SiswasTable
                     ->badge()
                     ->color('gray')
                     ->sortable(),
-                
+
                 TextColumn::make('jenis_kelamin')
                     ->label('L/P')
                     ->badge(),
-                
+
                 // Menyesuaikan warna lencana berdasarkan status
                 TextColumn::make('status')
                     ->label('Status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        'aktif'  => 'success', // Aktif = Hijau
-                        'lulus'  => 'info',    // Lulus = Biru muda
+                        'aktif' => 'success', // Aktif = Hijau
+                        'lulus' => 'info',    // Lulus = Biru muda
                         'pindah' => 'warning', // Pindah = Kuning/Oranye
-                        default  => 'gray',
+                        default => 'gray',
                     }),
-                
+
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -93,48 +94,49 @@ class SiswasTable
                     ->modalDescription(fn ($record): string => self::buildModalDescription($record))
                     ->modalSubmitActionLabel('Ya, Naikkan Sekarang')
                     // Tombol ini HANYA MUNCUL jika siswa aktif, punya kelas, dan yg login punya hak 'naik-kelas'
-                    ->visible(fn ($record): bool =>
-                        $record->status === 'aktif'
+                    ->visible(fn ($record): bool => $record->status === 'aktif'
                         && $record->kelas_id !== null
                         && (auth()->user()?->can('naik-kelas') ?? false)
                     )
                     // Pengecekan keamanan ganda
                     ->authorize(fn ($record): bool => auth()->user()?->can('naik-kelas') ?? false)
-                    
+
                     // PROSES YANG TERJADI SAAT TOMBOL DIKLIK:
                     ->action(function ($record): void {
                         $kelas = $record->kelas;
 
                         // 1. Cek dulu apakah siswa ini punya kelas?
-                        if (!$kelas) {
+                        if (! $kelas) {
                             Notification::make()->title('Gagal')->body('Siswa belum memiliki kelas.')->danger()->send();
+
                             return;
                         }
 
                         // 2. Cek apakah ada tahun ajaran yang sedang aktif?
                         $tahunAjaranAktif = TahunAjaran::where('is_active', true)->first();
-                        if (!$tahunAjaranAktif) {
+                        if (! $tahunAjaranAktif) {
                             Notification::make()->title('Gagal')->body('Tidak ada tahun ajaran aktif.')->danger()->send();
+
                             return;
                         }
 
                         // 3. Lakukan proses database secara aman (Transaction)
                         // Jika ada satu proses yang gagal, batalkan semuanya (mencegah data setengah jadi)
                         DB::transaction(function () use ($record, $kelas, $tahunAjaranAktif) {
-                            
+
                             // JIKA SISWA SUDAH KELAS 6 -> PROSES KELULUSAN
                             if ($kelas->tingkat >= 6) {
                                 // Catat di riwayat bahwa dia lulus
                                 RiwayatKelas::create([
-                                    'siswa_id'        => $record->id,
-                                    'kelas_id'        => $kelas->id,
+                                    'siswa_id' => $record->id,
+                                    'kelas_id' => $kelas->id,
                                     'tahun_ajaran_id' => $tahunAjaranAktif->id,
-                                    'status'          => 'lulus',
+                                    'status' => 'lulus',
                                 ]);
 
                                 // Update data siswa: status jadi 'lulus', cabut dari kelas lamanya
                                 $record->update([
-                                    'status'   => 'lulus',
+                                    'status' => 'lulus',
                                     'kelas_id' => null,
                                 ]);
 
@@ -144,13 +146,13 @@ class SiswasTable
                                     ->body("{$record->nama} telah dinyatakan lulus dan menjadi alumni.")
                                     ->success()
                                     ->send();
-                            } 
+                            }
                             // JIKA MASIH KELAS 1-5 -> PROSES NAIK KELAS
                             else {
                                 $tingkatBaru = $kelas->tingkat + 1; // Naik 1 tingkat (contoh: dari 1 jadi 2)
-                                
+
                                 // Coba cari kelas baru yang namanya sama (contoh: dari "1A" otomatis dicari "2A")
-                                $kelasBaru   = Kelas::where('tahun_ajaran_id', $kelas->tahun_ajaran_id)
+                                $kelasBaru = Kelas::where('tahun_ajaran_id', $kelas->tahun_ajaran_id)
                                     ->where('tingkat', $tingkatBaru)
                                     ->where('nama_kelas', $kelas->nama_kelas)
                                     ->first()
@@ -161,10 +163,10 @@ class SiswasTable
 
                                 // Catat riwayat lama
                                 RiwayatKelas::create([
-                                    'siswa_id'        => $record->id,
-                                    'kelas_id'        => $kelas->id,
+                                    'siswa_id' => $record->id,
+                                    'kelas_id' => $kelas->id,
                                     'tahun_ajaran_id' => $tahunAjaranAktif->id,
-                                    'status'          => 'naik',
+                                    'status' => 'naik',
                                 ]);
 
                                 // Masukkan siswa ke kelas barunya (bisa null jika belum ada kelas tingkat atasnya di DB)
@@ -200,7 +202,7 @@ class SiswasTable
     private static function buildModalDescription($record): string
     {
         $kelas = $record->kelas;
-        if (!$kelas) {
+        if (! $kelas) {
             return 'Siswa ini belum memiliki kelas.';
         }
 
@@ -209,6 +211,7 @@ class SiswasTable
         }
 
         $tingkatBaru = $kelas->tingkat + 1;
+
         return "Siswa ini berada di Kelas {$kelas->tingkat} ({$kelas->nama_kelas}). Jika dilanjutkan, siswa akan naik ke Kelas {$tingkatBaru}.";
     }
 }

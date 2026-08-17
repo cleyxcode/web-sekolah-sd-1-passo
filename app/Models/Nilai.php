@@ -1,6 +1,7 @@
 <?php
 
 // Namespace menunjukkan lokasi file ini dalam struktur folder project
+
 namespace App\Models;
 
 // Mengimpor kelas Model dari Laravel sebagai induk dari model ini
@@ -27,14 +28,14 @@ class Nilai extends Model
     // Mendefinisikan casting tipe data untuk setiap kolom penting
     protected $casts = [
         // Kolom 'nilai_angka' disimpan sebagai teks di database, tapi dibaca sebagai float (desimal)
-        'nilai_angka'        => 'float',
+        'nilai_angka' => 'float',
 
         // Semua kolom ID ini akan otomatis dikonversi ke tipe integer (angka bulat)
-        'tahun_ajaran_id'    => 'integer',
-        'siswa_id'           => 'integer',
-        'kelas_id'           => 'integer',
-        'guru_id'            => 'integer',
-        'mata_pelajaran_id'  => 'integer',
+        'tahun_ajaran_id' => 'integer',
+        'siswa_id' => 'integer',
+        'kelas_id' => 'integer',
+        'guru_id' => 'integer',
+        'mata_pelajaran_id' => 'integer',
     ];
 
     // ─── RELASI ────────────────────────────────────────────
@@ -113,11 +114,11 @@ class Nilai extends Model
     public function getPredikatAttribute(): string
     {
         // match(true) = cocokkan kondisi yang pertama kali bernilai true
-        return match(true) {
+        return match (true) {
             $this->nilai_angka >= 90 => 'A', // Jika nilai >= 90, predikat A
             $this->nilai_angka >= 75 => 'B', // Jika nilai >= 75, predikat B
             $this->nilai_angka >= 60 => 'C', // Jika nilai >= 60, predikat C
-            default                  => 'D', // Selain itu, predikat D
+            default => 'D', // Selain itu, predikat D
         };
     }
 
@@ -128,10 +129,10 @@ class Nilai extends Model
     public function getKeteranganAttribute(): string
     {
         // Cocokkan predikat dengan keterangan teks yang sesuai
-        return match($this->predikat) {
-            'A'     => 'Sangat Baik',     // Predikat A = Sangat Baik
-            'B'     => 'Baik',            // Predikat B = Baik
-            'C'     => 'Cukup',           // Predikat C = Cukup
+        return match ($this->predikat) {
+            'A' => 'Sangat Baik',     // Predikat A = Sangat Baik
+            'B' => 'Baik',            // Predikat B = Baik
+            'C' => 'Cukup',           // Predikat C = Cukup
             default => 'Perlu Bimbingan', // Predikat D = Perlu Bimbingan
         };
     }

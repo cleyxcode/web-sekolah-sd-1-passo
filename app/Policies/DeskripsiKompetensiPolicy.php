@@ -2,13 +2,12 @@
 
 namespace App\Policies;
 
-use Illuminate\Auth\Access\Response;
 use App\Models\DeskripsiKompetensi;
 use App\Models\User;
 
 /**
  * DeskripsiKompetensiPolicy
- * 
+ *
  * Mengatur akses untuk tabel "Deskripsi Kompetensi".
  * (Daftar keterangan tentang standar kelulusan atau kemampuan siswa dalam suatu mata pelajaran)
  */

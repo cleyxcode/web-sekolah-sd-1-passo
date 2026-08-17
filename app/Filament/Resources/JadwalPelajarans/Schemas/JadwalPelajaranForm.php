@@ -1,16 +1,18 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\JadwalPelajarans\Schemas;
 
 // Form
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
 use Filament\Schemas\Schema;
 
 /**
  * JadwalPelajaranForm
- * 
+ *
  * Mengatur kotak isian untuk membuat jadwal pelajaran baru.
  */
 class JadwalPelajaranForm
@@ -19,37 +21,37 @@ class JadwalPelajaranForm
     {
         return $schema
             ->components([
-                
+
                 // Drop-down Kelas
-                \Filament\Forms\Components\Select::make('kelas_id')
+                Select::make('kelas_id')
                     ->label('Pilih Kelas')
                     ->relationship('kelas', 'nama_kelas')
                     ->required()
                     ->searchable()
                     ->preload(),
-                
+
                 // Drop-down Pelajaran
-                \Filament\Forms\Components\Select::make('mata_pelajaran_id')
+                Select::make('mata_pelajaran_id')
                     ->label('Pilih Mata Pelajaran')
                     ->relationship('mataPelajaran', 'nama')
                     ->required()
                     ->searchable()
                     ->preload(),
-                
+
                 // Drop-down Guru Pengajar
-                \Filament\Forms\Components\Select::make('guru_id')
+                Select::make('guru_id')
                     ->label('Pilih Guru Pengajar')
                     ->relationship('guru', 'nama')
                     ->required()
                     ->searchable()
                     ->preload(),
-                
+
                 // Nama Hari
                 TextInput::make('hari')
                     ->label('Hari')
                     ->placeholder('Contoh: Senin, Selasa, Rabu')
                     ->required(),
-                
+
                 // Pilihan Jam (Model Jam Digital)
                 TimePicker::make('jam_mulai')
                     ->label('Jam Mulai (00:00)')

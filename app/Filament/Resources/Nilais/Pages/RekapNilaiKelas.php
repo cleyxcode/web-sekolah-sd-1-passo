@@ -10,30 +10,35 @@ use App\Models\Nilai;
 use App\Models\SettingSekolah;
 use App\Models\Siswa;
 use App\Models\TahunAjaran;
+use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Schemas\Schema;
-use Filament\Pages\Page;
 use Filament\Resources\Pages\Page as ResourcePage;
-use Filament\Actions\Action;
+use Filament\Schemas\Schema;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Attributes\Computed;
 
 class RekapNilaiKelas extends ResourcePage implements HasForms
 {
     use InteractsWithForms;
 
     protected static string $resource = NilaiResource::class;
+
     protected string $view = 'filament.resources.nilais.pages.rekap-nilai-kelas';
+
     protected static ?string $title = 'Rekap Nilai Kelas';
+
     protected static ?string $navigationLabel = 'Rekap Nilai';
 
     public ?array $data = [];
 
-    public ?int $kelas_id       = null;
-    public ?string $semester    = null;
+    public ?int $kelas_id = null;
+
+    public ?string $semester = null;
+
     public ?string $jenis_ujian = null;
+
     public ?int $tahun_ajaran_id = null;
 
     public function mount(): void
@@ -48,14 +53,14 @@ class RekapNilaiKelas extends ResourcePage implements HasForms
         }
 
         $this->tahun_ajaran_id = TahunAjaran::orderByDesc('nama')->value('id');
-        $this->semester    = '1';
+        $this->semester = '1';
         $this->jenis_ujian = 'UTS';
 
         $this->form->fill([
-            'kelas_id'       => $this->kelas_id,
+            'kelas_id' => $this->kelas_id,
             'tahun_ajaran_id' => $this->tahun_ajaran_id,
-            'semester'       => $this->semester,
-            'jenis_ujian'    => $this->jenis_ujian,
+            'semester' => $this->semester,
+            'jenis_ujian' => $this->jenis_ujian,
         ]);
     }
 
@@ -113,9 +118,9 @@ class RekapNilaiKelas extends ResourcePage implements HasForms
                 ->color('success')
                 ->icon('heroicon-o-printer')
                 ->url(fn () => route('admin.cetak-rekap-kelas', [
-                    'kelas_id'       => $this->data['kelas_id'] ?? $this->kelas_id,
-                    'semester'       => $this->data['semester'] ?? $this->semester,
-                    'jenis_ujian'    => $this->data['jenis_ujian'] ?? $this->jenis_ujian,
+                    'kelas_id' => $this->data['kelas_id'] ?? $this->kelas_id,
+                    'semester' => $this->data['semester'] ?? $this->semester,
+                    'jenis_ujian' => $this->data['jenis_ujian'] ?? $this->jenis_ujian,
                     'tahun_ajaran_id' => $this->data['tahun_ajaran_id'] ?? $this->tahun_ajaran_id,
                 ]))
                 ->openUrlInNewTab(),
@@ -125,19 +130,20 @@ class RekapNilaiKelas extends ResourcePage implements HasForms
     public function getKelasData(): ?Kelas
     {
         $kelasId = $this->data['kelas_id'] ?? $this->kelas_id;
+
         return $kelasId ? Kelas::with('waliKelas')->find($kelasId) : null;
     }
 
-    public function buildRekapContent(): \Illuminate\Contracts\View\View
+    public function buildRekapContent(): View
     {
-        $kelasId        = $this->data['kelas_id'] ?? $this->kelas_id;
-        $semester       = $this->data['semester'] ?? $this->semester;
-        $jenisUjian     = $this->data['jenis_ujian'] ?? $this->jenis_ujian;
-        $tahunAjaranId  = $this->data['tahun_ajaran_id'] ?? $this->tahun_ajaran_id;
+        $kelasId = $this->data['kelas_id'] ?? $this->kelas_id;
+        $semester = $this->data['semester'] ?? $this->semester;
+        $jenisUjian = $this->data['jenis_ujian'] ?? $this->jenis_ujian;
+        $tahunAjaranId = $this->data['tahun_ajaran_id'] ?? $this->tahun_ajaran_id;
 
-        $kelas       = Kelas::with('waliKelas')->find($kelasId);
+        $kelas = Kelas::with('waliKelas')->find($kelasId);
         $tahunAjaran = TahunAjaran::find($tahunAjaranId);
-        $sekolah     = SettingSekolah::first();
+        $sekolah = SettingSekolah::first();
 
         // Siswa aktif di kelas ini
         $siswas = Siswa::where('kelas_id', $kelasId)
@@ -170,12 +176,12 @@ class RekapNilaiKelas extends ResourcePage implements HasForms
 
     public function getPreviewData(): array
     {
-        $kelasId       = $this->data['kelas_id'] ?? $this->kelas_id;
-        $semester      = $this->data['semester'] ?? $this->semester;
-        $jenisUjian    = $this->data['jenis_ujian'] ?? $this->jenis_ujian;
+        $kelasId = $this->data['kelas_id'] ?? $this->kelas_id;
+        $semester = $this->data['semester'] ?? $this->semester;
+        $jenisUjian = $this->data['jenis_ujian'] ?? $this->jenis_ujian;
         $tahunAjaranId = $this->data['tahun_ajaran_id'] ?? $this->tahun_ajaran_id;
 
-        $kelas       = Kelas::with('waliKelas')->find($kelasId);
+        $kelas = Kelas::with('waliKelas')->find($kelasId);
         $tahunAjaran = TahunAjaran::find($tahunAjaranId);
 
         $siswas = Siswa::where('kelas_id', $kelasId)
@@ -190,9 +196,9 @@ class RekapNilaiKelas extends ResourcePage implements HasForms
             ->when($tahunAjaranId, fn ($q) => $q->where('tahun_ajaran_id', $tahunAjaranId))
             ->get();
 
-        $nilaisGrouped    = $allNilais->groupBy('siswa_id');
+        $nilaisGrouped = $allNilais->groupBy('siswa_id');
         $mataPelajaranIds = $allNilais->pluck('mata_pelajaran_id')->unique();
-        $mataPelajarans   = MataPelajaran::whereIn('id', $mataPelajaranIds)->orderBy('nama')->get();
+        $mataPelajarans = MataPelajaran::whereIn('id', $mataPelajaranIds)->orderBy('nama')->get();
 
         return compact('kelas', 'semester', 'jenisUjian', 'tahunAjaran', 'siswas', 'nilaisGrouped', 'mataPelajarans');
     }

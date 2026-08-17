@@ -2,13 +2,12 @@
 
 namespace App\Policies;
 
-use Illuminate\Auth\Access\Response;
 use App\Models\SettingSekolah;
 use App\Models\User;
 
 /**
  * SettingSekolahPolicy
- * 
+ *
  * Mengatur hak akses untuk konfigurasi sistem dan informasi dasar sekolah (Nama, Alamat, Logo).
  */
 class SettingSekolahPolicy

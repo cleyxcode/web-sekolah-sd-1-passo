@@ -1,13 +1,13 @@
 <?php
 
 // Namespace menunjukkan lokasi file ini dalam struktur folder project
+
 namespace App\Models;
 
 // Mengimpor kelas Model dari Laravel sebagai induk dari model ini
-use Illuminate\Database\Eloquent\Model;
-
-// Mengimpor Carbon untuk operasi tanggal dan waktu
 use Carbon\Carbon;
+// Mengimpor Carbon untuk operasi tanggal dan waktu
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * Model Tugas
@@ -29,7 +29,7 @@ class Tugas extends Model
     protected $casts = [
         // Kolom 'deadline' akan otomatis dikonversi ke objek Carbon (tanggal/waktu)
         // Sehingga bisa digunakan method seperti isPast(), diffForHumans(), dll
-        'deadline'   => 'datetime',
+        'deadline' => 'datetime',
 
         // Kolom 'foto_tugas' disimpan sebagai JSON string di database,
         // tapi saat dibaca PHP akan otomatis menjadi array
@@ -97,6 +97,7 @@ class Tugas extends Model
 
     /**
      * ACCESSOR: Mengecek apakah tugas ini sudah melewati deadline
+     *
      * @return bool true = sudah lewat deadline, false = masih bisa dikumpulkan
      *
      * Cara pakai: $tugas->sudah_lewat_deadline → true atau false

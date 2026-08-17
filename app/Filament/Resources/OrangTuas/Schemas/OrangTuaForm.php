@@ -1,20 +1,25 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\OrangTuas\Schemas;
 
 // Elemen Form
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
-use Illuminate\Support\Facades\Hash; // Untuk mengenkripsi password
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
+
+ // Untuk mengenkripsi password
 
 /**
  * OrangTuaForm
- * 
+ *
  * Mengatur susunan kotak isian untuk membuat akun Portal Orang Tua.
  */
 class OrangTuaForm
@@ -23,7 +28,7 @@ class OrangTuaForm
     {
         return $schema
             ->components([
-                
+
                 // Bagian 1: Email dan Password Login
                 Section::make('Informasi Akun')
                     ->description('Kredensial login untuk akun orang tua.')
@@ -35,7 +40,7 @@ class OrangTuaForm
                             ->email()
                             ->unique(ignoreRecord: true) // Email tidak boleh sama dengan orang tua lain (unik)
                             ->required(),
-                        
+
                         Grid::make(2)->schema([
                             // Kotak Kata Sandi
                             TextInput::make('password')
@@ -51,7 +56,7 @@ class OrangTuaForm
                                 // Wajib SAMA persis isinya dengan kotak 'password_confirmation' di bawah
                                 ->same('password_confirmation')
                                 ->helperText(fn (string $context): string => $context === 'edit' ? 'Biarkan kosong jika tidak ingin mengubah kata sandi.' : 'Tentukan kata sandi untuk akun orang tua.'),
-                            
+
                             // Kotak Ulangi Kata Sandi
                             TextInput::make('password_confirmation')
                                 ->password()
@@ -83,7 +88,7 @@ class OrangTuaForm
                                 ->label('Hubungan dengan Siswa')
                                 ->options([
                                     'Ayah' => 'Ayah',
-                                    'Ibu'  => 'Ibu',
+                                    'Ibu' => 'Ibu',
                                     'Wali' => 'Wali',
                                 ])
                                 ->native(false),
@@ -105,13 +110,13 @@ class OrangTuaForm
                             ->relationship(
                                 name: 'siswas', // Sambung ke tabel siswa melalui tabel perantara (pivot) orang_tua_siswa
                                 titleAttribute: 'nama', // Tampilkan namanya
-                                modifyQueryUsing: fn (\Illuminate\Database\Eloquent\Builder $query) => $query->with('kelas')
+                                modifyQueryUsing: fn (Builder $query) => $query->with('kelas')
                             )
                             // Menyusun nama pilihan agar lebih detail (Contoh: "Budi - Kelas: 1A")
-                            ->getOptionLabelFromRecordUsing(fn (\Illuminate\Database\Eloquent\Model $record) => "{$record->nama} " . ($record->kelas ? "- Kelas: {$record->kelas->nama_kelas}" : '- Belum Ada Kelas'))
+                            ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->nama} ".($record->kelas ? "- Kelas: {$record->kelas->nama_kelas}" : '- Belum Ada Kelas'))
                             ->preload()
                             ->searchable(['nama', 'nis']) // Bisa dicari berdasarkan nama atau NIS
-                            
+
                             // FITUR SPESIAL: Bisa buat data anak baru langsung dari dalam form orang tua!
                             ->createOptionForm([
                                 TextInput::make('nis')->required(),

@@ -7,7 +7,7 @@ use App\Models\User;
 
 /**
  * GuruPolicy
- * 
+ *
  * Kebijakan hak akses untuk tabel Biodata Guru.
  */
 class GuruPolicy
@@ -21,6 +21,7 @@ class GuruPolicy
         if ($user->hasRole(['Orang Tua', 'Kepala Sekolah', 'Guru'])) {
             return true;
         }
+
         return $user->checkPermissionTo('view-any Guru');
     }
 
@@ -33,6 +34,7 @@ class GuruPolicy
         if ($user->hasRole(['Orang Tua', 'Kepala Sekolah', 'Guru'])) {
             return true;
         }
+
         return $user->checkPermissionTo('view Guru');
     }
 
@@ -45,6 +47,7 @@ class GuruPolicy
         if ($user->hasRole(['Orang Tua', 'Guru'])) {
             return false;
         }
+
         return $user->checkPermissionTo('create Guru');
     }
 
@@ -56,12 +59,12 @@ class GuruPolicy
         if ($user->hasRole('Orang Tua')) {
             return false;
         }
-        
+
         // FUNGSI KHUSUS: Guru HANYA bisa mengedit data dirinya sendiri!
         if ($user->hasRole('Guru')) {
             return $guru->user_id === $user->id;
         }
-        
+
         return $user->checkPermissionTo('update Guru');
     }
 
@@ -74,6 +77,7 @@ class GuruPolicy
         if ($user->hasRole(['Orang Tua', 'Guru'])) {
             return false;
         }
+
         return $user->checkPermissionTo('delete Guru');
     }
 
@@ -82,6 +86,7 @@ class GuruPolicy
         if ($user->hasRole(['Orang Tua', 'Guru'])) {
             return false;
         }
+
         return $user->checkPermissionTo('delete-any Guru');
     }
 

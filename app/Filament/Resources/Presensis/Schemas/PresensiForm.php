@@ -1,6 +1,7 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\Presensis\Schemas;
 
 // Model database
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * PresensiForm
- * 
+ *
  * Mengatur susunan kotak isian saat guru sedang mendata kehadiran (absen) siswa.
  */
 class PresensiForm
@@ -29,14 +30,14 @@ class PresensiForm
     {
         return $schema
             ->components([
-                
+
                 // Bagian 1: Memilih Siswa mana yang mau diabsen
                 Section::make('Identitas Siswa')
                     ->description('Pilih kelas terlebih dahulu, lalu pilih siswa.')
                     ->icon('heroicon-o-user-group')
                     ->schema([
                         Grid::make(2)->schema([
-                            
+
                             // Pilihan Drop-down Kelas
                             Select::make('kelas_id')
                                 ->label('Filter Kelas (Opsional)')
@@ -62,8 +63,10 @@ class PresensiForm
                                 // Jika siswa dipilih, maka kotak "Kelas" otomatis terisi sesuai dengan kelas siswa tersebut
                                 ->afterStateUpdated(function ($state, $set) {
                                     if ($state) {
-                                        $siswa = \App\Models\Siswa::find($state);
-                                        if ($siswa) $set('kelas_id', $siswa->kelas_id);
+                                        $siswa = Siswa::find($state);
+                                        if ($siswa) {
+                                            $set('kelas_id', $siswa->kelas_id);
+                                        }
                                     }
                                 })
                                 // Menentukan daftar siswa yang muncul di drop-down
@@ -77,13 +80,15 @@ class PresensiForm
                                         $guru = Guru::where('user_id', $user->id)->first();
                                         if ($guru) {
                                             $kelasIds = Kelas::where('wali_kelas_id', $guru->id)->pluck('id');
-                                            if ($kelasIds->isEmpty()) return [];
+                                            if ($kelasIds->isEmpty()) {
+                                                return [];
+                                            }
                                             // Hanya tampilkan siswa di kelas perwaliannya
                                             $query->whereIn('kelas_id', $kelasIds);
                                         } else {
                                             return [];
                                         }
-                                    } 
+                                    }
                                     // JIKA YANG LOGIN ADMIN:
                                     else {
                                         // Filter siswa berdasarkan kelas yang dipilih admin di kolom 'kelas_id' sebelumnya
@@ -96,18 +101,23 @@ class PresensiForm
                                     // Merapikan nama agar ada info kelasnya (contoh: Budi (Kelas 1A))
                                     return $query->get()->mapWithKeys(function ($s) {
                                         $label = $s->nama;
-                                        if ($s->kelas) $label .= " (Kelas {$s->kelas->nama_kelas})";
+                                        if ($s->kelas) {
+                                            $label .= " (Kelas {$s->kelas->nama_kelas})";
+                                        }
+
                                         return [$s->id => $label];
                                     });
                                 })
-                                ->helperText(fn() => Auth::user()?->hasRole('Guru') 
-                                    ? 'Daftar siswa di kelas yang Anda wali.' 
+                                ->helperText(fn () => Auth::user()?->hasRole('Guru')
+                                    ? 'Daftar siswa di kelas yang Anda wali.'
                                     : 'Pilih kelas terlebih dahulu untuk memfilter (opsional).')
                                 // Memastikan saat halaman Edit dibuka, form 'kelas' langsung terisi otomatis dari data 'siswa'
                                 ->afterStateHydrated(function ($state, $set) {
                                     if ($state) {
                                         $siswa = Siswa::find($state);
-                                        if ($siswa) $set('kelas_id', $siswa->kelas_id);
+                                        if ($siswa) {
+                                            $set('kelas_id', $siswa->kelas_id);
+                                        }
                                     }
                                 }),
                         ]),
@@ -119,7 +129,7 @@ class PresensiForm
                     ->icon('heroicon-o-clipboard-document-check')
                     ->schema([
                         Grid::make(3)->schema([
-                            
+
                             // Kotak Tanggal
                             DatePicker::make('tanggal')
                                 ->label('Tanggal')
@@ -140,6 +150,7 @@ class PresensiForm
                                     if ($user?->hasRole('Guru')) {
                                         return Guru::where('user_id', $user->id)->value('id');
                                     }
+
                                     return null;
                                 }),
 
@@ -158,7 +169,7 @@ class PresensiForm
                             ->options([
                                 'hadir' => '✅ Hadir',
                                 'sakit' => '🤒 Sakit',
-                                'izin'  => '📝 Izin',
+                                'izin' => '📝 Izin',
                                 'alpha' => '❌ Alpha (Tanpa Keterangan)',
                             ])
                             ->required()

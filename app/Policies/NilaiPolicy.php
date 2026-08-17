@@ -7,7 +7,7 @@ use App\Models\User;
 
 /**
  * NilaiPolicy
- * 
+ *
  * Mengatur keamanan dan hak akses untuk data Nilai Ujian Siswa (E-Rapor).
  */
 class NilaiPolicy

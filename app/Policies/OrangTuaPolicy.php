@@ -2,13 +2,12 @@
 
 namespace App\Policies;
 
-use Illuminate\Auth\Access\Response;
 use App\Models\OrangTua;
 use App\Models\User;
 
 /**
  * OrangTuaPolicy
- * 
+ *
  * Kebijakan akses untuk mengelola akun dan data Orang Tua wali murid.
  */
 class OrangTuaPolicy

@@ -1,6 +1,7 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\Nilais;
 
 // Halaman-halaman
@@ -22,11 +23,12 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
 /**
  * NilaiResource
- * 
+ *
  * Mengatur halaman pencatatan nilai siswa.
  * Menu ini sangat dibatasi hak aksesnya agar tidak sembarang guru
  * bisa mengubah nilai kelas orang lain.
@@ -37,10 +39,12 @@ class NilaiResource extends Resource
 
     // Ikon kertas ujian
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
-    
+
     // Dimasukkan ke menu Akademik
     protected static string|\UnitEnum|null $navigationGroup = 'Akademik';
+
     protected static ?string $modelLabel = 'Nilai';
+
     protected static ?string $pluralModelLabel = 'Nilai';
 
     public static function form(Schema $schema): Schema
@@ -60,9 +64,14 @@ class NilaiResource extends Resource
     private static function getWaliKelasId(): ?int
     {
         $user = Auth::user();
-        if (!$user) return null;
+        if (! $user) {
+            return null;
+        }
         $guru = Guru::where('user_id', $user->id)->first();
-        if (!$guru) return null;
+        if (! $guru) {
+            return null;
+        }
+
         return Kelas::where('wali_kelas_id', $guru->id)->value('id');
     }
 
@@ -70,10 +79,10 @@ class NilaiResource extends Resource
      * FUNGSI KEAMANAN: FILTER TABEL
      * Menentukan data nilai punya siapa yang boleh dilihat di tabel.
      */
-    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery();
-        $user  = auth()->user();
+        $user = auth()->user();
 
         // 1. Super Admin bisa melihat SEMUA nilai dari semua kelas
         if ($user->hasRole('Super Admin')) {
@@ -106,11 +115,15 @@ class NilaiResource extends Resource
     {
         $user = Auth::user();
         // Super admin selalu boleh
-        if ($user->hasRole('Super Admin')) return true;
+        if ($user->hasRole('Super Admin')) {
+            return true;
+        }
 
         // Cek apakah user ini adalah guru
         $guru = Guru::where('user_id', $user->id)->first();
-        if (!$guru) return false;
+        if (! $guru) {
+            return false;
+        }
 
         // Guru HANYA boleh jika dia adalah WALI KELAS (ada namanya di kolom wali_kelas_id pada tabel Kelas)
         return Kelas::where('wali_kelas_id', $guru->id)->exists();
@@ -124,10 +137,14 @@ class NilaiResource extends Resource
     {
         $user = Auth::user();
         // Super admin selalu boleh edit
-        if ($user->hasRole('Super Admin')) return true;
+        if ($user->hasRole('Super Admin')) {
+            return true;
+        }
 
         $guru = Guru::where('user_id', $user->id)->first();
-        if (!$guru) return false;
+        if (! $guru) {
+            return false;
+        }
 
         // Cek apakah baris nilai ($record) ini milik kelas yang di-walikan oleh guru tersebut
         return Kelas::where('id', $record->kelas_id)
@@ -151,6 +168,7 @@ class NilaiResource extends Resource
     public static function canView($record): bool
     {
         $user = Auth::user();
+
         return $user->hasRole('Super Admin')
             || $user->hasRole('Kepala Sekolah')
             || self::canEdit($record); // Wali kelas juga tentu bisa lihat
@@ -164,11 +182,11 @@ class NilaiResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'       => ListNilais::route('/'),
-            'create'      => CreateNilai::route('/create'),
+            'index' => ListNilais::route('/'),
+            'create' => CreateNilai::route('/create'),
             'rekap-kelas' => RekapNilaiKelas::route('/rekap-kelas'), // Halaman spesial untuk melihat rekap nilai satu kelas penuh
-            'view'        => ViewNilai::route('/{record}'),
-            'edit'        => EditNilai::route('/{record}/edit'),
+            'view' => ViewNilai::route('/{record}'),
+            'edit' => EditNilai::route('/{record}/edit'),
         ];
     }
 }

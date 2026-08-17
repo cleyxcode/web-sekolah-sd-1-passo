@@ -1,6 +1,7 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\Kelas\Schemas;
 
 // Model
@@ -9,12 +10,11 @@ use App\Models\TahunAjaran;
 // Form
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Placeholder;
 use Filament\Schemas\Schema;
 
 /**
  * KelasForm
- * 
+ *
  * Mengatur susunan isian saat membuat rombongan belajar (Kelas) baru.
  */
 class KelasForm
@@ -22,7 +22,7 @@ class KelasForm
     public static function configure(Schema $schema): Schema
     {
         return $schema->components([
-            
+
             // Nama panggilan kelas (Contoh: 1A, 1B, Mawar, Melati)
             TextInput::make('nama_kelas')
                 ->label('Nama Kelas')
@@ -64,7 +64,7 @@ class KelasForm
                 ->preload()
                 ->placeholder('Pilih guru wali kelas...') // Kosongkan jika belum ada wali
                 ->columnSpan(1),
-                
+
         ])->columns(2); // Menampilkan isian dalam 2 kolom bersebelahan
     }
 }

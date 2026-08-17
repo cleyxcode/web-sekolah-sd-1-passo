@@ -1,6 +1,7 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\Galeris;
 
 // Halaman
@@ -23,7 +24,7 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * GaleriResource
- * 
+ *
  * Mengatur halaman menu "Galeri".
  * Di sini Admin / Kepala Sekolah bisa mengunggah foto atau video dokumentasi
  * kegiatan sekolah untuk ditampilkan di halaman utama website.
@@ -34,12 +35,13 @@ class GaleriResource extends Resource
 
     // Ikon bingkai foto
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedPhoto;
-    
+
     // Dimasukkan ke kelompok menu Konten & Informasi
     protected static string|\UnitEnum|null $navigationGroup = 'Konten & Informasi';
-    
+
     // Label tombol dan nama menu
     protected static ?string $modelLabel = 'Galeri';
+
     protected static ?string $pluralModelLabel = 'Galeri';
 
     /**
@@ -48,8 +50,9 @@ class GaleriResource extends Resource
      */
     public static function canAccess(): bool
     {
-        $user = Auth::user(); 
-        return $user && !$user->hasRole('Guru');
+        $user = Auth::user();
+
+        return $user && ! $user->hasRole('Guru');
     }
 
     public static function form(Schema $schema): Schema
@@ -70,10 +73,10 @@ class GaleriResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => ListGaleris::route('/'),
+            'index' => ListGaleris::route('/'),
             'create' => CreateGaleri::route('/create'),
-            'view'   => ViewGaleri::route('/{record}'),
-            'edit'   => EditGaleri::route('/{record}/edit'),
+            'view' => ViewGaleri::route('/{record}'),
+            'edit' => EditGaleri::route('/{record}/edit'),
         ];
     }
 }

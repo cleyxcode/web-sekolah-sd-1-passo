@@ -1,6 +1,7 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\Pendaftarans;
 
 // Halaman-halaman Filament
@@ -24,7 +25,7 @@ use Illuminate\Support\Facades\Auth;
 
 /**
  * PendaftaranResource
- * 
+ *
  * Mengatur halaman menu "Pendaftaran Siswa".
  * Menu ini digunakan untuk membuat link/pengumuman penerimaan murid baru
  * yang akan ditampilkan di halaman utama website sekolah.
@@ -35,17 +36,18 @@ class PendaftaranResource extends Resource
 
     // Ikon rantai (link) di sidebar
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedLink;
-    
+
     // Dimasukkan ke kelompok menu "Konten Website"
     protected static string|\UnitEnum|null $navigationGroup = 'Konten Website';
-    
+
     // Nama yang muncul di sidebar menu
     protected static ?string $navigationLabel = 'Pendaftaran Siswa';
-    
+
     // Label tombol dan judul halaman
     protected static ?string $modelLabel = 'Data Pendaftaran';
+
     protected static ?string $pluralModelLabel = 'Data Pendaftaran';
-    
+
     // Kolom pencarian utama menggunakan judul pendaftaran
     protected static ?string $recordTitleAttribute = 'judul';
 
@@ -56,9 +58,10 @@ class PendaftaranResource extends Resource
      */
     public static function canAccess(): bool
     {
-        $user = Auth::user(); 
+        $user = Auth::user();
+
         // Kembalikan nilai benar (true) jika user ada DAN bukan berstatus 'Guru'
-        return $user && !$user->hasRole('Guru');
+        return $user && ! $user->hasRole('Guru');
     }
 
     public static function form(Schema $schema): Schema

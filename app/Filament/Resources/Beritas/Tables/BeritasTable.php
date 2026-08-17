@@ -1,6 +1,7 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\Beritas\Tables;
 
 // Kolom & Tombol
@@ -13,7 +14,7 @@ use Filament\Tables\Table;
 
 /**
  * BeritasTable
- * 
+ *
  * Mengatur kolom tabel daftar berita yang sudah ditulis.
  */
 class BeritasTable
@@ -22,16 +23,16 @@ class BeritasTable
     {
         return $table
             ->columns([
-                
+
                 TextColumn::make('judul')
                     ->label('Judul')
                     ->searchable(),
-                
+
                 TextColumn::make('kategori')
                     ->label('Kategori')
                     ->searchable()
                     ->placeholder('-'),
-                
+
                 // Status (Publish / Draft)
                 TextColumn::make('status')
                     ->label('Status')
@@ -39,21 +40,21 @@ class BeritasTable
                     // Warnai hijau jika publish, kuning jika draft
                     ->color(fn (string $state): string => match ($state) {
                         'publish' => 'success',
-                        'draft'   => 'warning',
-                        default   => 'gray',
+                        'draft' => 'warning',
+                        default => 'gray',
                     }),
-                
+
                 // Penulis Asli
                 TextColumn::make('user.name')
                     ->label('Penulis')
                     ->sortable()
                     ->searchable(),
-                
+
                 TextColumn::make('published_at')
                     ->label('Tanggal Publish')
                     ->dateTime('d M Y H:i')
                     ->sortable(),
-                
+
                 TextColumn::make('created_at')
                     ->label('Dibuat Pada')
                     ->dateTime()

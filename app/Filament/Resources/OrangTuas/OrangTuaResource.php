@@ -1,6 +1,7 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\OrangTuas;
 
 // Halaman-halaman
@@ -21,7 +22,7 @@ use Filament\Tables\Table;
 
 /**
  * OrangTuaResource
- * 
+ *
  * Mengatur halaman menu "Data Orang Tua".
  * Di sini Admin bisa menambah akun portal untuk orang tua,
  * mengatur kata sandinya, serta menyambungkannya dengan data siswa anaknya.
@@ -32,7 +33,7 @@ class OrangTuaResource extends Resource
 
     // Ikon kumpulan pengguna di sidebar
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedUsers;
-    
+
     // Dimasukkan ke kelompok "Data Master"
     protected static string|\UnitEnum|null $navigationGroup = 'Data Master';
 

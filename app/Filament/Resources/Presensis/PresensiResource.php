@@ -1,6 +1,7 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\Presensis;
 
 // Halaman-halaman
@@ -21,11 +22,12 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
 /**
  * PresensiResource
- * 
+ *
  * Mengatur halaman pencatatan absensi / kehadiran siswa tiap hari.
  */
 class PresensiResource extends Resource
@@ -34,12 +36,13 @@ class PresensiResource extends Resource
 
     // Ikon papan ujian dengan tanda centang (clipboard document check)
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentCheck;
-    
+
     // Dimasukkan ke menu Akademik
     protected static string|\UnitEnum|null $navigationGroup = 'Akademik';
-    
+
     // Label nama di tombol
     protected static ?string $modelLabel = 'Presensi';
+
     protected static ?string $pluralModelLabel = 'Presensi';
 
     public static function form(Schema $schema): Schema
@@ -57,10 +60,10 @@ class PresensiResource extends Resource
      * Mengatur siapa saja yang boleh melihat data absen ini.
      * Guru hanya boleh melihat presensi kelas yang ia wali.
      */
-    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    public static function getEloquentQuery(): Builder
     {
         $query = parent::getEloquentQuery();
-        $user  = Auth::user();
+        $user = Auth::user();
 
         // Super Admin & Kepala Sekolah: lihat semua presensi
         if ($user->hasRole('Super Admin') || $user->hasRole('Kepala Sekolah')) {
@@ -97,10 +100,10 @@ class PresensiResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => ListPresensis::route('/'),              // Daftar absensi
+            'index' => ListPresensis::route('/'),              // Daftar absensi
             'create' => CreatePresensi::route('/create'),       // Catat absen baru
-            'view'   => ViewPresensi::route('/{record}'),       // Lihat detail absen
-            'edit'   => EditPresensi::route('/{record}/edit'),  // Edit absen
+            'view' => ViewPresensi::route('/{record}'),       // Lihat detail absen
+            'edit' => EditPresensi::route('/{record}/edit'),  // Edit absen
         ];
     }
 }

@@ -3,16 +3,16 @@
 namespace App\Filament\Resources\SettingSekolahs\Pages;
 
 use App\Filament\Resources\SettingSekolahs\SettingSekolahResource;
-use Filament\Actions\DeleteAction;
+use App\Models\SettingSekolah;
 use Filament\Resources\Pages\EditRecord;
 
 class EditSettingSekolah extends EditRecord
 {
     protected static string $resource = SettingSekolahResource::class;
 
-    public function mount(int | string $record = null): void
+    public function mount(int|string|null $record = null): void
     {
-        $setting = \App\Models\SettingSekolah::firstOrCreate(['id' => 1]);
+        $setting = SettingSekolah::firstOrCreate(['id' => 1]);
         parent::mount($setting->id);
     }
 

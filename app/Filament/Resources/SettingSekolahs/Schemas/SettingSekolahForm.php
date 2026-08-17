@@ -1,19 +1,20 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\SettingSekolahs\Schemas;
 
 // Komponen form
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 /**
  * SettingSekolahForm
- * 
+ *
  * Mengatur susunan kotak isian untuk pengaturan identitas sekolah.
  */
 class SettingSekolahForm
@@ -48,7 +49,7 @@ class SettingSekolahForm
                     ->icon('heroicon-o-photo')
                     ->schema([
                         Grid::make(2)->schema([
-                            
+
                             // Kotak upload untuk logo sekolah (muncul di kop surat & header website)
                             FileUpload::make('logo')
                                 ->label('Logo Sekolah')

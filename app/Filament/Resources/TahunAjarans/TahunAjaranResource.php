@@ -1,6 +1,7 @@
 <?php
 
 // Alamat folder tempat file ini berada
+
 namespace App\Filament\Resources\TahunAjarans;
 
 // Mengimpor file-file pembentuk halaman (Pages)
@@ -21,7 +22,7 @@ use Filament\Tables\Table;
 
 /**
  * TahunAjaranResource
- * 
+ *
  * Kelas ini mengatur menu "Tahun Ajaran" di panel Admin.
  * Digunakan untuk mengelola daftar tahun ajaran (contoh: 2024/2025 Semester 1).
  */
@@ -32,13 +33,13 @@ class TahunAjaranResource extends Resource
 
     // Ikon kalender di sidebar kiri
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendarDays;
-    
+
     // Dimasukkan ke dalam kelompok menu "Sistem"
     protected static string|\UnitEnum|null $navigationGroup = 'Sistem';
-    
+
     // Label tombol / penamaan tunggal
     protected static ?string $modelLabel = 'Tahun Ajaran';
-    
+
     // Label judul / penamaan jamak
     protected static ?string $pluralModelLabel = 'Tahun Ajaran';
 

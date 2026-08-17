@@ -1,6 +1,7 @@
 <?php
 
 // Alamat folder tempat file ini berada
+
 namespace App\Filament\Resources\Tugas\Tables;
 
 // Mengimpor elemen penyusun tabel (Kolom teks, tombol, penyaring data, dll)
@@ -9,11 +10,10 @@ use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Support\Carbon;
 
 /**
  * TugasTable
- * 
+ *
  * Kelas ini mengatur susunan dan tampilan tabel pada halaman "Daftar Tugas".
  */
 class TugasTable
@@ -23,7 +23,7 @@ class TugasTable
         return $table
             // ->columns() mengatur kolom apa saja yang terlihat
             ->columns([
-                
+
                 // Menampilkan kolom Judul Tugas
                 TextColumn::make('judul')
                     ->label('Judul Tugas')
@@ -31,7 +31,7 @@ class TugasTable
                     ->sortable()   // Bisa diklik untuk urut (A-Z)
                     ->weight('bold') // Judul ditebalkan agar menonjol
                     // ->description() menambah tulisan kecil redup di bawah teks utama
-                    ->description(fn($record) => $record->mata_pelajaran ?? '—'),
+                    ->description(fn ($record) => $record->mata_pelajaran ?? '—'),
 
                 // Menampilkan nama kelas (dengan memanggil relasi 'kelas', lalu ambil kolom 'nama_kelas')
                 TextColumn::make('kelas.nama_kelas')
@@ -52,27 +52,27 @@ class TugasTable
                     ->dateTime('d M Y, H:i') // Format: "01 Jan 2026, 12:00"
                     ->sortable()
                     // Mengubah warnanya: JIKA sudah lewat batas waktu (isPast), beri warna MERAH (danger), jika belum HIJAU (success)
-                    ->color(fn($record) => $record->deadline->isPast() ? 'danger' : 'success')
+                    ->color(fn ($record) => $record->deadline->isPast() ? 'danger' : 'success')
                     // Memunculkan sisa waktu ("2 hari lagi", "Sudah lewat") sebagai tulisan kecil di bawah jam
-                    ->description(fn($record) => $record->sisa_waktu),
+                    ->description(fn ($record) => $record->sisa_waktu),
 
                 // Menampilkan status aktif/selesai
                 TextColumn::make('status')
                     ->label('Status')
                     ->badge()
                     // Menyesuaikan warna lencana sesuai kata-kata di database
-                    ->color(fn(string $state): string => match($state) {
-                        'aktif'      => 'success', // Hijau
-                        'selesai'    => 'info',    // Biru muda
+                    ->color(fn (string $state): string => match ($state) {
+                        'aktif' => 'success', // Hijau
+                        'selesai' => 'info',    // Biru muda
                         'dibatalkan' => 'danger',  // Merah
-                        default      => 'gray',    // Abu-abu
+                        default => 'gray',    // Abu-abu
                     })
                     // Mengubah bentuk tulisan (huruf depannya kapital)
-                    ->formatStateUsing(fn(string $state): string => match($state) {
-                        'aktif'      => 'Aktif',
-                        'selesai'    => 'Selesai',
+                    ->formatStateUsing(fn (string $state): string => match ($state) {
+                        'aktif' => 'Aktif',
+                        'selesai' => 'Selesai',
                         'dibatalkan' => 'Dibatalkan',
-                        default      => $state,
+                        default => $state,
                     }),
 
                 // Menampilkan tanggal data ini dimasukkan ke sistem
@@ -84,7 +84,7 @@ class TugasTable
             ])
             // ->filters() digunakan untuk menyaring isi tabel (Pojok Kanan Atas)
             ->filters([
-                
+
                 // Menyaring daftar tabel hanya untuk 1 kelas tertentu
                 SelectFilter::make('kelas_id')
                     ->label('Filter Kelas')
@@ -94,8 +94,8 @@ class TugasTable
                 SelectFilter::make('status')
                     ->label('Filter Status')
                     ->options([
-                        'aktif'      => 'Aktif',
-                        'selesai'    => 'Selesai',
+                        'aktif' => 'Aktif',
+                        'selesai' => 'Selesai',
                         'dibatalkan' => 'Dibatalkan',
                     ]),
             ])

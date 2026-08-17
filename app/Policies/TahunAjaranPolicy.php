@@ -2,13 +2,12 @@
 
 namespace App\Policies;
 
-use Illuminate\Auth\Access\Response;
 use App\Models\TahunAjaran;
 use App\Models\User;
 
 /**
  * TahunAjaranPolicy
- * 
+ *
  * Mengatur akses ke menu pengaturan Tahun Ajaran & Semester aktif.
  */
 class TahunAjaranPolicy

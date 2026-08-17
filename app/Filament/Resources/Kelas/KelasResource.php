@@ -1,6 +1,7 @@
 <?php
 
 // Lokasi folder
+
 namespace App\Filament\Resources\Kelas;
 
 // Halaman
@@ -21,9 +22,9 @@ use Filament\Tables\Table;
 
 /**
  * KelasResource
- * 
+ *
  * Mengatur menu halaman "Kelas".
- * Di menu ini admin membuat ruangan-ruangan kelas 
+ * Di menu ini admin membuat ruangan-ruangan kelas
  * dan menugaskan guru mana yang menjadi wali kelasnya.
  */
 class KelasResource extends Resource
@@ -32,12 +33,13 @@ class KelasResource extends Resource
 
     // Ikon bangunan sekolah
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedHomeModern;
-    
+
     // Dimasukkan ke menu Akademik
     protected static string|\UnitEnum|null $navigationGroup = 'Akademik';
-    
+
     // Label tombol dan judul halaman
     protected static ?string $modelLabel = 'Kelas';
+
     protected static ?string $pluralModelLabel = 'Kelas';
 
     public static function form(Schema $schema): Schema
